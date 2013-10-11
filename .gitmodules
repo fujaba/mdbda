@@ -1,0 +1,6 @@
+[submodule "org.hahnpro.mdbda.xcore"]
+	path = org.hahnpro.mdbda.xcore
+	url = C:\\Users\\hahn\\git\\org.hahnpro.mdbda.xcore
+[submodule "org.hahnpro.mdbda.diagrameditor"]
+	path = org.hahnpro.mdbda.diagrameditor
+	url = C:\\Users\\hahn\\git\\org.hahnpro.mdbda.diagrameditor
