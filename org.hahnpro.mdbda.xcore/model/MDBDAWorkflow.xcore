@@ -7,4 +7,3 @@ class Workflow extends Pattern{
 	refers Pattern startPattern
 	String name
 }
- 

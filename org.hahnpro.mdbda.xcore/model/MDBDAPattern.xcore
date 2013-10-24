@@ -1,3 +1,4 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test")
 package org.hahnpro.mdbda.model.pattern
 
 
@@ -7,14 +8,6 @@ import org.hahnpro.mdbda.model.workflow.Workflow
 interface Pattern extends Resource{
 	container Workflow workflow opposite pattern
 	refers Pattern[] dependsOn
-}
-
-interface SimplePattern extends Pattern{
-	refers Resource inputResource
-	refers Resource outputResource
-}
-
-interface JoinPattern extends Pattern{
 	refers Resource[] inputResources
 	refers Resource[] outputResources
 }

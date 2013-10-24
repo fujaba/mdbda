@@ -1,23 +1,25 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test")
 package org.hahnpro.mdbda.model.pattern.dataorganization
 
-import org.hahnpro.mdbda.model.pattern.SimplePattern
 
-class Binning extends SimplePattern{
+import org.hahnpro.mdbda.model.pattern.Pattern
+
+class Binning extends Pattern{
 	
 }
 
-class Partitioning extends SimplePattern{
+class Partitioning extends Pattern{
 	
 }
 
-class Shuffling extends SimplePattern{
+class Shuffling extends Pattern{
 	
 }
 
-class StructuredToHierachical extends SimplePattern{
+class StructuredToHierachical extends Pattern{
 	
 }
 
-class TotalOrderSorting extends SimplePattern{
+class TotalOrderSorting extends Pattern{
 	
 }

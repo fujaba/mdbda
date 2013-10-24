@@ -18,7 +18,13 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.swtbot.junit4_x;bundle-version="2.1.1",
  org.eclipse.core.resources;bundle-version="3.8.101",
  org.eclipse.gef;bundle-version="3.9.0",
- org.apache.log4j;bundle-version="1.2.15"
+ org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.ui.workbench,
+ org.eclipse.ui.ide;bundle-version="3.9.1",
+ org.eclipse.graphiti.examples.common,
+ org.eclipse.emf.workspace,
+ org.eclipse.gmf.runtime.draw2d.ui;bundle-version="1.7.0",
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0"
 Eclipse-RegisterBuddy: org.eclipse.draw2d
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.hahnpro.mdbda.diagrameditor;singleton:=true

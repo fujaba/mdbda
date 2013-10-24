@@ -11,7 +11,7 @@ import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
-import org.hahnpro.mdbda.diagrameditor.features.AddDomainObjectConnectionConnectionFeature;
+import org.hahnpro.mdbda.diagrameditor.features.AddLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.AbstractPatternGroupConfigurator;

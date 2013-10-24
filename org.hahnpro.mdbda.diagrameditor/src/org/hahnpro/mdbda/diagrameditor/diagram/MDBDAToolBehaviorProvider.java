@@ -14,6 +14,7 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
+import org.hahnpro.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.AbstractPatternGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateCountingWithCountersFeature;
@@ -49,7 +50,7 @@ public class MDBDAToolBehaviorProvider extends DefaultToolBehaviorProvider {
 				"Main", null); // TODO iconid
 
 		ret.add(compartmentEntry);
-		for (Class<ICreateFeature> clazz : new Class[] { CreateWorkflowFeature.class }) {
+		for (Class<ICreateFeature> clazz : new Class[] { CreateWorkflowFeature.class, CreateLinkFeature.class }) {
 			AbstractPatternGroupConfigurator
 					.addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 							compartmentEntry, getFeatureProvider(), clazz);

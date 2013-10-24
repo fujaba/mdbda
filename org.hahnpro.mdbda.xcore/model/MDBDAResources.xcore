@@ -1,3 +1,4 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test", editPluginClass="org.hahnpro.mdbda.model.provider.ModelEditPlugin")
 package org.hahnpro.mdbda.model.resources
 
 interface Resource{

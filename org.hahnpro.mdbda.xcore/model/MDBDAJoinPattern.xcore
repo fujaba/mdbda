@@ -1,19 +1,21 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test")
 package org.hahnpro.mdbda.model.pattern.join
 
-import org.hahnpro.mdbda.model.pattern.JoinPattern
 
-class CartesianProduct extends JoinPattern{
+import org.hahnpro.mdbda.model.pattern.Pattern
+
+class CartesianProduct extends Pattern{
 	
 }
 
-class CompositeJoin extends JoinPattern{
+class CompositeJoin extends Pattern{
 	
 }
 
-class ReduceSideJoin extends JoinPattern{
+class ReduceSideJoin extends Pattern{
 	
 }
 
-class ReplicatedJoin extends JoinPattern{
+class ReplicatedJoin extends Pattern{
 	
 }

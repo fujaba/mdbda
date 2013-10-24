@@ -1,19 +1,21 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test", editPluginID="org.hahnpro.mdbda.xcore", editPluginClass="org.hahnpro.mdbda.model.provider.ModelEditPlugin")
 package org.hahnpro.mdbda.model.pattern.filtering
 
-import org.hahnpro.mdbda.model.pattern.SimplePattern
 
-class BloomFiltering extends SimplePattern{
+import org.hahnpro.mdbda.model.pattern.Pattern
+
+class BloomFiltering extends Pattern{
 	 
 }
 
-class Distinct extends SimplePattern{
+class Distinct extends Pattern{
 	
 }
 
-class Filtering extends SimplePattern{
+class Filtering extends Pattern{
 	
 }
 
-class TopTen extends SimplePattern{
+class TopTen extends Pattern{
 	
 }

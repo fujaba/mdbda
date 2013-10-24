@@ -1,15 +1,17 @@
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test", editPluginClass="org.hahnpro.mdbda.model.provider.ModelEditPlugin")
 package org.hahnpro.mdbda.model.pattern.summatization
 
-import org.hahnpro.mdbda.model.pattern.SimplePattern
+import org.hahnpro.mdbda.model.pattern.Pattern
 
-class CountingWithCounters extends SimplePattern{
+class CountingWithCounters extends Pattern{
 	
 }
 
-class InvertedIndexSummarization extends SimplePattern{
+class InvertedIndexSummarization extends Pattern{
 	
 }
 
-class NumericalSummarization extends SimplePattern{
-	
-} 
+class NumericalSummarization extends Pattern{
+	 
+}
+

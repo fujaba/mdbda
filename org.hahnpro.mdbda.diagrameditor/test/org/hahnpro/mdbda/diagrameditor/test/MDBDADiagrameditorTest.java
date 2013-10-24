@@ -38,7 +38,21 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.ui.PlatformUI;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateBinningFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreatePartitoningFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateShufflingFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.filtering.CreateBloomFilteringFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.filtering.CreateDistinctFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.filtering.CreateTopTenFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateCartesianProductFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateCompositeJoinFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateReduceSideJoinFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateReplicatedJoinFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateCountingWithCountersFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateInvertedIndexSummarizationFeature;
+import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateNumericalSummarizationFeature;
 import org.hahnpro.mdbda.model.workflow.Workflow;
 import org.hamcrest.Description;
 import org.junit.After;
@@ -185,9 +199,9 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 		bot.viewByTitle(PACKAGE_EXPLORER);
 		try {
 			IFile file = project.getFile(DIAGRAM_NAME);
-			assertTrue(project.exists(file.getFullPath()));
+			//assertTrue(project.exists(file.getLocation()));
 			file.delete(true, null);
-			assertFalse(project.exists(file.getFullPath()));
+			//assertFalse(project.exists(file.getLocation()));
 		} catch (CoreException e) {
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
@@ -204,6 +218,26 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 		editor.activateTool(CreateWorkflowFeature.name);
 		editor.drag(50, 50, 100, 100);
 		
+		SWTBotGefEditPart rootWorkflowEditPart = getRootWorkflowEditPart(editor);
+		//bot.sleep(500);
+		//rootWorkflowEditPart.
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 0);
+		
+		editor.activateTool(CreateWorkflowFeature.name);
+		//bot.sleep(1000);
+		editor.drag(60, 60 , 80, 80);
+		//bot.sleep(10000);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 1);
+		
+		
+		assertNotNull(getRootWorkflowFromDiagram());//is not empty
+		
+		closeDiagramAndDelete();
+	}
+
+	protected SWTBotGefEditPart getRootWorkflowEditPart(SWTBotGefEditor editor) {
 		List<SWTBotGefEditPart> editParts = editor.editParts(new AbstractMatcher<EditPart>(){
 			@SuppressWarnings("restriction")
 			@Override
@@ -239,36 +273,166 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 		assertTrue(editParts.size() == 1);//es gibt ein root Workflow
 		
 		SWTBotGefEditPart rootWorkflowEditPart = editParts.get(0);
-		bot.sleep(500);
+		return rootWorkflowEditPart;
+	}
+	
+	@Test
+	public void testAddSummationPattern(){
+		newDiagram();
+		assertNull(getRootWorkflowFromDiagram());//is empty
+		SWTBotGefEditor editor = bot.gefEditor(DIAGRAM_NAME);
+		editor.activateTool(CreateWorkflowFeature.name);
+		editor.drag(50, 50, 100, 100);
+		
+		SWTBotGefEditPart rootWorkflowEditPart = getRootWorkflowEditPart(editor);
+		//bot.sleep(500);
 		//rootWorkflowEditPart.
 		
-		editor.activateTool(CreateShufflingFeature.name);
-		bot.sleep(1000);
-		editor.drag(rootWorkflowEditPart, 40, 10);
-		bot.sleep(10000);
+		assertTrue(rootWorkflowEditPart.children().size() == 0);
+		
+		editor.activateTool(CreateCountingWithCountersFeature.name);
+		editor.drag(60, 100 , 80, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 1);
+		
+		
+		editor.activateTool(CreateInvertedIndexSummarizationFeature.name);
+		editor.drag(60 + 85, 100 , 80 + 85, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 2);
+		
+		editor.activateTool(CreateNumericalSummarizationFeature.name);
+		editor.drag(60 + 85*2, 100 , 80 + 85*2, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 3);
+		
 		
 		assertNotNull(getRootWorkflowFromDiagram());//is not empty
-		bot.sleep(1000);
 		
+		closeDiagramAndDelete();
+	}
+
+	@Test
+	public void testAddJoinPattern(){
+		newDiagram();
+		assertNull(getRootWorkflowFromDiagram());//is empty
+		SWTBotGefEditor editor = bot.gefEditor(DIAGRAM_NAME);
+		editor.activateTool(CreateWorkflowFeature.name);
+		editor.drag(50, 50, 100, 100);
+		
+		SWTBotGefEditPart rootWorkflowEditPart = getRootWorkflowEditPart(editor);
+		//bot.sleep(500);
+		//rootWorkflowEditPart.
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 0);
+		
+		editor.activateTool(CreateCartesianProductFeature.name);
+		editor.drag(60, 100 , 80, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 1);
+		
+		
+		editor.activateTool(CreateCompositeJoinFeature.name);
+		editor.drag(60 + 85, 100 , 80 + 85, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 2);
+		
+		editor.activateTool(CreateReduceSideJoinFeature.name);
+		editor.drag(60 + 85*2, 100 , 80 + 85*2, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 3);
+		
+		editor.activateTool(CreateReplicatedJoinFeature.name);
+		editor.drag(60 + 85*3, 100 , 80 + 85*3, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 4);
+		
+		
+		assertNotNull(getRootWorkflowFromDiagram());//is not empty
+		
+		closeDiagramAndDelete();
+	}
+
+	@Test
+	public void testAddFilteringPattern(){
+		newDiagram();
+		assertNull(getRootWorkflowFromDiagram());//is empty
+		SWTBotGefEditor editor = bot.gefEditor(DIAGRAM_NAME);
+		editor.activateTool(CreateWorkflowFeature.name);
+		editor.drag(50, 50, 100, 100);
+		
+		SWTBotGefEditPart rootWorkflowEditPart = getRootWorkflowEditPart(editor);
+		//bot.sleep(500);
+		//rootWorkflowEditPart.
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 0);
+		
+		editor.activateTool(CreateBloomFilteringFeature.name);
+		editor.drag(60, 100 , 80, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 1);
+		
+		
+		editor.activateTool(CreateDistinctFeature.name);
+		editor.drag(60 + 85, 100 , 80 + 85, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 2);
+		
+		editor.activateTool(CreateTopTenFeature.name);
+		editor.drag(60 + 85*2, 100 , 80 + 85*2, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 3);
+		
+		
+		assertNotNull(getRootWorkflowFromDiagram());//is not empty
 		
 		closeDiagramAndDelete();
 	}
 	
 	@Test
-	public void testAddSummationPattern(){
-		fail();
-	}
-	
-	public void testAddJoinPattern(){
-		fail();
-	}
-	
-	public void testAddFilteringPattern(){
-		fail();
-	}
-	
 	public void testAddDataorganizationPattern(){
-		fail();
+		newDiagram();
+		assertNull(getRootWorkflowFromDiagram());//is empty
+		SWTBotGefEditor editor = bot.gefEditor(DIAGRAM_NAME);
+		editor.activateTool(CreateWorkflowFeature.name);
+		editor.drag(50, 50, 100, 100);
+		
+		SWTBotGefEditPart rootWorkflowEditPart = getRootWorkflowEditPart(editor);
+		//bot.sleep(500);
+		//rootWorkflowEditPart.
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 0);
+		
+		editor.activateTool(CreateBinningFeature.name);
+		editor.drag(60, 100 , 80, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 1);
+		
+		
+		editor.activateTool(CreatePartitoningFeature.name);
+		editor.drag(60 + 85, 100 , 80 + 85, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 2);
+		
+		editor.activateTool(CreateShufflingFeature.name);
+		editor.drag(60 + 85*2, 100 , 80 + 85*2, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 3);
+		
+		editor.activateTool(CreateStructuredToHierachicalFeature.name);
+		editor.drag(60 + 85*3, 100 , 80 + 85*3, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 4);
+		
+		editor.activateTool(CreateTotalOrderSortingFeature.name);
+		editor.drag(60 + 85*4, 100 , 80 + 85*4, 120);
+		
+		assertTrue(rootWorkflowEditPart.children().size() == 5);
+		
+		
+		assertNotNull(getRootWorkflowFromDiagram());//is not empty
+		
+		closeDiagramAndDelete();
 	}
 	
 	

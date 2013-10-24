@@ -4,9 +4,12 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
+import org.eclipse.graphiti.mm.algorithms.Polygon;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -22,7 +25,12 @@ import org.hahnpro.mdbda.model.workflow.Workflow;
 
 public abstract class AddPatternFeature extends AbstractAddFeature implements
 		IAddFeature {
-    private static final IColorConstant PATTERN_TEXT_FOREGROUND =
+	private static final int[] outputPolygon = new int[] {1,1,  10,1,  20,5,  10,10,  1,10, 1,1};
+	private static final int[] inputPolygon = new int[] {1,1,  20,1,  20,10,  1,10,  10,5,  1,1};
+    
+	public static final int INVISIBLE_RECT_SIDE = 10;
+
+	private static final IColorConstant PATTERN_TEXT_FOREGROUND =
             IColorConstant.BLACK;
      
         private static final IColorConstant PATTERN_FOREGROUND =
@@ -58,13 +66,17 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
 		RoundedRectangle roundedRectangle;
 		
 		{
+			Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
+			gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width + 2 * INVISIBLE_RECT_SIDE, height);
 			
-			roundedRectangle = gaService.createRoundedRectangle(containerShape, 10, 10);
+		
+			
+			roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 10, 10);
 			roundedRectangle.setBackground(manageColor(PATTERN_BACKGROUND));
 			roundedRectangle.setForeground(manageColor(PATTERN_FOREGROUND));
 			roundedRectangle.setLineWidth(2);
             gaService.setLocationAndSize(roundedRectangle,
-                context.getX(), context.getY(), width, height);
+            		INVISIBLE_RECT_SIDE, 0, width, height);
         
             
             // if added Class has no resource we add it to the resource 
@@ -95,6 +107,43 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
 	
 			link(containerShape, pattern);
         }
+        
+        
+        //Anchor
+        {
+        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(containerShape);
+        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(false);
+        	boxAnchor.setRelativeWidth(1.0);
+        	boxAnchor.setRelativeHeight(0.5);
+        	boxAnchor.setReferencedGraphicsAlgorithm(roundedRectangle);
+        	
+        	link(boxAnchor,pattern);
+        	
+        	Polygon poly = gaService.createPolygon(boxAnchor, outputPolygon);
+        	poly.setBackground(manageColor(PATTERN_BACKGROUND));
+        	poly.setForeground(manageColor(PATTERN_FOREGROUND));
+        	poly.setLineWidth(2);
+        	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
+        }
+        {
+        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(containerShape);
+        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(true);
+        	
+        	boxAnchor.setRelativeWidth(0.0);
+        	boxAnchor.setRelativeHeight(0.5);
+        	boxAnchor.setReferencedGraphicsAlgorithm(roundedRectangle);
+        	
+        	link(boxAnchor,pattern);
+        	
+        	Polygon poly = gaService.createPolygon(boxAnchor, inputPolygon);
+        	poly.setBackground(manageColor(PATTERN_BACKGROUND));
+        	poly.setForeground(manageColor(PATTERN_FOREGROUND));
+        	poly.setLineWidth(2);
+        	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
+        }
+        
+
+    	layoutPictogramElement(containerShape);
 		return containerShape;
 	}
 }
