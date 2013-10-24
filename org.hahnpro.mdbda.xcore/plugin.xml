@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDAWorkflow -->
+      <package
+            uri="org.hahnpro.mdbda.model.workflow"
+            class="org.hahnpro.mdbda.model.workflow.WorkflowPackage"
+            genModel="model/MDBDAWorkflow.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDA -->
+      <package
+            uri="org.hahnpro.mdbda.model.pattern"
+            class="org.hahnpro.mdbda.model.pattern.PatternPackage"
+            genModel="model/MDBDA.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDASummarizationPattern -->
+      <package
+            uri="org.hahnpro.mdbda.model.pattern.summatization"
+            class="org.hahnpro.mdbda.model.pattern.summatization.SummatizationPackage"
+            genModel="model/MDBDASummarizationPattern.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDAJoinPattern -->
+      <package
+            uri="org.hahnpro.mdbda.model.pattern.join"
+            class="org.hahnpro.mdbda.model.pattern.join.JoinPackage"
+            genModel="model/MDBDAJoinPattern.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDADataOrganizationPattern -->
+      <package
+            uri="org.hahnpro.mdbda.model.pattern.dataorganization"
+            class="org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationPackage"
+            genModel="model/MDBDADataOrganizationPattern.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDAResources -->
+      <package
+            uri="org.hahnpro.mdbda.model.resources"
+            class="org.hahnpro.mdbda.model.resources.ResourcesPackage"
+            genModel="model/MDBDAResources.xcore"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated MDBDAFilteringPattern -->
+      <package
+            uri="org.hahnpro.mdbda.model.pattern.filtering"
+            class="org.hahnpro.mdbda.model.pattern.filtering.FilteringPackage"
+            genModel="model/MDBDAFilteringPattern.xcore"/>
+   </extension>
+
+</plugin>

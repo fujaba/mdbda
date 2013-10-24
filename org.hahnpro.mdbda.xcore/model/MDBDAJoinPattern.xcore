@@ -1,0 +1,19 @@
+package org.hahnpro.mdbda.model.pattern.join
+
+import org.hahnpro.mdbda.model.pattern.JoinPattern
+
+class CartesianProduct extends JoinPattern{
+	
+}
+
+class CompositeJoin extends JoinPattern{
+	
+}
+
+class ReduceSideJoin extends JoinPattern{
+	
+}
+
+class ReplicatedJoin extends JoinPattern{
+	
+}

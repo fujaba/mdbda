@@ -1,0 +1,13 @@
+package org.hahnpro.mdbda.model.resources
+
+interface Resource{
+	
+}
+
+class CassandraResource extends Resource{
+	
+}
+
+class HDFSResource extends Resource{
+	
+}

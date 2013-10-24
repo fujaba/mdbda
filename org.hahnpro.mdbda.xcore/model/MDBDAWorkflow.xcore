@@ -1,0 +1,10 @@
+package org.hahnpro.mdbda.model.workflow
+
+import org.hahnpro.mdbda.model.pattern.*
+
+class Workflow extends Pattern{
+	contains Pattern[] pattern opposite workflow
+	refers Pattern startPattern
+	String name
+}
+ 

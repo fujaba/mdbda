@@ -1,0 +1,15 @@
+package org.hahnpro.mdbda.model.pattern.summatization
+
+import org.hahnpro.mdbda.model.pattern.SimplePattern
+
+class CountingWithCounters extends SimplePattern{
+	
+}
+
+class InvertedIndexSummarization extends SimplePattern{
+	
+}
+
+class NumericalSummarization extends SimplePattern{
+	
+} 

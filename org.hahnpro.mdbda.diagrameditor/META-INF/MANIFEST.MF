@@ -1,0 +1,27 @@
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Manifest-Version: 1.0
+Bundle-Activator: org.hahnpro.mdbda.diagrameditor.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.ui,
+ org.hahnpro.mdbda.xcore,
+ org.junit,
+ org.eclipse.swt,
+ org.eclipse.swtbot.eclipse.finder;bundle-version="2.1.1",
+ org.eclipse.swtbot.eclipse.core;bundle-version="2.1.1",
+ org.eclipse.swtbot.eclipse.gef.finder;bundle-version="2.1.1",
+ org.eclipse.swtbot.eclipse.spy;bundle-version="2.1.1",
+ org.eclipse.swtbot.eclipse.ui;bundle-version="2.1.1",
+ org.eclipse.swtbot.forms.finder;bundle-version="2.1.1",
+ org.eclipse.swtbot.junit4_x;bundle-version="2.1.1",
+ org.eclipse.core.resources;bundle-version="3.8.101",
+ org.eclipse.gef;bundle-version="3.9.0",
+ org.apache.log4j;bundle-version="1.2.15"
+Eclipse-RegisterBuddy: org.eclipse.draw2d
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.hahnpro.mdbda.diagrameditor;singleton:=true
+Bundle-ActivationPolicy: lazy
+Bundle-Name: MDBDA Diagram Editor
+Bundle-Vendor: Marcel Hahn

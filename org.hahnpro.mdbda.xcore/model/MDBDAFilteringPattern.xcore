@@ -1,0 +1,19 @@
+package org.hahnpro.mdbda.model.pattern.filtering
+
+import org.hahnpro.mdbda.model.pattern.SimplePattern
+
+class BloomFiltering extends SimplePattern{
+	 
+}
+
+class Distinct extends SimplePattern{
+	
+}
+
+class Filtering extends SimplePattern{
+	
+}
+
+class TopTen extends SimplePattern{
+	
+}

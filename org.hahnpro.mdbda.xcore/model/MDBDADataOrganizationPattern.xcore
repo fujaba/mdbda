@@ -1,0 +1,23 @@
+package org.hahnpro.mdbda.model.pattern.dataorganization
+
+import org.hahnpro.mdbda.model.pattern.SimplePattern
+
+class Binning extends SimplePattern{
+	
+}
+
+class Partitioning extends SimplePattern{
+	
+}
+
+class Shuffling extends SimplePattern{
+	
+}
+
+class StructuredToHierachical extends SimplePattern{
+	
+}
+
+class TotalOrderSorting extends SimplePattern{
+	
+}
