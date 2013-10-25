@@ -1,9 +1,13 @@
 package org.hahnpro.mdbda.model.workflow
 
 import org.hahnpro.mdbda.model.pattern.*
+import org.hahnpro.mdbda.model.resources.Resource
 
 class Workflow extends Pattern{
 	contains Pattern[] pattern opposite workflow
+	
+	contains Resource[] resources
+	
 	refers Pattern startPattern
 	String name
-}
+} 

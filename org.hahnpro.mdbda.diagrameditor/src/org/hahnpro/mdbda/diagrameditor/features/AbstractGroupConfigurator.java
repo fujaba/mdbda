@@ -1,4 +1,4 @@
-package org.hahnpro.mdbda.diagrameditor.features.pattern;
+package org.hahnpro.mdbda.diagrameditor.features;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,15 +18,17 @@ import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.DataOrg
 import org.hahnpro.mdbda.diagrameditor.features.pattern.filtering.FilteringPatternGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.join.JoinPatternGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.SummatizationPatternGroupConfigurator;
+import org.hahnpro.mdbda.diagrameditor.features.resources.ResourceGroupConfigurator;
 
-public abstract class AbstractPatternGroupConfigurator {
-	public static LinkedList<AbstractPatternGroupConfigurator> groupConfigurators = new LinkedList<>();
+public abstract class AbstractGroupConfigurator {
+	public static LinkedList<AbstractGroupConfigurator> groupConfigurators = new LinkedList<>();
 	
 	static{
 		groupConfigurators.add(new DataOrganizationPatternGroupConfigurator());
 		groupConfigurators.add(new FilteringPatternGroupConfigurator());
 		groupConfigurators.add(new JoinPatternGroupConfigurator());
 		groupConfigurators.add(new SummatizationPatternGroupConfigurator());
+		groupConfigurators.add(new ResourceGroupConfigurator());
 				
 	}
 	

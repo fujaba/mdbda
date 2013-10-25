@@ -11,10 +11,10 @@ import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
+import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.AddLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.AbstractPatternGroupConfigurator;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Partitioning;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Shuffling;
@@ -30,7 +30,7 @@ import org.hahnpro.mdbda.model.pattern.join.ReplicatedJoin;
 import org.hahnpro.mdbda.model.workflow.Workflow;
 
 public class JoinPatternGroupConfigurator extends
-		AbstractPatternGroupConfigurator {
+		AbstractGroupConfigurator {
 
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {

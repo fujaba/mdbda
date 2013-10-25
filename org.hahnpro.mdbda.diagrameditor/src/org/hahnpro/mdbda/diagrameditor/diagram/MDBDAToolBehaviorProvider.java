@@ -14,9 +14,9 @@ import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
+import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.AbstractPatternGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateCountingWithCountersFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateInvertedIndexSummarizationFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateNumericalSummarizationFeature;
@@ -51,12 +51,12 @@ public class MDBDAToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
 		ret.add(compartmentEntry);
 		for (Class<ICreateFeature> clazz : new Class[] { CreateWorkflowFeature.class, CreateLinkFeature.class }) {
-			AbstractPatternGroupConfigurator
+			AbstractGroupConfigurator
 					.addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 							compartmentEntry, getFeatureProvider(), clazz);
 		}
 
-		for (AbstractPatternGroupConfigurator conf : AbstractPatternGroupConfigurator.groupConfigurators) {
+		for (AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators) {
 			ret.add(conf.getPalette(getFeatureProvider()));
 		}
 

@@ -14,12 +14,12 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
+import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.AddLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.features.LayoutDomainObjectFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.AbstractPatternGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.AddBinningFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.AddPartitoningFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.AddShufflingFeature;
@@ -49,7 +49,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		ArrayList<ICreateFeature> cf = new ArrayList();
 		cf.add( new CreateWorkflowFeature(this));
 		
-		for(AbstractPatternGroupConfigurator conf : AbstractPatternGroupConfigurator.groupConfigurators){
+		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
 			cf.addAll(conf.getCreateFeatures(this));
 		}
 		
@@ -75,7 +75,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 			return new AddWorkflowFeature(this);
 		} 
 		
-		for(AbstractPatternGroupConfigurator conf : AbstractPatternGroupConfigurator.groupConfigurators){
+		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
 			IAddFeature af = conf.getAddFeature(context, this);
 			if(af != null) return af;
 		}
