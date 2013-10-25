@@ -85,32 +85,40 @@ public class AddWorkflowFeature extends AbstractAddFeature implements
 	public PictogramElement add(IAddContext context) {
 
 		ContainerShape targetDiagram = context.getTargetContainer();
-		Workflow workflow = (Workflow) context.getNewObject();
-
-		boolean isRootWorkflow = targetDiagram instanceof Diagram;
+		Workflow workflow = null;
 		Diagram refDiagram = null;
-		
-
-		if (!isRootWorkflow) {
-			// ask new Diagram or open Diagram
-
-			MessageDialog dialog = new MessageDialog(new Shell(
-					Display.getDefault()),
-					"Create new workflow diagram or open diagram", null,
-					"Open workflow MDBDA diagram or create a new one",
-					MessageDialog.QUESTION, new String[] { "new", "open" }, 0);
-			int res = dialog.open();
-
-			if (res == 0) {// new
-				refDiagram = DiagramUtils.newDiagramDialog();
-				
-			} else {// open
-				refDiagram = DiagramUtils.openDiagramDialog(getDiagram());
-			}
-
-		}else{
+		boolean isRootWorkflow = false;
+		if(context.getNewObject() instanceof Workflow){
 			refDiagram = getDiagram();
+			workflow = (Workflow) context.getNewObject();
+			isRootWorkflow = true;
+		}else if(context.getNewObject() instanceof Diagram){
+			refDiagram = (Diagram) context.getNewObject() ;
+			workflow = DiagramUtils.getMDBDADiagram(refDiagram).getWorkflow();
+
+			isRootWorkflow = false;
 		}
+		
+		
+//		if (!isRootWorkflow) {
+//			// ask new Diagram or open Diagram
+//
+//			MessageDialog dialog = new MessageDialog(new Shell(
+//					Display.getDefault()),
+//					"Create new workflow diagram or open diagram", null,
+//					"Open workflow MDBDA diagram or create a new one",
+//					MessageDialog.QUESTION, new String[] { "new", "open" }, 0);
+//			int res = dialog.open();
+//
+//			if (res == 0) {// new
+//				refDiagram = DiagramUtils.newDiagramDialog();
+//				
+//			} else {// open
+//				refDiagram = DiagramUtils.openDiagramDialog(getDiagram());
+//			}
+//
+//		}else{
+//		}
 
 		int width = isRootWorkflow ? 600 : 60;
 		int height = isRootWorkflow ? 500 : 50;

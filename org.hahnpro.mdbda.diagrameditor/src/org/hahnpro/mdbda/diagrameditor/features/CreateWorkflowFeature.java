@@ -7,7 +7,13 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.hahnpro.mdbda.diagrameditor.utils.DiagramUtils;
+import org.hahnpro.mdbda.model.MDBDADiagram;
 import org.hahnpro.mdbda.model.workflow.Workflow;
 import org.hahnpro.mdbda.model.workflow.WorkflowFactory;
 
@@ -49,17 +55,48 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 
 	@Override
 	public Object[] create(ICreateContext context) {
-		// TODO: create the domain object here
-		// Object newDomainObject = null;
-		Resource resource = context.getTargetContainer().eResource();
-		Workflow workflow = WorkflowFactory.eINSTANCE.createWorkflow();
+		
+		ContainerShape targetDiagram = context.getTargetContainer();
+		
+		boolean isRootWorkflow = targetDiagram instanceof Diagram;
+		
 
-		// TODO: in case of an EMF object add the new object to a suitable
-		// resource
-		// getDiagram().eResource().getContents().add(workflow);
-		resource.getContents().add(workflow);
+		if (!isRootWorkflow) {
+			// ask new Diagram or open Diagram
 
-		addGraphicalRepresentation(context, workflow);
-		return new Object[] { workflow };
+			MessageDialog dialog = new MessageDialog(new Shell(
+					Display.getDefault()),
+					"Create new workflow diagram or open diagram", null,
+					"Open workflow MDBDA diagram or create a new one",
+					MessageDialog.QUESTION, new String[] { "new", "open" }, 0);
+			int res = dialog.open();
+			Diagram refDiagram = null;
+			if (res == 0) {// new
+				refDiagram = DiagramUtils.newDiagramDialog();
+				
+			} else {// open
+				refDiagram = DiagramUtils.openDiagramDialog(getDiagram());
+			}
+			
+			addGraphicalRepresentation(context, refDiagram);
+			
+			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(refDiagram);
+			
+			return new Object[] { mdbdaDiagram.getWorkflow() };
+
+		}else{
+			
+			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(getDiagram());
+			Resource resource = context.getTargetContainer().eResource();//TODO get model resource
+			
+			Workflow workflow = WorkflowFactory.eINSTANCE.createWorkflow();
+
+			resource.getContents().add(workflow);
+
+			addGraphicalRepresentation(context, workflow);
+			
+			return new Object[] { workflow };
+		}
+
 	}
 }

@@ -34,7 +34,7 @@ public class CreateTotalOrderSortingFeature extends CreatePatternFeature impleme
 		addToWorkflow(getWorkflow(context), eInst);
 		
 		// TODO: in case of an EMF object add the new object to a suitable resource
-		getDiagram().eResource().getContents().add(eInst);
+		//getDiagram().eResource().getContents().add(eInst);
 		
 		
 		addGraphicalRepresentation(context, eInst);

@@ -284,23 +284,25 @@ public class DiagramUtils {
 		final URI modelURI =  URI.createPlatformResourceURI( diagramFolder.getFile( name + ".mdbdamodel").getFullPath().toString(),true);
 		
 		
-		final TransactionalEditingDomain editingDomain = GraphitiUiInternal.getEmfService().createResourceSetAndEditingDomain();//TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+		//final TransactionalEditingDomain editingDomain = GraphitiUiInternal.getEmfService().createResourceSetAndEditingDomain();//TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		
 		
 
 		final MDBDADiagram mdbdaDiagram = ModelFactory.eINSTANCE.createMDBDADiagram();
-		
-		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
-			
-			@Override
-			protected void doExecute() {
-				Resource diagramResource = editingDomain.getResourceSet().createResource(diagramURI);
-				diagramResource.getContents().add(diagram);
+		FileService.createEmfFileForDiagram(diagramURI, diagram);
+		ResourceSet resourceSet = diagram.eResource().getResourceSet();
+//		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+//			
+//			@Override
+//			protected void doExecute() {
+				Resource diagramResource = resourceSet.getResource(diagramURI,true);						
+						//editingDomain.getResourceSet().createResource(diagramURI);
 				diagramResource.setTrackingModification(true);
+				diagramResource.getContents().add(diagram);
 				
-				Resource modelResource = editingDomain.getResourceSet().createResource(modelURI);
-				modelResource.getContents().add(mdbdaDiagram);
+				Resource modelResource = resourceSet.createResource(modelURI);
 				modelResource.setTrackingModification(true);
+				modelResource.getContents().add(mdbdaDiagram);
 				
 				
 				
@@ -332,8 +334,8 @@ public class DiagramUtils {
 					e.printStackTrace();
 				}
 				
-			}
-		});
+//			}
+//		});
 		
 		
 		
@@ -361,4 +363,16 @@ public class DiagramUtils {
 		
 		return diagram;
 	}
+
+	public static MDBDADiagram getMDBDADiagram(Diagram refDiagram) {
+		EList<EObject> businessObjects = refDiagram.getLink().getBusinessObjects();
+		
+		for(EObject bo : businessObjects){
+			if(bo instanceof MDBDADiagram){
+				return (MDBDADiagram) bo;
+			}
+		}
+		
+		return null;
+	} 
 }

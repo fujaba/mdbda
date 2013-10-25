@@ -35,7 +35,7 @@ public abstract class CreatePatternFeature extends AbstractCreateMDBDAFeature {
 	}
 	
 	protected void addToWorkflow(Workflow wf, Pattern eInst) {
-		wf.eResource().getContents().add(eInst);
+		//wf.eResource().getContents().add(eInst);
 		eInst.setWorkflow(wf);
 	}
 }
