@@ -103,7 +103,6 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 			gaService.setLocationAndSize(text, 0, 0, context.getWidth(), context.getHeight());
-						
 	
 			link(containerShape, pattern);
         }

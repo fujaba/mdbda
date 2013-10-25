@@ -21,5 +21,21 @@
          </diagramType>
       </diagramTypeProvider>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+         <category
+	   id = "org.hahnpro.mdbda"
+	   parentCategory="org.eclipse.ui.Examples"
+	   name="MDBDA">
+	</category>
+ 	<wizard
+	   id = "org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
+      	   name = "New MDBDA Diagram"
+	   class="org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
+	   category="org.hahnpro.mdbda">
+    	   <description>New MDBDA Diagram</description>
+	   <selection class="org.eclipse.core.resources.IResource"/>
+	</wizard>
+   </extension>
 
 </plugin>

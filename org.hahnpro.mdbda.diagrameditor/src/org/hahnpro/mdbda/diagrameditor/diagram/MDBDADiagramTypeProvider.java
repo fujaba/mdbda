@@ -19,4 +19,6 @@ public class MDBDADiagramTypeProvider extends AbstractDiagramTypeProvider {
 		
 		return toolBehaviorProviders;
 	}
+	
+	
 }

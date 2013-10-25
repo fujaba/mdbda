@@ -1,9 +1,12 @@
 package org.hahnpro.mdbda.diagrameditor.utils;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -19,23 +22,43 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.graphiti.examples.common.FileService;
+import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.internal.services.GraphitiInternal;
+import org.eclipse.graphiti.mm.Property;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.graphiti.ui.editor.DiagramEditorInputFactory;
+import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -48,6 +71,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.hahnpro.mdbda.diagrameditor.Activator;
+import org.hahnpro.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider;
+import org.hahnpro.mdbda.diagrameditor.diagram.MDBDAFeatureProvider;
+import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard;
 import org.hahnpro.mdbda.model.MDBDADiagram;
 import org.hahnpro.mdbda.model.ModelFactory;
@@ -208,8 +234,6 @@ public class DiagramUtils {
 	private static final String WIZART_TITEL_NEW_MDBDA_DIAGRAM = "New MDBDA Diagram";
 	
 	public static Diagram newDiagram(IProject project, String name){
-		URI diagramURI  = URI.createFileURI( name + ".diagram");
-		URI modelURI =  URI.createFileURI( name + ".mdbdamodel");
 		
 
 		
@@ -220,7 +244,7 @@ public class DiagramUtils {
 			return null;
 		}
 
-		Diagram diagram = Graphiti.getPeCreateService().createDiagram(MDBDA_DIAGRAM_TYPEID, name, true);
+		final Diagram diagram = Graphiti.getPeCreateService().createDiagram(MDBDA_DIAGRAM_TYPEID, name, true);
 		
 		IFolder diagramFolder = project.getFolder("src/diagrams/"); //$NON-NLS-1$
 		
@@ -252,30 +276,72 @@ public class DiagramUtils {
 			}
 		}
 
-		IFile diagramFile = diagramFolder.getFile(name + "." + editorExtension); //$NON-NLS-1$
+		//IFile diagramFile = diagramFolder.getFile(name + "." + editorExtension); //$NON-NLS-1$
 		
-		URI uri = URI.createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
+		//final URI uri = URI.createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
 
-		ResourceSet resourceSet = new ResourceSetImpl();
+		final URI diagramURI  = URI.createPlatformResourceURI(diagramFolder.getFile( name + ".diagram").getFullPath().toString(),true);
+		final URI modelURI =  URI.createPlatformResourceURI( diagramFolder.getFile( name + ".mdbdamodel").getFullPath().toString(),true);
 		
-		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(resourceSet);
 		
-		Resource diagramResource = editingDomain.getResourceSet().createResource(diagramURI);
-		diagramResource.getContents().add(diagram);
+		final TransactionalEditingDomain editingDomain = GraphitiUiInternal.getEmfService().createResourceSetAndEditingDomain();//TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		
-		Resource modelResource = editingDomain.getResourceSet().createResource(modelURI);
 		
-		MDBDADiagram mdbdaDiagram = ModelFactory.eINSTANCE.createMDBDADiagram();
-		modelResource.getContents().add(mdbdaDiagram);
-		diagram.getLink().getBusinessObjects().add(mdbdaDiagram);
+
+		final MDBDADiagram mdbdaDiagram = ModelFactory.eINSTANCE.createMDBDADiagram();
 		
-		Workflow wf = WorkflowFactory.eINSTANCE.createWorkflow();
-		mdbdaDiagram.setWorkflow(wf);
+		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+			
+			@Override
+			protected void doExecute() {
+				Resource diagramResource = editingDomain.getResourceSet().createResource(diagramURI);
+				diagramResource.getContents().add(diagram);
+				diagramResource.setTrackingModification(true);
+				
+				Resource modelResource = editingDomain.getResourceSet().createResource(modelURI);
+				modelResource.getContents().add(mdbdaDiagram);
+				modelResource.setTrackingModification(true);
+				
+				
+				
+				diagram.setLink(PictogramsFactory.eINSTANCE.createPictogramLink());
+				diagram.getLink().getBusinessObjects().add(mdbdaDiagram);
+				
+				Workflow wf = WorkflowFactory.eINSTANCE.createWorkflow();
+				mdbdaDiagram.setWorkflow(wf);
+				
+				AddContext addContext = new AddContext();
+				addContext.setNewObject(wf);
+				addContext.setLocation(10, 10);
+				addContext.setTargetContainer(diagram);
+
+				MDBDADiagramTypeProvider typeProvider = new  MDBDADiagramTypeProvider();
+				typeProvider.resourceReloaded(diagram);
+				
+				AddWorkflowFeature addWFFeature = new AddWorkflowFeature(typeProvider.getFeatureProvider());
+				addWFFeature.add(addContext);
+				
+				
+
+				//FileService.createEmfFileForDiagram(uri, diagram);
+				try {
+					diagramResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
+					modelResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
-		diagramResource.setTrackingModification(true);
-		modelResource.setTrackingModification(true);
+		
+		
+		
+		
+		
+		
 	 	
-		FileService.createEmfFileForDiagram(uri, diagram);
 		
 		//URI modelURI = uri.trimFileExtension().appendFileExtension("model");
 		

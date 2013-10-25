@@ -53,12 +53,14 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 		NewMDBDADiagramWizardPage filePage = (NewMDBDADiagramWizardPage) getPage(PAGE_NAME_NEW_MDBDA_DIAGRAM_FILE);
 		final String fileName = filePage.getFileName();
-
-
+		Object firstElement = selection.getFirstElement();
 		IProject project = null;
-		IFolder diagramFolder = null;
-
-//		Object element = getSelection().getFirstElement();
+		if(firstElement instanceof IFile){
+			IFile file = (IFile) firstElement;
+			project = file.getProject();;
+		}else if(firstElement instanceof IProject){
+			project = (IProject) firstElement;
+		}
 		
 
 		this.diagram =  DiagramUtils.newDiagram(project,fileName);
@@ -78,11 +80,11 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 	public Diagram getDiagram() {
 		return diagram;
 	}
-
+	IWorkbench workbench;
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO Auto-generated method stub
-		
+		this.selection = selection;
+		this.workbench = workbench;
 	}
 	
 
