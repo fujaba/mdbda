@@ -13,6 +13,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.AddLinkFeature;
@@ -30,6 +31,7 @@ import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateP
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateShufflingFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
+import org.hahnpro.mdbda.diagrameditor.utils.DiagramUtils;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Partitioning;
 import org.hahnpro.mdbda.model.pattern.dataorganization.Shuffling;
@@ -71,7 +73,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		// TODO: check for right domain object instances below
 		if (context instanceof IAddConnectionContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddLinkFeature(this);
-		} else if (context instanceof IAddContext  && context.getNewObject() instanceof Workflow ) {
+		} else if (context instanceof IAddContext  && (context.getNewObject() instanceof Workflow || (context.getNewObject() instanceof Diagram && DiagramUtils.getMDBDADiagram((Diagram) context.getNewObject()).getWorkflow() != null ) )) {
 			return new AddWorkflowFeature(this);
 		} 
 		

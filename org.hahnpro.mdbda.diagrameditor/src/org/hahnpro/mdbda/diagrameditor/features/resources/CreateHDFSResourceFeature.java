@@ -21,7 +21,7 @@ public class CreateHDFSResourceFeature extends CreateResourceFeature {
 	public Object[] create(ICreateContext context) {		
 		HDFSResource eInst = ResourcesFactory.eINSTANCE.createHDFSResource();
 
-		getWorkflow(context).getResources().add(eInst);
+		getWorkflow(context).getDataResources().add(eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };

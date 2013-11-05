@@ -23,7 +23,7 @@ public class AddTotalOrderSortingFeature extends AddPatternFeature implements
 
 	public AddTotalOrderSortingFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Total Order Sorting";
+		this.typeName = "Total Order Sorting";
 	}
 
 

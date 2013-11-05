@@ -23,7 +23,7 @@ public class AddBinningFeature extends AddPatternFeature implements
 
 	public AddBinningFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Binning";
+		this.typeName = "Binning";
 	}
 
 

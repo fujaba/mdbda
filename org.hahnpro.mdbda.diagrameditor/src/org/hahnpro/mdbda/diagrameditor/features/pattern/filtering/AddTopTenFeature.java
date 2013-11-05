@@ -23,7 +23,7 @@ public class AddTopTenFeature extends AddPatternFeature implements
 
 	public AddTopTenFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Top Ten";
+		this.typeName = "Top Ten";
 	}
 
 

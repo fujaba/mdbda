@@ -23,7 +23,7 @@ public class AddCountingWithCountersFeature extends AddPatternFeature implements
 
 	public AddCountingWithCountersFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Counting with counters";
+		this.typeName = "Counting with counters";
 	}
 
 

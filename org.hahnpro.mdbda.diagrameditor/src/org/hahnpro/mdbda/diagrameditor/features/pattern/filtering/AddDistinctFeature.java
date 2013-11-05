@@ -23,7 +23,7 @@ public class AddDistinctFeature extends AddPatternFeature implements
 
 	public AddDistinctFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Distinct";
+		this.typeName = "Distinct";
 	}
 
 

@@ -23,7 +23,7 @@ public class AddCartesianProductFeature extends AddPatternFeature implements
 
 	public AddCartesianProductFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "CartesianProduct";
+		this.typeName = "CartesianProduct";
 	}
 
 

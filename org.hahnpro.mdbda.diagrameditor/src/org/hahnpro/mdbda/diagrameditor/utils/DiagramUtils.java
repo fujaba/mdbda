@@ -3,8 +3,10 @@ package org.hahnpro.mdbda.diagrameditor.utils;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -311,11 +313,14 @@ public class DiagramUtils {
 				
 				Workflow wf = WorkflowFactory.eINSTANCE.createWorkflow();
 				mdbdaDiagram.setWorkflow(wf);
+				mdbdaDiagram.setName(name);
+				mdbdaDiagram.setVersion(Calendar.getInstance().getTimeInMillis()+"");
 				
 				AddContext addContext = new AddContext();
 				addContext.setNewObject(wf);
 				addContext.setLocation(10, 10);
 				addContext.setTargetContainer(diagram);
+				
 
 				MDBDADiagramTypeProvider typeProvider = new  MDBDADiagramTypeProvider();
 				typeProvider.resourceReloaded(diagram);
@@ -327,8 +332,8 @@ public class DiagramUtils {
 
 				//FileService.createEmfFileForDiagram(uri, diagram);
 				try {
-					diagramResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
 					modelResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
+					diagramResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

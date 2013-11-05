@@ -23,7 +23,7 @@ public class AddCompositeJoinFeature extends AddPatternFeature implements
 
 	public AddCompositeJoinFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Composite Join";
+		this.typeName = "Composite Join";
 	}
 
 

@@ -78,9 +78,9 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 				refDiagram = DiagramUtils.openDiagramDialog(getDiagram());
 			}
 			
-			addGraphicalRepresentation(context, refDiagram);
-			
 			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(refDiagram);
+
+			addGraphicalRepresentation(context, refDiagram);
 			
 			return new Object[] { mdbdaDiagram.getWorkflow() };
 

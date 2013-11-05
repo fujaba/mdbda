@@ -23,7 +23,7 @@ public class AddReplicatedJoinFeature extends AddPatternFeature implements
 
 	public AddReplicatedJoinFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Replicated join";
+		this.typeName = "Replicated join";
 	}
 
 

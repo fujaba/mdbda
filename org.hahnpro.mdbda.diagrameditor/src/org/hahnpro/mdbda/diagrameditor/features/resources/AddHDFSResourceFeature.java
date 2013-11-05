@@ -6,7 +6,7 @@ public class AddHDFSResourceFeature extends AddResourceFeature {
 
 	public AddHDFSResourceFeature(IFeatureProvider fp) {
 		super(fp);
-		this.resourceTypeName = "HDFS Resource";
+		this.typeName = "HDFS Resource";
 	}
 
 }

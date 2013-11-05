@@ -23,7 +23,7 @@ public class AddBloomFilteringFeature extends AddPatternFeature implements
 
 	public AddBloomFilteringFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "BloomFiltering";
+		this.typeName = "BloomFiltering";
 	}
 
 

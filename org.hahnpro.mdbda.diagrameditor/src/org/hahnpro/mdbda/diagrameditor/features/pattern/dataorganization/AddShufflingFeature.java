@@ -23,7 +23,7 @@ public class AddShufflingFeature extends AddPatternFeature implements
 
 	public AddShufflingFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Shuffling";
+		this.typeName = "Shuffling";
 	}
 
 

@@ -23,7 +23,7 @@ public class AddPartitoningFeature extends AddPatternFeature implements
 
 	public AddPartitoningFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Partitoning";
+		this.typeName = "Partitoning";
 	}
 
 

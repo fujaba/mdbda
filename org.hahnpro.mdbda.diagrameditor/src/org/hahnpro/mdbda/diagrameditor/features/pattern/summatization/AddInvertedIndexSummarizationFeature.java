@@ -23,7 +23,7 @@ public class AddInvertedIndexSummarizationFeature extends AddPatternFeature impl
 
 	public AddInvertedIndexSummarizationFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Inverted index summarization";
+		this.typeName = "Inverted index summarization";
 	}
 
 

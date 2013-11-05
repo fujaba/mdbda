@@ -52,65 +52,6 @@
    </extension>
 
    <extension point="org.eclipse.ui.editors">
-      <!-- @generated MDBDASummarizationPattern -->
-      <editor
-            id="org.hahnpro.mdbda.model.pattern.summatization.presentation.SummatizationEditorID"
-            name="%_UI_SummatizationEditor_label"
-            icon="icons/full/obj16/SummatizationModelFile.gif"
-            extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.pattern.summatization.presentation.SummatizationEditor"
-            contributorClass="org.hahnpro.mdbda.model.pattern.summatization.presentation.SummatizationActionBarContributor">
-      </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated MDBDAResources -->
-      <editor
-            id="org.hahnpro.mdbda.model.resources.presentation.ResourcesEditorID"
-            name="%_UI_ResourcesEditor_label"
-            icon="icons/full/obj16/ResourcesModelFile.gif"
-            extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.resources.presentation.ResourcesEditor"
-            contributorClass="org.hahnpro.mdbda.model.resources.presentation.ResourcesActionBarContributor">
-      </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated MDBDAJoinPattern -->
-      <editor
-            id="org.hahnpro.mdbda.model.pattern.join.presentation.JoinEditorID"
-            name="%_UI_JoinEditor_label"
-            icon="icons/full/obj16/JoinModelFile.gif"
-            extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.pattern.join.presentation.JoinEditor"
-            contributorClass="org.hahnpro.mdbda.model.pattern.join.presentation.JoinActionBarContributor">
-      </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated MDBDAFilteringPattern -->
-      <editor
-            id="org.hahnpro.mdbda.model.pattern.filtering.presentation.FilteringEditorID"
-            name="%_UI_FilteringEditor_label"
-            icon="icons/full/obj16/FilteringModelFile.gif"
-            extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.pattern.filtering.presentation.FilteringEditor"
-            contributorClass="org.hahnpro.mdbda.model.pattern.filtering.presentation.FilteringActionBarContributor">
-      </editor>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated MDBDADataOrganizationPattern -->
-      <editor
-            id="org.hahnpro.mdbda.model.pattern.dataorganization.presentation.DataorganizationEditorID"
-            name="%_UI_DataorganizationEditor_label"
-            icon="icons/full/obj16/DataorganizationModelFile.gif"
-            extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.pattern.dataorganization.presentation.DataorganizationEditor"
-            contributorClass="org.hahnpro.mdbda.model.pattern.dataorganization.presentation.DataorganizationActionBarContributor">
-      </editor>
-   </extension>
-   <extension point="org.eclipse.ui.editors">
       <!-- @generated MDBDA -->
       <editor
             id="org.hahnpro.mdbda.model.presentation.ModelEditorID"
@@ -130,38 +71,12 @@
             genModel="model/MDBDAPattern.xcore"/>
    </extension>
 
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDAPattern -->
-      <factory
-            uri="org.hahnpro.mdbda.model.pattern"
-            class="org.hahnpro.mdbda.model.pattern.provider.PatternItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MDBDASummarizationPattern -->
       <package
             uri="org.hahnpro.mdbda.model.pattern.summatization"
             class="org.hahnpro.mdbda.model.pattern.summatization.SummatizationPackage"
             genModel="model/MDBDASummarizationPattern.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDASummarizationPattern -->
-      <factory
-            uri="org.hahnpro.mdbda.model.pattern.summatization"
-            class="org.hahnpro.mdbda.model.pattern.summatization.provider.SummatizationItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
@@ -172,38 +87,12 @@
             genModel="model/MDBDAJoinPattern.xcore"/>
    </extension>
 
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDAJoinPattern -->
-      <factory
-            uri="org.hahnpro.mdbda.model.pattern.join"
-            class="org.hahnpro.mdbda.model.pattern.join.provider.JoinItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MDBDADataOrganizationPattern -->
       <package
             uri="org.hahnpro.mdbda.model.pattern.dataorganization"
             class="org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationPackage"
             genModel="model/MDBDADataOrganizationPattern.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDADataOrganizationPattern -->
-      <factory
-            uri="org.hahnpro.mdbda.model.pattern.dataorganization"
-            class="org.hahnpro.mdbda.model.pattern.dataorganization.provider.DataorganizationItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
@@ -214,38 +103,12 @@
             genModel="model/MDBDAResources.xcore"/>
    </extension>
 
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDAResources -->
-      <factory
-            uri="org.hahnpro.mdbda.model.resources"
-            class="org.hahnpro.mdbda.model.resources.provider.ResourcesItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MDBDAFilteringPattern -->
       <package
             uri="org.hahnpro.mdbda.model.pattern.filtering"
             class="org.hahnpro.mdbda.model.pattern.filtering.FilteringPackage"
             genModel="model/MDBDAFilteringPattern.xcore"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated MDBDAFilteringPattern -->
-      <factory
-            uri="org.hahnpro.mdbda.model.pattern.filtering"
-            class="org.hahnpro.mdbda.model.pattern.filtering.provider.FilteringItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
 
 </plugin>

@@ -3,7 +3,6 @@ package org.hahnpro.mdbda.diagrameditor.features.pattern;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
@@ -17,29 +16,14 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.util.ColorConstant;
-import org.eclipse.graphiti.util.IColorConstant;
+import org.hahnpro.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.hahnpro.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
 import org.hahnpro.mdbda.model.pattern.Pattern;
 import org.hahnpro.mdbda.model.workflow.Workflow;
 
 
-public abstract class AddPatternFeature extends AbstractAddFeature implements
+public abstract class AddPatternFeature extends AbstactMDBDAAddFeature implements
 		IAddFeature {
-	private static final int[] outputPolygon = new int[] {1,1,  10,1,  20,5,  10,10,  1,10, 1,1};
-	private static final int[] inputPolygon = new int[] {1,1,  20,1,  20,10,  1,10,  10,5,  1,1};
-    
-	public static final int INVISIBLE_RECT_SIDE = 10;
-
-	private static final IColorConstant PATTERN_TEXT_FOREGROUND =
-            IColorConstant.BLACK;
-     
-        private static final IColorConstant PATTERN_FOREGROUND =
-            new ColorConstant(148, 131, 167);
-
-        private static final IColorConstant  PATTERN_BACKGROUND =
-            new ColorConstant(237, 218, 247);
-
-	protected String patternName = "Pattern";
 	
 	public AddPatternFeature(IFeatureProvider fp) {
 		super(fp);
@@ -67,16 +51,16 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
 		
 		{
 			Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
-			gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width + 2 * INVISIBLE_RECT_SIDE, height);
+			gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width + 2 * AbstractMDBDAShape.INVISIBLE_RECT_SIDE, height);
 			
 		
 			
 			roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 10, 10);
-			roundedRectangle.setBackground(manageColor(PATTERN_BACKGROUND));
-			roundedRectangle.setForeground(manageColor(PATTERN_FOREGROUND));
+			roundedRectangle.setBackground(manageColor(AbstractMDBDAShape.PATTERN_BACKGROUND));
+			roundedRectangle.setForeground(manageColor(AbstractMDBDAShape.PATTERN_FOREGROUND));
 			roundedRectangle.setLineWidth(2);
             gaService.setLocationAndSize(roundedRectangle,
-            		INVISIBLE_RECT_SIDE, 0, width, height);
+            		AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);
         
             
             // if added Class has no resource we add it to the resource 
@@ -98,8 +82,8 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
         {
         	
 			Shape shape = peCreateService.createShape(containerShape, false);
-			Text text = gaService.createText(shape, patternName );
-			text.setForeground(manageColor(PATTERN_TEXT_FOREGROUND));
+			Text text = gaService.createText(shape, typeName );
+			text.setForeground(manageColor(AbstractMDBDAShape.PATTERN_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 			gaService.setLocationAndSize(text, 0, 0, context.getWidth(), context.getHeight());
@@ -118,9 +102,9 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
         	
         	link(boxAnchor,pattern);
         	
-        	Polygon poly = gaService.createPolygon(boxAnchor, outputPolygon);
-        	poly.setBackground(manageColor(PATTERN_BACKGROUND));
-        	poly.setForeground(manageColor(PATTERN_FOREGROUND));
+        	Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.OUTPUTPOLYGON);
+        	poly.setBackground(manageColor(AbstractMDBDAShape.PATTERN_BACKGROUND));
+        	poly.setForeground(manageColor(AbstractMDBDAShape.PATTERN_FOREGROUND));
         	poly.setLineWidth(2);
         	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
         }
@@ -134,9 +118,9 @@ public abstract class AddPatternFeature extends AbstractAddFeature implements
         	
         	link(boxAnchor,pattern);
         	
-        	Polygon poly = gaService.createPolygon(boxAnchor, inputPolygon);
-        	poly.setBackground(manageColor(PATTERN_BACKGROUND));
-        	poly.setForeground(manageColor(PATTERN_FOREGROUND));
+        	Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.INPUTPOLYGON);
+        	poly.setBackground(manageColor(AbstractMDBDAShape.PATTERN_BACKGROUND));
+        	poly.setForeground(manageColor(AbstractMDBDAShape.PATTERN_FOREGROUND));
         	poly.setLineWidth(2);
         	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
         }

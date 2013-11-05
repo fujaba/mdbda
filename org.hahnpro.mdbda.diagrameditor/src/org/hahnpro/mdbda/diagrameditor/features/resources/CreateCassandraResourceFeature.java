@@ -22,7 +22,7 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 	public Object[] create(ICreateContext context) {		
 		CassandraResource eInst = ResourcesFactory.eINSTANCE.createCassandraResource();
 
-		getWorkflow(context).getResources().add(eInst);
+		getWorkflow(context).getDataResources().add(eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };

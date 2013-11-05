@@ -1,4 +1,3 @@
-@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test", editPluginID="org.hahnpro.mdbda.xcore", editPluginClass="org.hahnpro.mdbda.model.provider.ModelEditPlugin")
 package org.hahnpro.mdbda.model.pattern.filtering
 
 
@@ -18,4 +17,4 @@ class Filtering extends Pattern{
 
 class TopTen extends Pattern{
 	
-}  
+} 

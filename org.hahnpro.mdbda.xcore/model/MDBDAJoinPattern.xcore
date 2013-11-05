@@ -1,4 +1,3 @@
-@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test")
 package org.hahnpro.mdbda.model.pattern.join
 
 
@@ -17,5 +16,5 @@ class ReduceSideJoin extends Pattern{
 }
 
 class ReplicatedJoin extends Pattern{
-	
-}
+	 
+} 

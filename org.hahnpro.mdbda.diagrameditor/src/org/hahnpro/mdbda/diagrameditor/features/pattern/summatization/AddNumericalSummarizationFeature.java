@@ -23,7 +23,7 @@ public class AddNumericalSummarizationFeature extends AddPatternFeature implemen
 
 	public AddNumericalSummarizationFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Numerical summarization";
+		this.typeName = "Numerical summarization";
 	}
 
 

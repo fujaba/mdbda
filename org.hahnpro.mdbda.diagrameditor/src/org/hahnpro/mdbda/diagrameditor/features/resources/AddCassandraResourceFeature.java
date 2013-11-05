@@ -6,7 +6,7 @@ public class AddCassandraResourceFeature extends AddResourceFeature {
 
 	public AddCassandraResourceFeature(IFeatureProvider fp) {
 		super(fp);
-		this.resourceTypeName = "Cassandra Resource";
+		this.typeName = "Cassandra Resource";
 	}
 
 }

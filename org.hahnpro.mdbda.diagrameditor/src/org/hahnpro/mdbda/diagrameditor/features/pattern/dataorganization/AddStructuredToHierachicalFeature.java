@@ -23,7 +23,7 @@ public class AddStructuredToHierachicalFeature extends AddPatternFeature impleme
 
 	public AddStructuredToHierachicalFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Structured to Hierachical";
+		this.typeName = "Structured to Hierachical";
 	}
 
 

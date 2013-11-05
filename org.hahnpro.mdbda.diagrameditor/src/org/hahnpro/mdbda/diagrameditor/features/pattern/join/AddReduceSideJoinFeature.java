@@ -23,7 +23,7 @@ public class AddReduceSideJoinFeature extends AddPatternFeature implements
 
 	public AddReduceSideJoinFeature(IFeatureProvider fp) {
 		super(fp);
-		this.patternName = "Reduce side join";
+		this.typeName = "Reduce side join";
 	}
 
 
