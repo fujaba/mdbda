@@ -1,0 +1,8 @@
+import org::hahnpro::mdbda::model::pattern;
+
+
+Void addPattern( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.addPattern( org.hahnpro.mdbda.model.pattern.Pattern ) ;
+
+Boolean containsPattern( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.containsPattern( org.hahnpro.mdbda.model.pattern.Pattern ) ;

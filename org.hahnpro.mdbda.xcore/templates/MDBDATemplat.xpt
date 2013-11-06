@@ -1,0 +1,60 @@
+«IMPORT org::hahnpro::mdbda::model»
+«IMPORT org::hahnpro::mdbda::model::workflow»
+«IMPORT org::hahnpro::mdbda::model::pattern»
+«IMPORT org::hahnpro::mdbda::model::resources»
+
+«EXTENSION MDBDAWorkflowHelper»
+
+
+«DEFINE definionName FOR MDBDADiagram»
+«FILE this.name + "JobControl.java"» 
+public static void main(String... args){
+		Configuration conf = new Configuration();
+		//...
+		«EXPAND workflow FOR this.workflow»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+
+«DEFINE workflow FOR Workflow»
+	«FOREACH this.pattern AS p»
+	«EXPAND pattern FOR p»
+	«ENDFOREACH»
+«ENDDEFINE»
+
+«DEFINE pattern FOR Workflow»
+//workflow «this.name» Pattern
+
+
+«FOREACH this.pattern AS p»
+	«IF !containsPattern(p)»
+		«EXPAND pattern FOR p»
+	«ENDIF»
+«ENDFOREACH»
+
+«ENDDEFINE»
+
+«DEFINE pattern FOR Pattern»
+«addPattern(this)»
+«FILE this.workflow.name + this.toString() + "Job.java"»
+//TODO: getPackage
+import org.hahnpro.mdbda.runtime.*;
+
+public class «this.workflow.name + this.toString()» Job implements MDBDAJob{
+
+	public Job getJob(){
+	//...
+	}
+	
+	public Configuration getConfiguration(){
+	//...
+	}
+}
+
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE resource FOR Resource»
+
+«ENDDEFINE»

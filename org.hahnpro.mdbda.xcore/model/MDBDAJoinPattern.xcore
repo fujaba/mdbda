@@ -17,4 +17,4 @@ class ReduceSideJoin extends Pattern{
 
 class ReplicatedJoin extends Pattern{
 	 
-} 
+}

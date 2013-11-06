@@ -17,4 +17,4 @@ class Filtering extends Pattern{
 
 class TopTen extends Pattern{
 	
-} 
+}
