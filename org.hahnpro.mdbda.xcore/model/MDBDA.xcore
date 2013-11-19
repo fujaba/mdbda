@@ -1,21 +1,64 @@
-@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test", templateDirectory="/org.hahnpro.mdbda.codegen/src/templates")
+@GenModel(editDirectory="/org.hahnpro.mdbda.xcore/src-edit", editorDirectory="/org.hahnpro.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.hahnpro.mdbda.xcore/src-test")
 package org.hahnpro.mdbda.model
-
-import org.hahnpro.mdbda.model.resources.*
-import org.hahnpro.mdbda.model.workflow.*
-import org.hahnpro.mdbda.model.pattern.*
-import org.hahnpro.mdbda.model.pattern.dataorganization.*
-import org.hahnpro.mdbda.model.pattern.filtering.*
-import org.hahnpro.mdbda.model.pattern.join.*
-import org.hahnpro.mdbda.model.pattern.summatization.CountingWithCounters
 
 /*TODO 
  * http://www.vogella.com/articles/EclipseEMF/article.html#inheritance
  * http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html
  */
+import org.eclipse.emf.common.util.EList
+
 class MDBDADiagram{
-	contains Workflow workflow
-	String name
+	contains Workflow rootWorkflow opposite diagram
+
 	String author
 	String version
+	String name
+}  
+
+class Workflow extends Pattern{
+	contains Pattern[] pattern opposite workflow 
+	container MDBDADiagram diagram opposite rootWorkflow
+	
+	contains Resource[] dataResources
+	
+	refers Pattern startPattern
+	
+	op Resource[] getInputDataResources()
+	{
+		//input data resources are dataResources with no inputResources
+		var EList<Resource> inputDataResources
+		for( Resource res : dataResources){
+			if( res.inputResources.empty ){
+				inputDataResources.add(res)
+			}
+		}
+		
+		return inputDataResources
+	}
+	
+	op Resource[] getOutputDataResources(){
+		//output data resources are dataResources with no inputResources
+		var EList<Resource> outputDataResources
+		for( Resource res : dataResources){
+			if( res.inputResources.empty ){
+				outputDataResources.add(res)
+			}
+		}
+		
+		return outputDataResources
+	}
 } 
+
+class Pattern extends Resource{
+	container Workflow workflow opposite pattern
+	refers Pattern[] dependsOn
+} 
+
+class Resource{	
+	refers Resource[] inputResources
+	refers Resource[] outputResources
+	String configurationURI
+	String typeId
+	String name
+} 
+

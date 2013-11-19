@@ -8,9 +8,9 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.hahnpro.mdbda.model.ModelUtils;
-import org.hahnpro.mdbda.model.pattern.Pattern;
-import org.hahnpro.mdbda.model.resources.Resource;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.Resource;
+import org.hahnpro.mdbda.model.Workflow;
 
 public class CreateLinkFeature extends AbstractCreateConnectionFeature
 		implements ICreateConnectionFeature {

@@ -32,12 +32,7 @@ import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateS
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
 import org.hahnpro.mdbda.diagrameditor.utils.DiagramUtils;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Partitioning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Shuffling;
-import org.hahnpro.mdbda.model.pattern.dataorganization.StructuredToHierachical;
-import org.hahnpro.mdbda.model.pattern.dataorganization.TotalOrderSorting;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Workflow;
 
 
 public class MDBDAFeatureProvider extends DefaultFeatureProvider {
@@ -73,7 +68,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		// TODO: check for right domain object instances below
 		if (context instanceof IAddConnectionContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddLinkFeature(this);
-		} else if (context instanceof IAddContext  && (context.getNewObject() instanceof Workflow || (context.getNewObject() instanceof Diagram && DiagramUtils.getMDBDADiagram((Diagram) context.getNewObject()).getWorkflow() != null ) )) {
+		} else if (context instanceof IAddContext  && (context.getNewObject() instanceof Workflow || (context.getNewObject() instanceof Diagram && DiagramUtils.getMDBDADiagram((Diagram) context.getNewObject()).getRootWorkflow() != null ) )) {
 			return new AddWorkflowFeature(this);
 		} 
 		

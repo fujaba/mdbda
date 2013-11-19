@@ -1,33 +1,22 @@
 package org.hahnpro.mdbda.diagrameditor.features.pattern.filtering;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
-import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
-import org.hahnpro.mdbda.diagrameditor.features.AddLinkFeature;
-import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
-import org.hahnpro.mdbda.diagrameditor.features.CreateWorkflowFeature;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Partitioning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Shuffling;
-import org.hahnpro.mdbda.model.pattern.dataorganization.StructuredToHierachical;
-import org.hahnpro.mdbda.model.pattern.dataorganization.TotalOrderSorting;
-import org.hahnpro.mdbda.model.pattern.filtering.BloomFiltering;
-import org.hahnpro.mdbda.model.pattern.filtering.Distinct;
-import org.hahnpro.mdbda.model.pattern.filtering.TopTen;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Resource;
 
 public class FilteringPatternGroupConfigurator extends
 		AbstractGroupConfigurator {
-
+	public static final String FilteringPatternType_BloomFiltering  = "BloomFiltering";
+	public static final String FilteringPatternType_TopTen  = "TopTen";
+	public static final String FilteringPatternType_Distinct  = "Distinct";
+	
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
 		// add new compartment at the end of the existing compartments
@@ -58,17 +47,16 @@ public class FilteringPatternGroupConfigurator extends
 	}
 
 	@Override
-	public IAddFeature getAddFeature(IAddContext context, IFeatureProvider fp) {
+	public IAddFeature getAddFeature(IAddContext context, IFeatureProvider fp) {		
 		if (context instanceof IAddContext
-				&& context.getNewObject() instanceof BloomFiltering) {
-			return new AddBloomFilteringFeature(fp);
-		} else if (context instanceof IAddContext
-				&& context.getNewObject() instanceof TopTen) {
-			return new AddTopTenFeature(fp);
-		} else if (context instanceof IAddContext
-				&& context.getNewObject() instanceof Distinct) {
-			return new AddDistinctFeature(fp);
-		}
+				&& context.getNewObject() instanceof Resource) {
+			
+			switch(((Resource)context.getNewObject()).getTypeId()){
+				case FilteringPatternType_BloomFiltering:	return new AddBloomFilteringFeature(fp);
+				case FilteringPatternType_TopTen: 			return new AddTopTenFeature(fp);
+				case FilteringPatternType_Distinct: 		return new AddDistinctFeature(fp);
+			}
+					} 
 		return null;
 	}
 

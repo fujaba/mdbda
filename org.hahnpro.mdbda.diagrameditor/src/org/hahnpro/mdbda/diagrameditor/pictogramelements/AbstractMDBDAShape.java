@@ -37,9 +37,9 @@ public abstract class AbstractMDBDAShape extends ContainerShapeImpl {
 	public static final IColorConstant  RESOURCE_BACKGROUND = IColorConstant.LIGHT_BLUE;
 //            new ColorConstant(237, 218, 247);
 	
-	public AbstractMDBDAShape(IAddContext context, AddWorkflowFeature feature){
-		setVisible(true);
-		setActive(active);
-		setContainer(context.getTargetContainer());
-	}
+//	public AbstractMDBDAShape(IAddContext context, AddWorkflowFeature feature){
+//		setVisible(true);
+//		setActive(active);
+//		setContainer(context.getTargetContainer());
+//	}
 }

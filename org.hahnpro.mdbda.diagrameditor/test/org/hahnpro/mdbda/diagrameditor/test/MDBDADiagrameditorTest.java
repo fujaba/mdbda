@@ -1,5 +1,8 @@
 package org.hahnpro.mdbda.diagrameditor.test;
 
+import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
+import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
+
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -10,20 +13,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.graphiti.mm.Property;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.mm.pictograms.impl.ContainerShapeImpl;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.graphiti.ui.internal.parts.DiagramEditPart;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swtbot.eclipse.finder.SWTBotEclipseTestCase;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
@@ -53,17 +48,12 @@ import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateReplicatedJoi
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateCountingWithCountersFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateInvertedIndexSummarizationFeature;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.summatization.CreateNumericalSummarizationFeature;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Workflow;
 import org.hamcrest.Description;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
-import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
 
 
 

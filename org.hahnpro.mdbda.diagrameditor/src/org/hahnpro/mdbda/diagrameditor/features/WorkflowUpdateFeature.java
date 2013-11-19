@@ -4,7 +4,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Workflow;
 
 public class WorkflowUpdateFeature extends AbstractUpdateFeature {
 

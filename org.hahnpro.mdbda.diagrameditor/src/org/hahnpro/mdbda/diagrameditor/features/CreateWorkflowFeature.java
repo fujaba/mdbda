@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -14,8 +13,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.hahnpro.mdbda.diagrameditor.utils.DiagramUtils;
 import org.hahnpro.mdbda.model.MDBDADiagram;
-import org.hahnpro.mdbda.model.workflow.Workflow;
-import org.hahnpro.mdbda.model.workflow.WorkflowFactory;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Workflow;
 
 public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 		ICreateFeature {
@@ -82,14 +81,14 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 
 			addGraphicalRepresentation(context, refDiagram);
 			
-			return new Object[] { mdbdaDiagram.getWorkflow() };
+			return new Object[] { mdbdaDiagram.getRootWorkflow() };
 
 		}else{
 			
 			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(getDiagram());
 			Resource resource = context.getTargetContainer().eResource();//TODO get model resource
 			
-			Workflow workflow = WorkflowFactory.eINSTANCE.createWorkflow();
+			Workflow workflow = ModelFactory.eINSTANCE.createWorkflow();
 
 			resource.getContents().add(workflow);
 

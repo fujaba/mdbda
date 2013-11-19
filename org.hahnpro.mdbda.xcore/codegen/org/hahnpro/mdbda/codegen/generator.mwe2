@@ -1,0 +1,148 @@
+module org.hahnpro.mdbda.codegen.generator
+
+import org.eclipse.emf.mwe.utils.Reader
+import org.eclipse.emf.mwe.utils.StandaloneSetup
+import org.eclipse.emf.mwe.utils.DirectoryCleaner
+import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel
+import org.eclipse.xtend.check.CheckComponent
+import org.eclipse.xpand2.Generator
+import org.eclipse.xpand2.output.JavaBeautifier
+import org.eclipse.xtend.expression.ResourceManagerDefaultImpl
+
+var modelUri  = "platform:/resource/org.hahnpro.mdbda.xcore/test/TheoryOfEverything.mdbdamodel"
+
+//var modelUri  = "./test/TheoryOfEverything.mdbdamodel"
+var dirSrcGen = "test-src-gen"
+
+/*
+ * !!! Using XCore Model for XText DSL
+ * http://www.eclipse.org/forums/index.php/t/488375/
+ * 
+ */
+Workflow {
+	/* set up EMF for standalone execution */
+//	bean = StandaloneSetup { 
+//		platformUri="."
+//		scanClassPath = true
+//		registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDA.xcore"
+//		//registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDA.xcore"
+//		
+//	}
+
+	//xcore TODO: https://bugs.eclipse.org/bugs/show_bug.cgi?id=379999
+	bean = org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup : xcore { }
+	
+	
+	bean = org.eclipse.xtext.mwe.Reader {
+	  register = xcore 
+	}
+	
+	bean = StandaloneSetup {
+		
+	  scanClassPath = true
+	  platformUri = "."// The following two lines can be removed, if Xbase is not used.
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDA.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAResources.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAPattern.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAWorkflow.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDADataOrganizationPattern.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAFilteringPattern.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAJoinPattern.xcore"
+//	  registerGenModelFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDASummarizationPattern.xcore"
+//	  
+//	  
+//      registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDA.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAResources.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAPattern.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAWorkflow.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDADataOrganizationPattern.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAFilteringPattern.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDAJoinPattern.xcore"
+//	  registerEcoreFile = "platform:/resource/org.hahnpro.mdbda.xcore/model/MDBDASummarizationPattern.xcore"
+
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.resources.ResourcesPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.pattern.PatternPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.workflow.WorkflowPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.pattern.filtering.FilteringPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.pattern.join.JoinPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.pattern.summatization.SummatizationPackage"
+		registerGeneratedEPackage = "org.hahnpro.mdbda.model.ModelPackage"
+		
+		
+		
+		
+		
+		
+		
+		
+
+	}
+	
+	//END xcore
+
+	/** instantiate metamodel */
+	bean = EmfRegistryMetaModel : mm_emf {
+				
+	}
+//	
+
+//	bean = JavaBeautifier : formatter_java { }
+
+	/* load model and store it in slot 'model' */
+	component = Reader {
+		//makeEPackagesGlobal = true
+		
+		//ignoreMissingModel = true
+		
+		uri = modelUri
+		modelSlot = "model"
+		
+	}
+
+//	component = org.eclipse.xtext.mwe.Reader {
+//		register = org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup {}
+//		loadResource = {
+//			slot = "model"
+//		}
+//		//useJavaClassPath = true
+//		path = modelUri
+//	}
+	
+	/* check model */
+//	component = CheckComponent {
+//		metaModel = mm_emf
+//		checkFile = "metamodel::Checks"
+//		emfAllChildrenSlot = "model"
+//	}
+
+	/** Clear output directory */
+	component = DirectoryCleaner {
+		directory = dirSrcGen
+	}
+	
+//	component = org.eclipse.xtext.generator.GeneratorComponent {
+//		register = org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup {}
+//		outlet = {
+//			path = dirSrcGen
+//		}
+//		slot = "model"
+//	}
+	
+
+	/* generate code */
+	component = Generator {
+		
+		metaModel = mm_emf
+		expand = "codegen::MDBDATemplate::main FOR model"
+		outlet = {
+			path = dirSrcGen
+//			postprocessor = formatter_java
+			fileEncoding = "ISO-8859-1" // this is the encoding for files written the outlet
+		}
+		// configure Xpand resource encoding (check project resource setting)
+		resourceManager = ResourceManagerDefaultImpl {
+			fileEncoding = "ISO-8859-1"
+		}
+	}
+}

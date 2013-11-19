@@ -10,7 +10,6 @@ import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -18,8 +17,8 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.hahnpro.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
 import org.hahnpro.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
-import org.hahnpro.mdbda.model.pattern.Pattern;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.Workflow;
 
 
 public abstract class AddPatternFeature extends AbstactMDBDAAddFeature implements

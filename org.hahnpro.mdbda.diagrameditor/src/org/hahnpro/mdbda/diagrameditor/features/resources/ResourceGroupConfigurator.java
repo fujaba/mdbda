@@ -9,16 +9,12 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.join.AddCartesianProductFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateCartesianProductFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateCompositeJoinFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateReduceSideJoinFeature;
-import org.hahnpro.mdbda.diagrameditor.features.pattern.join.CreateReplicatedJoinFeature;
-import org.hahnpro.mdbda.model.pattern.join.CartesianProduct;
-import org.hahnpro.mdbda.model.resources.CassandraResource;
-import org.hahnpro.mdbda.model.resources.HDFSResource;
+import org.hahnpro.mdbda.model.Resource;
 public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 
+	public static final String RESOURCETYPE_CASSANDRA = "CassandraResource";
+	public static final String RESOURCETYPE_HDFS = "HDFSResource";
+			
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
 		PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry(
@@ -46,12 +42,13 @@ public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 	@Override
 	public IAddFeature getAddFeature(IAddContext context, IFeatureProvider fp) {
 		if (context instanceof IAddContext
-				&& context.getNewObject() instanceof CassandraResource) {
-			return new AddCassandraResourceFeature(fp);
-		} else if (context instanceof IAddContext
-				&& context.getNewObject() instanceof HDFSResource) {
-			return new AddHDFSResourceFeature(fp);
-		} 
+				&& context.getNewObject() instanceof Resource) {
+			
+			switch(((Resource)context.getNewObject()).getTypeId()){
+				case RESOURCETYPE_CASSANDRA:			return new AddCassandraResourceFeature(fp);
+				case RESOURCETYPE_HDFS: return new AddCassandraResourceFeature(fp);
+			}
+					} 
 		return null;
 	}
 

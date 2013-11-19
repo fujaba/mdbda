@@ -4,15 +4,8 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationFactory;
-import org.hahnpro.mdbda.model.pattern.filtering.BloomFiltering;
-import org.hahnpro.mdbda.model.pattern.filtering.Distinct;
-import org.hahnpro.mdbda.model.pattern.filtering.FilteringFactory;
-import org.hahnpro.mdbda.model.pattern.join.CartesianProduct;
-import org.hahnpro.mdbda.model.pattern.join.JoinFactory;
-import org.hahnpro.mdbda.model.pattern.join.JoinPackage;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Pattern;
 
 public class CreateCartesianProductFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -29,9 +22,10 @@ public class CreateCartesianProductFeature extends CreatePatternFeature implemen
 	@Override
 	public Object[] create(ICreateContext context) {
 		// TODO: create the domain object here
-		//Object newDomainObject = null;
-		
-		CartesianProduct eInst = JoinFactory.eINSTANCE.createCartesianProduct();
+		//Object newDomainObject = null;		
+
+		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
+		eInst.setTypeId(JoinPatternGroupConfigurator.JoinPatternType_CartesianProduct);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		

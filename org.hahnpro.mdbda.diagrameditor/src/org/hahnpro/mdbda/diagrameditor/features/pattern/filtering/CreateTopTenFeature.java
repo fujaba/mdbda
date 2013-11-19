@@ -4,12 +4,8 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationFactory;
-import org.hahnpro.mdbda.model.pattern.filtering.Distinct;
-import org.hahnpro.mdbda.model.pattern.filtering.FilteringFactory;
-import org.hahnpro.mdbda.model.pattern.filtering.TopTen;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Pattern;
 
 public class CreateTopTenFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -29,7 +25,8 @@ public class CreateTopTenFeature extends CreatePatternFeature implements
 		//Object newDomainObject = null;
 		
 
-		TopTen eInst = FilteringFactory.eINSTANCE.createTopTen();
+		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
+		eInst.setTypeId(FilteringPatternGroupConfigurator.FilteringPatternType_TopTen);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		

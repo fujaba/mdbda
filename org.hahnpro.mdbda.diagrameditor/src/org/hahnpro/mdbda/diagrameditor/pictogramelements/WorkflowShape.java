@@ -11,21 +11,27 @@ import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.pictograms.impl.ContainerShapeImpl;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.hahnpro.mdbda.diagrameditor.utils.DiagramUtils;
-import org.hahnpro.mdbda.model.resources.Resource;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Resource;
+import org.hahnpro.mdbda.model.Workflow;
 
 public class WorkflowShape extends AbstractMDBDAShape {
-	public WorkflowShape(IAddContext context, AddWorkflowFeature feature) {
-		super(context, feature);
+	private WorkflowShape(){
 		
+	}
+	public static ContainerShape getWorkflowShape(IAddContext context, AddWorkflowFeature feature) {
+		//super(context, feature);
 
-		ContainerShape targetDiagram = context.getTargetContainer();
+		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		IGaService gaService = Graphiti.getGaService();
+		
+		ContainerShape workflowShape = peCreateService.createContainerShape(context.getTargetContainer(), true);
+
+		
 		Workflow workflow = null;
 		Diagram refDiagram = null;
 		boolean isRootWorkflow = false;
@@ -35,7 +41,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 			isRootWorkflow = true;
 		}else if(context.getNewObject() instanceof Diagram){
 			refDiagram = (Diagram) context.getNewObject() ;
-			workflow = DiagramUtils.getMDBDADiagram(refDiagram).getWorkflow();
+			workflow = DiagramUtils.getMDBDADiagram(refDiagram).getRootWorkflow();
 
 			isRootWorkflow = false;
 		}
@@ -64,14 +70,12 @@ public class WorkflowShape extends AbstractMDBDAShape {
 		int width = isRootWorkflow ? 600 : 60;
 		int height = isRootWorkflow ? 500 : 50;
 
-		IPeCreateService peCreateService = Graphiti.getPeCreateService();
-		IGaService gaService = Graphiti.getGaService();
 
 //		ContainerShape containerShape = peCreateService.createContainerShape(targetDiagram, true);
 
 		RoundedRectangle roundedRectangle;
 		{
-			roundedRectangle = gaService.createRoundedRectangle(this,
+			roundedRectangle = gaService.createRoundedRectangle(workflowShape,
 					5, 5);
 			roundedRectangle
 					.setBackground( feature.manageColor(isRootWorkflow ? ROOTWORKFLOW_BACKGROUND
@@ -89,14 +93,14 @@ public class WorkflowShape extends AbstractMDBDAShape {
 				feature.getDiagram().eResource().getContents().add(workflow);
 			}
 
-			feature.link(this, workflow);
+			feature.link(workflowShape, workflow);
 			//link(getDiagram(), refDiagram);
-		}
+		} 
 
 		// SHAPE WITH LINE
 		{
 			// create shape for line
-			Shape shape = peCreateService.createShape(this, false);
+			Shape shape = peCreateService.createShape(workflowShape, false);
 
 			// create and set graphics algorithm
 			Polyline polyline = gaService.createPolyline(shape, new int[] { 0,
@@ -109,7 +113,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 		// SHAPE WITH TEXT
 		{
 			// create shape for text
-			Shape shape = peCreateService.createShape(this, false);
+			Shape shape = peCreateService.createShape(workflowShape, false);
 
 			// create and set text graphics algorithm
 			Text text = gaService.createText(shape, workflow.getName()
@@ -135,7 +139,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 	        	for(int i = 0 ; i<ioDataResources.size() ; i++){
 
 		        	
-		        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(this);
+		        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(workflowShape);
 		        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(false);
 		        	boxAnchor.setRelativeWidth(1.0);
 		        	
@@ -161,7 +165,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 	        	
 		        for(int i = 0 ; i<ioDataResources.size() ; i++){
 	
-		        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(this);
+		        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(workflowShape);
 		        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(true);
 		        	
 		        	boxAnchor.setRelativeWidth(0.0);
@@ -181,6 +185,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 	        	}
 	        }
 		}
+		return workflowShape;
 	}
 	
 	

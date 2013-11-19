@@ -1,16 +1,10 @@
 package org.hahnpro.mdbda.diagrameditor.features.pattern;
 
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractCreateMDBDAFeature;
-import org.hahnpro.mdbda.model.pattern.Pattern;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.Workflow;
 
 public abstract class CreatePatternFeature extends AbstractCreateMDBDAFeature {
 

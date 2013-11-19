@@ -1,0 +1,18 @@
+import org::hahnpro::mdbda::model;
+
+
+Void addPattern( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.addPattern( org.hahnpro.mdbda.model.Pattern ) ;
+
+Boolean containsPattern( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.containsPattern( org.hahnpro.mdbda.model.Pattern ) ;
+
+	
+String	getGeneratePackageName( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.getGeneratePackageName( org.hahnpro.mdbda.model.Pattern );
+	
+String	getGenerateClassName( Pattern p ) :
+	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.getGenerateClassName( org.hahnpro.mdbda.model.Pattern );
+	
+	
+	

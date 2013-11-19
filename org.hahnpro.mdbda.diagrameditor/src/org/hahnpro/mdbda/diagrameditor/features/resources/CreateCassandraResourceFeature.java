@@ -2,10 +2,8 @@ package org.hahnpro.mdbda.diagrameditor.features.resources;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.hahnpro.mdbda.model.pattern.join.CartesianProduct;
-import org.hahnpro.mdbda.model.pattern.join.JoinFactory;
-import org.hahnpro.mdbda.model.resources.CassandraResource;
-import org.hahnpro.mdbda.model.resources.ResourcesFactory;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Resource;
 
 public class CreateCassandraResourceFeature extends CreateResourceFeature {
 
@@ -19,9 +17,10 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 
 
 	@Override
-	public Object[] create(ICreateContext context) {		
-		CassandraResource eInst = ResourcesFactory.eINSTANCE.createCassandraResource();
-
+	public Object[] create(ICreateContext context) {	
+		Resource eInst = ModelFactory.eINSTANCE.createResource();
+		eInst.setTypeId(ResourceGroupConfigurator.RESOURCETYPE_CASSANDRA);
+		
 		getWorkflow(context).getDataResources().add(eInst);
 		
 		addGraphicalRepresentation(context, eInst);

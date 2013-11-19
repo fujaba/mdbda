@@ -3,14 +3,9 @@ package org.hahnpro.mdbda.diagrameditor.features.pattern.dataorganization;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationFactory;
-import org.hahnpro.mdbda.model.pattern.dataorganization.StructuredToHierachical;
-import org.hahnpro.mdbda.model.workflow.Workflow;
-import org.hahnpro.mdbda.model.workflow.WorkflowFactory;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Pattern;
 
 public class CreateStructuredToHierachicalFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -29,7 +24,8 @@ public class CreateStructuredToHierachicalFeature extends CreatePatternFeature i
 		// TODO: create the domain object here
 		//Object newDomainObject = null;
 
-		StructuredToHierachical eInst = DataorganizationFactory.eINSTANCE.createStructuredToHierachical();
+		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
+		eInst.setTypeId(DataOrganizationPatternGroupConfigurator.DataOrganizationPatternType_StructuredToHierachical);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		

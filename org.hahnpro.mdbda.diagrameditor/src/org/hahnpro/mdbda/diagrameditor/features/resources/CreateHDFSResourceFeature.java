@@ -2,9 +2,8 @@ package org.hahnpro.mdbda.diagrameditor.features.resources;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.hahnpro.mdbda.model.resources.CassandraResource;
-import org.hahnpro.mdbda.model.resources.HDFSResource;
-import org.hahnpro.mdbda.model.resources.ResourcesFactory;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Resource;
 
 public class CreateHDFSResourceFeature extends CreateResourceFeature {
 
@@ -19,8 +18,8 @@ public class CreateHDFSResourceFeature extends CreateResourceFeature {
 
 	@Override
 	public Object[] create(ICreateContext context) {		
-		HDFSResource eInst = ResourcesFactory.eINSTANCE.createHDFSResource();
-
+		Resource eInst = ModelFactory.eINSTANCE.createResource();
+		eInst.setTypeId(ResourceGroupConfigurator.RESOURCETYPE_HDFS);
 		getWorkflow(context).getDataResources().add(eInst);
 		
 		addGraphicalRepresentation(context, eInst);

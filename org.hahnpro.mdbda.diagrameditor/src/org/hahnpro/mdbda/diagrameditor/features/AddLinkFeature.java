@@ -13,7 +13,6 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
-import org.hahnpro.mdbda.model.pattern.Pattern;
 
 
 public class AddLinkFeature extends AbstractAddFeature implements

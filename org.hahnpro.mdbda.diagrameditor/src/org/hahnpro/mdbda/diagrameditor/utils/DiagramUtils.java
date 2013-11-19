@@ -1,12 +1,10 @@
 package org.hahnpro.mdbda.diagrameditor.utils;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,47 +22,26 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.graphiti.examples.common.FileService;
-import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
-import org.eclipse.graphiti.internal.services.GraphitiInternal;
-import org.eclipse.graphiti.mm.Property;
-import org.eclipse.graphiti.mm.pictograms.Connection;
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
-import org.eclipse.graphiti.ui.editor.DiagramEditorInputFactory;
-import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -74,13 +51,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.hahnpro.mdbda.diagrameditor.Activator;
 import org.hahnpro.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider;
-import org.hahnpro.mdbda.diagrameditor.diagram.MDBDAFeatureProvider;
 import org.hahnpro.mdbda.diagrameditor.features.AddWorkflowFeature;
-import org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard;
 import org.hahnpro.mdbda.model.MDBDADiagram;
 import org.hahnpro.mdbda.model.ModelFactory;
-import org.hahnpro.mdbda.model.workflow.Workflow;
-import org.hahnpro.mdbda.model.workflow.WorkflowFactory;
+import org.hahnpro.mdbda.model.Workflow;
 
 public class DiagramUtils {
 
@@ -311,8 +285,8 @@ public class DiagramUtils {
 				diagram.setLink(PictogramsFactory.eINSTANCE.createPictogramLink());
 				diagram.getLink().getBusinessObjects().add(mdbdaDiagram);
 				
-				Workflow wf = WorkflowFactory.eINSTANCE.createWorkflow();
-				mdbdaDiagram.setWorkflow(wf);
+				Workflow wf = ModelFactory.eINSTANCE.createWorkflow();
+				mdbdaDiagram.setRootWorkflow(wf);
 				mdbdaDiagram.setName(name);
 				mdbdaDiagram.setVersion(Calendar.getInstance().getTimeInMillis()+"");
 				

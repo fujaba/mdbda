@@ -1,8 +1,5 @@
 package org.hahnpro.mdbda.model;
 
-import org.hahnpro.mdbda.model.pattern.Pattern;
-import org.hahnpro.mdbda.model.resources.Resource;
-
 public class ModelUtils {
 
 	public static boolean createLink(Resource src, Resource tgt){

@@ -4,9 +4,8 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.hahnpro.mdbda.model.pattern.dataorganization.Binning;
-import org.hahnpro.mdbda.model.pattern.dataorganization.DataorganizationFactory;
-import org.hahnpro.mdbda.model.workflow.Workflow;
+import org.hahnpro.mdbda.model.ModelFactory;
+import org.hahnpro.mdbda.model.Pattern;
 
 public class CreateBinningFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -25,7 +24,8 @@ public class CreateBinningFeature extends CreatePatternFeature implements
 		// TODO: create the domain object here
 		//Object newDomainObject = null;
 		
-		Binning eInst = DataorganizationFactory.eINSTANCE.createBinning();
+		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
+		eInst.setTypeId(DataOrganizationPatternGroupConfigurator.DataOrganizationPatternType_Binning);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		
