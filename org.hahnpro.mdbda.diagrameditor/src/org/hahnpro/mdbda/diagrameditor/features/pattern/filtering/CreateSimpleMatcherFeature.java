@@ -1,20 +1,20 @@
-package org.hahnpro.mdbda.diagrameditor.features.pattern.join;
+package org.hahnpro.mdbda.diagrameditor.features.pattern.filtering;
 
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.hahnpro.mdbda.model.JoinPatternTemplateConstatns;
+import org.hahnpro.mdbda.model.FilteringPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
 
-public class CreateReduceSideJoinFeature extends CreatePatternFeature implements
+public class CreateSimpleMatcherFeature extends CreatePatternFeature implements
 		ICreateFeature {
-	public static String name = "Reduce side join";
-	public static String description = "Creates a new reduce side join pattern";
+	public static String name = "SimpleMatcher";
+	public static String description = "Creates a new simple matcher filter pattern";
     
     
-	public CreateReduceSideJoinFeature(IFeatureProvider fp) {
+	public CreateSimpleMatcherFeature(IFeatureProvider fp) {
 		super(fp, name, description);
 	}
 
@@ -25,14 +25,14 @@ public class CreateReduceSideJoinFeature extends CreatePatternFeature implements
 		// TODO: create the domain object here
 		//Object newDomainObject = null;
 		
+
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(JoinPatternTemplateConstatns.ReduceSideJoin);
+		eInst.setTypeId(FilteringPatternTemplateConstatns.SimpleMatcherFilter);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
 		// TODO: in case of an EMF object add the new object to a suitable resource
 //		getDiagram().eResource().getContents().add(eInst);
-		
 		
 		
 		addGraphicalRepresentation(context, eInst);

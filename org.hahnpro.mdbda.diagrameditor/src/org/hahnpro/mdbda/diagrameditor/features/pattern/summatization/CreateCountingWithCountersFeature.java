@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.SummatizationPatternTemplateConstatns;
 
 public class CreateCountingWithCountersFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -25,7 +26,7 @@ public class CreateCountingWithCountersFeature extends CreatePatternFeature impl
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(SummatizationPatternGroupConfigurator.SummatizationPatternTYPE_CountingWithCounters);
+		eInst.setTypeId(SummatizationPatternTemplateConstatns.CountingWithCounters);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		

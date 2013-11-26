@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.SummatizationPatternTemplateConstatns;
 
 public class CreateInvertedIndexSummarizationFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -25,7 +26,7 @@ public class CreateInvertedIndexSummarizationFeature extends CreatePatternFeatur
 		//Object newDomainObject = null;
 		
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(SummatizationPatternGroupConfigurator.SummatizationPatternTYPE_InvertedIndexSummarization);
+		eInst.setTypeId(SummatizationPatternTemplateConstatns.InvertedIndexSummarization);
 		addToWorkflow(getWorkflow(context), eInst);
 		
 		// TODO: in case of an EMF object add the new object to a suitable resource

@@ -9,13 +9,12 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
+import org.hahnpro.mdbda.model.FilteringPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.Resource;
 
 public class FilteringPatternGroupConfigurator extends
 		AbstractGroupConfigurator {
-	public static final String FilteringPatternType_BloomFiltering  = "BloomFiltering";
-	public static final String FilteringPatternType_TopTen  = "TopTen";
-	public static final String FilteringPatternType_Distinct  = "Distinct";
+
 	
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
@@ -24,7 +23,7 @@ public class FilteringPatternGroupConfigurator extends
 				"Filtering", null); // TODO iconid
 
 			
-		for(Class<ICreateFeature> clazz : new Class[] {CreateBloomFilteringFeature.class,CreateTopTenFeature.class,CreateDistinctFeature.class }){
+		for(Class<ICreateFeature> clazz : new Class[] {CreateBloomFilteringFeature.class,CreateTopTenFeature.class,CreateDistinctFeature.class,CreateSimpleMatcherFeature.class }){
 			addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 					compartmentEntry, fp, clazz);
 		}
@@ -40,7 +39,7 @@ public class FilteringPatternGroupConfigurator extends
 
 		ICreateFeature[] cf = new ICreateFeature[] {
 				new CreateBloomFilteringFeature(fp), new CreateTopTenFeature(fp),
-				new CreateDistinctFeature(fp) };
+				new CreateDistinctFeature(fp), new CreateSimpleMatcherFeature(fp) };
 
 		return Arrays.asList(cf);
 
@@ -52,9 +51,11 @@ public class FilteringPatternGroupConfigurator extends
 				&& context.getNewObject() instanceof Resource) {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case FilteringPatternType_BloomFiltering:	return new AddBloomFilteringFeature(fp);
-				case FilteringPatternType_TopTen: 			return new AddTopTenFeature(fp);
-				case FilteringPatternType_Distinct: 		return new AddDistinctFeature(fp);
+				case FilteringPatternTemplateConstatns.BloomFiltering:		return new AddBloomFilteringFeature(fp);
+				case FilteringPatternTemplateConstatns.TopTen: 				return new AddTopTenFeature(fp);
+				case FilteringPatternTemplateConstatns.Distinct: 			return new AddDistinctFeature(fp);
+				case FilteringPatternTemplateConstatns.SimpleMatcherFilter: return new AddSimpleMatcherFeature(fp);
+				
 			}
 					} 
 		return null;

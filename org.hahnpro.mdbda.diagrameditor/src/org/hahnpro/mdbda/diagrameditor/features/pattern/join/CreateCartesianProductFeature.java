@@ -4,6 +4,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
+import org.hahnpro.mdbda.model.JoinPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
 
@@ -25,7 +26,7 @@ public class CreateCartesianProductFeature extends CreatePatternFeature implemen
 		//Object newDomainObject = null;		
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(JoinPatternGroupConfigurator.JoinPatternType_CartesianProduct);
+		eInst.setTypeId(JoinPatternTemplateConstatns.CartesianProduct);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		

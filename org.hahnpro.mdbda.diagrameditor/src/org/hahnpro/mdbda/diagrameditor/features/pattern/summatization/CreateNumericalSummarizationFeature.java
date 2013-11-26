@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
+import org.hahnpro.mdbda.model.SummatizationPatternTemplateConstatns;
 
 public class CreateNumericalSummarizationFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -26,7 +27,7 @@ public class CreateNumericalSummarizationFeature extends CreatePatternFeature im
 		
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(SummatizationPatternGroupConfigurator.SummatizationPatternTYPE_NumericalSummarization);
+		eInst.setTypeId(SummatizationPatternTemplateConstatns.NumericalSummarization);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		

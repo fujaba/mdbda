@@ -10,10 +10,10 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.model.Resource;
+import org.hahnpro.mdbda.model.ResourcesTemplateConstatns;
 public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 
-	public static final String RESOURCETYPE_CASSANDRA = "CassandraResource";
-	public static final String RESOURCETYPE_HDFS = "HDFSResource";
+
 			
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
@@ -45,8 +45,8 @@ public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 				&& context.getNewObject() instanceof Resource) {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case RESOURCETYPE_CASSANDRA:			return new AddCassandraResourceFeature(fp);
-				case RESOURCETYPE_HDFS: return new AddCassandraResourceFeature(fp);
+				case ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA:			return new AddCassandraResourceFeature(fp);
+				case ResourcesTemplateConstatns.RESOURCETYPE_HDFS: return new AddHDFSResourceFeature(fp);
 			}
 					} 
 		return null;

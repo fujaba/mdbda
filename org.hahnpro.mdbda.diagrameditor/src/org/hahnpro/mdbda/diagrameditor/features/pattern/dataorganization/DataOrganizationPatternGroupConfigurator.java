@@ -9,15 +9,11 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
+import org.hahnpro.mdbda.model.DataOrganizationPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.Resource;
 
 public class DataOrganizationPatternGroupConfigurator extends
 		AbstractGroupConfigurator {
-	public static final String DataOrganizationPatternType_Binning = "Binning";
-	public static final String DataOrganizationPatternType_Partitioning = "Partitioning";
-	public static final String DataOrganizationPatternType_Shuffling = "Shuffling";
-	public static final String DataOrganizationPatternType_StructuredToHierachical = "StructuredToHierachical";
-	public static final String DataOrganizationPatternType_TotalOrderSorting = "TotalOrderSorting";
 	
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
@@ -51,11 +47,11 @@ public class DataOrganizationPatternGroupConfigurator extends
 		if (context instanceof IAddContext
 				&& context.getNewObject() instanceof Resource) {			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case DataOrganizationPatternType_Binning:			return new AddBinningFeature(fp);
-				case DataOrganizationPatternType_Partitioning: return new AddPartitoningFeature(fp);
-				case DataOrganizationPatternType_Shuffling: return new AddShufflingFeature(fp);
-				case DataOrganizationPatternType_StructuredToHierachical: return new AddStructuredToHierachicalFeature(fp);
-				case DataOrganizationPatternType_TotalOrderSorting: return new AddTotalOrderSortingFeature(fp);
+				case DataOrganizationPatternTemplateConstatns.Binning:			return new AddBinningFeature(fp);
+				case DataOrganizationPatternTemplateConstatns.Partitioning: return new AddPartitoningFeature(fp);
+				case DataOrganizationPatternTemplateConstatns.Shuffling: return new AddShufflingFeature(fp);
+				case DataOrganizationPatternTemplateConstatns.StructuredToHierachical: return new AddStructuredToHierachicalFeature(fp);
+				case DataOrganizationPatternTemplateConstatns.TotalOrderSorting: return new AddTotalOrderSortingFeature(fp);
 			}
 		} 
 		return null;

@@ -4,6 +4,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
+import org.hahnpro.mdbda.model.DataOrganizationPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
 
@@ -23,7 +24,7 @@ public class CreatePartitoningFeature extends CreatePatternFeature implements
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(DataOrganizationPatternGroupConfigurator.DataOrganizationPatternType_Partitioning);
+		eInst.setTypeId(DataOrganizationPatternTemplateConstatns.Partitioning);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		

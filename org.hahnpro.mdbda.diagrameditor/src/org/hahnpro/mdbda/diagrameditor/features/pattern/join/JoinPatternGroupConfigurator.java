@@ -10,14 +10,12 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.hahnpro.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.hahnpro.mdbda.diagrameditor.features.resources.AddCassandraResourceFeature;
+import org.hahnpro.mdbda.model.JoinPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.Resource;
 
 public class JoinPatternGroupConfigurator extends
 		AbstractGroupConfigurator {
-	public static final String JoinPatternType_CartesianProduct = "CartesianProduct";
-	public static final String JoinPatternType_CompositeJoin = "CompositeJoin";
-	public static final String JoinPatternType_ReduceSideJoin = "ReduceSideJoin";
-	public static final String JoinPatternType_ReplicatedJoin = "ReplicatedJoin";
+
 	
 	@Override
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
@@ -55,10 +53,10 @@ public class JoinPatternGroupConfigurator extends
 				&& context.getNewObject() instanceof Resource) {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case JoinPatternType_CartesianProduct:	return new AddCartesianProductFeature(fp);
-				case JoinPatternType_CompositeJoin: return new AddCompositeJoinFeature(fp);
-				case JoinPatternType_ReduceSideJoin: return new AddReduceSideJoinFeature(fp);
-				case JoinPatternType_ReplicatedJoin: return new AddReplicatedJoinFeature(fp);
+				case JoinPatternTemplateConstatns.CartesianProduct:	return new AddCartesianProductFeature(fp);
+				case JoinPatternTemplateConstatns.CompositeJoin: return new AddCompositeJoinFeature(fp);
+				case JoinPatternTemplateConstatns.ReduceSideJoin: return new AddReduceSideJoinFeature(fp);
+				case JoinPatternTemplateConstatns.ReplicatedJoin: return new AddReplicatedJoinFeature(fp);
 			}
 					} 
 		return null;

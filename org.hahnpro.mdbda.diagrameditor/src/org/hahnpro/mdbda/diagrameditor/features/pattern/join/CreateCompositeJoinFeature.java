@@ -4,6 +4,7 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.hahnpro.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
+import org.hahnpro.mdbda.model.JoinPatternTemplateConstatns;
 import org.hahnpro.mdbda.model.ModelFactory;
 import org.hahnpro.mdbda.model.Pattern;
 
@@ -24,7 +25,7 @@ public class CreateCompositeJoinFeature extends CreatePatternFeature implements
 		// TODO: create the domain object here
 		//Object newDomainObject = null;
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(JoinPatternGroupConfigurator.JoinPatternType_CompositeJoin);
+		eInst.setTypeId(JoinPatternTemplateConstatns.CompositeJoin);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		
