@@ -7,32 +7,32 @@
       <diagramType
             name="MDBDA Diagram Editor Type"
             type="MDBDAEditor"
-            id="org.hahnpro.mdbda.diagrameditor.MDBDADiagram">
+            id="org.mdbda.diagrameditor.MDBDADiagram">
       </diagramType>
    </extension>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypeProviders">
       <diagramTypeProvider
             name="MDBDA Diagram Editor Diagram Type Provider"
-            class="org.hahnpro.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider"
-            id="org.hahnpro.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider">
+            class="org.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider"
+            id="org.mdbda.diagrameditor.diagram.MDBDADiagramTypeProvider">
          <diagramType
-               id="org.hahnpro.mdbda.diagrameditor.MDBDADiagram">
+               id="org.mdbda.diagrameditor.MDBDADiagram">
          </diagramType>
       </diagramTypeProvider>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
          <category
-	   id = "org.hahnpro.mdbda"
+	   id = "org.mdbda"
 	   parentCategory="org.eclipse.ui.Examples"
 	   name="MDBDA">
 	</category>
  	<wizard
-	   id = "org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
+	   id = "org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
       	   name = "New MDBDA Diagram"
-	   class="org.hahnpro.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
-	   category="org.hahnpro.mdbda">
+	   class="org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard"
+	   category="org.mdbda">
     	   <description>New MDBDA Diagram</description>
 	   <selection class="org.eclipse.core.resources.IResource"/>
 	</wizard>

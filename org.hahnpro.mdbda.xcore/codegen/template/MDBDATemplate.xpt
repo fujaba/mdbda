@@ -1,4 +1,4 @@
-«IMPORT org::hahnpro::mdbda::model»
+«IMPORT org::mdbda::model»
 
 «EXTENSION MDBDAWorkflowHelper»
 

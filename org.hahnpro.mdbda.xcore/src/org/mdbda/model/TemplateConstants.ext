@@ -1,0 +1,40 @@
+String DataOrganizationPatternTemplateConstatnsBinning() :
+	JAVA org.mdbda.model.DataOrganizationPatternTemplateConstatns.getBinning();
+String DataOrganizationPatternTemplateConstatnsPartitioning() :
+	JAVA org.mdbda.model.DataOrganizationPatternTemplateConstatns.getPartitioning();
+String DataOrganizationPatternTemplateConstatnsShuffling() :
+	JAVA org.mdbda.model.DataOrganizationPatternTemplateConstatns.getShuffling();
+String DataOrganizationPatternTemplateConstatnsStructuredToHierachical() :
+	JAVA org.mdbda.model.DataOrganizationPatternTemplateConstatns.getStructuredtohierachical();
+String DataOrganizationPatternTemplateConstatnsTotalOrderSorting() :
+	JAVA org.mdbda.model.DataOrganizationPatternTemplateConstatns.getTotalordersorting();
+		
+String	FilteringPatternTemplateConstatnsBloomFiltering():
+	JAVA org.mdbda.model.FilteringPatternTemplateConstatns.getBloomfiltering();
+String	FilteringPatternTemplateConstatnsTopTen():
+	JAVA org.mdbda.model.FilteringPatternTemplateConstatns.getTopten();
+String	FilteringPatternTemplateConstatnsDistinct():
+	JAVA org.mdbda.model.FilteringPatternTemplateConstatns.getDistinct();
+String	FilteringPatternTemplateConstatnsSimpleMatcherFilter():
+	JAVA org.mdbda.model.FilteringPatternTemplateConstatns.getSimpleMatcherFilter();
+
+String JoinPatternTemplateConstatnsCartesianProduct():
+	JAVA org.mdbda.model.JoinPatternTemplateConstatns.getCartesianproduct();
+String JoinPatternTemplateConstatnsCompositeJoin():
+	JAVA org.mdbda.model.JoinPatternTemplateConstatns.getCompositejoin();
+String JoinPatternTemplateConstatnsReduceSideJoin():
+	JAVA org.mdbda.model.JoinPatternTemplateConstatns.getReducesidejoin();
+String JoinPatternTemplateConstatnsReplicatedJoin():
+	JAVA org.mdbda.model.JoinPatternTemplateConstatns.getReplicatedjoin();
+
+String ResourcesTemplateConstatnsCassandraResource():
+	JAVA org.mdbda.model.ResourcesTemplateConstatns.getResourcetypeCassandra();
+String ResourcesTemplateConstatnsHDFSResource():
+	JAVA org.mdbda.model.ResourcesTemplateConstatns.getResourcetypeHdfs();
+
+String SummatizationPatternTemplateConstatnsCountingWithCounters():
+	JAVA org.mdbda.model.SummatizationPatternTemplateConstatns.getCountingwithcounters();
+String SummatizationPatternTemplateConstatnsInvertedIndexSummarization():
+	JAVA org.mdbda.model.SummatizationPatternTemplateConstatns.getInvertedindexsummarization();
+String SummatizationPatternTemplateConstatnsNumericalSummarization():
+	JAVA org.mdbda.model.SummatizationPatternTemplateConstatns.getNumericalsummarization();

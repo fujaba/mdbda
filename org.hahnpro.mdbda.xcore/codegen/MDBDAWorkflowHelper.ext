@@ -1,16 +1,16 @@
-import org::hahnpro::mdbda::model;
+import org::mdbda::model;
 
 
 Void addPattern( Pattern p ) :
-	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.addPattern( org.hahnpro.mdbda.model.Pattern ) ;
+	JAVA org.mdbda.codegen.helper.MDBDAWorkflowHelper.addPattern( org.mdbda.model.Pattern ) ;
 
 Boolean containsPattern( Pattern p ) :
-	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.containsPattern( org.hahnpro.mdbda.model.Pattern ) ;
+	JAVA org.mdbda.codegen.helper.MDBDAWorkflowHelper.containsPattern( org.mdbda.model.Pattern ) ;
 
 	
 String	getGeneratePackageName( Pattern p ) :
-	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.getGeneratePackageName( org.hahnpro.mdbda.model.Pattern );
+	JAVA org.mdbda.codegen.helper.MDBDAWorkflowHelper.getGeneratePackageName( org.mdbda.model.Pattern );
 	
 String	getGenerateClassName( Pattern p ) :
-	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.getGenerateClassName( org.hahnpro.mdbda.model.Pattern );
+	JAVA org.mdbda.codegen.helper.MDBDAWorkflowHelper.getGenerateClassName( org.mdbda.model.Pattern );
 	

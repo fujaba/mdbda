@@ -1,19 +1,19 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.hahnpro.mdbda.xcore;singleton:=true
+Bundle-SymbolicName: org.mdbda.xcore;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.hahnpro.mdbda.model.provider.ModelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.hahnpro.mdbda.model,
- org.hahnpro.mdbda.model.impl,
- org.hahnpro.mdbda.model.presentation,
- org.hahnpro.mdbda.model.provider,
- org.hahnpro.mdbda.model.tests,
- org.hahnpro.mdbda.model.util
+Export-Package: org.mdbda.model,
+ org.mdbda.model.impl,
+ org.mdbda.model.presentation,
+ org.mdbda.model.provider,
+ org.mdbda.model.tests,
+ org.mdbda.model.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.emf.ecore,
@@ -34,5 +34,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.mwe2.lib;bundle-version="2.4.1",
  org.eclipse.jface.text;bundle-version="3.8.101",
  org.eclipse.jdt.core;bundle-version="3.9.1",
- org.hahnpro.mdbda.runtime;bundle-version="1.0.0"
+ org.mdbda.runtime;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

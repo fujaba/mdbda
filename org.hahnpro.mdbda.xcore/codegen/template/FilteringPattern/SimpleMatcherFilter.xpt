@@ -1,13 +1,13 @@
-«IMPORT org::hahnpro::mdbda::model»
+«IMPORT org::mdbda::model»
 «EXTENSION MDBDAWorkflowHelper»
 
-«EXTENSION org::hahnpro::mdbda::model::TemplateConstants»
+«EXTENSION org::mdbda::model::TemplateConstants»
 «AROUND template::MDBDATemplate::pattern FOR Pattern»
 	«IF this.typeId == FilteringPatternTemplateConstatnsSimpleMatcherFilter()»
 		 //TODO: SimpleMatcher ##########################
 «FILE this.workflow.name + this.name + "Job.java"» 
 «getGeneratePackageName(this)»
-import org.hahnpro.mdbda.runtime.*;
+import org.mdbda.runtime.*;
 
 public class  «getGenerateClassName(this)»Job implements SimpleMatcherFilterJob{
 

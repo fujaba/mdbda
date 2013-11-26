@@ -17,16 +17,16 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MDBDA -->
       <package
-            uri="org.hahnpro.mdbda.model"
-            class="org.hahnpro.mdbda.model.ModelPackage"
+            uri="org.mdbda.model"
+            class="org.mdbda.model.ModelPackage"
             genModel="model/MDBDA.xcore"/>
    </extension>
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <!-- @generated MDBDA -->
       <factory
-            uri="org.hahnpro.mdbda.model"
-            class="org.hahnpro.mdbda.model.provider.ModelItemProviderAdapterFactory"
+            uri="org.mdbda.model"
+            class="org.mdbda.model.provider.ModelItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -41,9 +41,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.hahnpro.mdbda.model.presentation.ModelModelWizardID"
+            id="org.mdbda.model.presentation.ModelModelWizardID"
             name="%_UI_ModelModelWizard_label"
-            class="org.hahnpro.mdbda.model.presentation.ModelModelWizard"
+            class="org.mdbda.model.presentation.ModelModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/ModelModelFile.gif">
          <description>%_UI_ModelModelWizard_description</description>
@@ -54,12 +54,12 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated MDBDA -->
       <editor
-            id="org.hahnpro.mdbda.model.presentation.ModelEditorID"
+            id="org.mdbda.model.presentation.ModelEditorID"
             name="%_UI_ModelEditor_label"
             icon="icons/full/obj16/ModelModelFile.gif"
             extensions="mdbdamodel"
-            class="org.hahnpro.mdbda.model.presentation.ModelEditor"
-            contributorClass="org.hahnpro.mdbda.model.presentation.ModelActionBarContributor">
+            class="org.mdbda.model.presentation.ModelEditor"
+            contributorClass="org.mdbda.model.presentation.ModelActionBarContributor">
       </editor>
    </extension>
 

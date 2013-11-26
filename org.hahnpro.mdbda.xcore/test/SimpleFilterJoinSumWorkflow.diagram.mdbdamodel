@@ -3,8 +3,8 @@
 		xmi:version="2.0" 
 		xmlns:xmi="http://www.omg.org/XMI" 
     	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:model="org.hahnpro.mdbda.model" 
-		  xsi:schemaLocation="org.hahnpro.mdbda.model ../model/MDBDA.xcore#/EPackage">
+		xmlns:model="org.mdbda.model" 
+		  xsi:schemaLocation="org.mdbda.model ../model/MDBDA.xcore#/EPackage">
 		author="Marcel Hahn" 
 		version="1384865072066" 
 		name="SimpleFilterJoinSumWorkflow.diagram">
