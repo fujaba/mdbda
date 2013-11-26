@@ -1,0 +1,8 @@
+«IMPORT org::hahnpro::mdbda::model»
+«EXTENSION org::hahnpro::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == JoinPatternTemplateConstatnsCompositeJoin()»
+		 //TODO: CompositeJoin ##########################
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 

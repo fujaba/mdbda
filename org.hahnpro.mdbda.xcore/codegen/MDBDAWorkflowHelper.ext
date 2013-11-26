@@ -14,5 +14,3 @@ String	getGeneratePackageName( Pattern p ) :
 String	getGenerateClassName( Pattern p ) :
 	JAVA org.hahnpro.mdbda.codegen.helper.MDBDAWorkflowHelper.getGenerateClassName( org.hahnpro.mdbda.model.Pattern );
 	
-	
-	

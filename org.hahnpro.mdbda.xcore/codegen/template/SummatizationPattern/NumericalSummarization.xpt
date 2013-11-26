@@ -1,0 +1,131 @@
+«IMPORT org::hahnpro::mdbda::model»
+«EXTENSION org::hahnpro::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == SummatizationPatternTemplateConstatnsNumericalSummarization()»
+		«EXPAND mapper FOR this»
+		«EXPAND reducer FOR this»
+		«EXPAND test FOR this»
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 
+
+«DEFINE mapper FOR Pattern»
+	«FILE this.name + "Mapper.java"»
+		import java.io.IOException;
+		
+		import org.apache.hadoop.mapreduce.Mapper;
+		import org.hahnpro.mdbda.runtime.MinMaxCountTuple;
+	
+	
+		 public class «this.name»Mapper extends Mapper<Object, Double, Object, MinMaxCountTuple> {
+
+			MinMaxCountTuple outTuple = new MinMaxCountTuple();
+			
+			@Override
+			protected void map(Object key, Double value,
+					org.apache.hadoop.mapreduce.Mapper.Context context)
+					throws IOException, InterruptedException {		
+				outTuple.setCount(value);
+				outTuple.setMax(value);
+				outTuple.setMin(value);
+				
+				context.write(key, outTuple);		
+			}
+		}
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE reducer FOR Pattern»
+	«FILE this.name + "Reducer.java"»
+		import java.io.IOException;
+
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Reducer.Context;
+import org.hahnpro.mdbda.runtime.MinMaxCountTuple;
+
+public class «this.name»Reducer extends
+		Reducer<Object, MinMaxCountTuple, Object, MinMaxCountTuple> {
+	
+	MinMaxCountTuple resultTuple = new MinMaxCountTuple();
+	
+	@Override
+	protected void reduce(Object key, Iterable<MinMaxCountTuple> values,
+			Context context)
+			throws IOException, InterruptedException {
+
+		for(MinMaxCountTuple tuple : values){
+			if(tuple.getMin() < resultTuple.getMin()){
+				resultTuple.setMin(tuple.getMin());
+			}
+			
+			if(tuple.getMax() > resultTuple.getMax()){
+				resultTuple.setMax(tuple.getMax());
+			}
+			
+			resultTuple.setCount( resultTuple.getCount().add(tuple.getCount()) );
+		}
+		context.write(key, resultTuple);	
+	}
+}
+
+	«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE test FOR Pattern»
+	«FILE this.name + "Test.java"»
+		import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mrunit.mapreduce.MapDriver;
+import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
+import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
+import org.hahnpro.mdbda.runtime.MinMaxCountTuple;
+import org.junit.Before;
+import org.junit.Test;
+
+public class «this.name»Test {
+	MapDriver<Object, Double, Object, MinMaxCountTuple> mapDriver;
+	ReduceDriver<Object, MinMaxCountTuple, Object, MinMaxCountTuple> reduceDriver;
+	MapReduceDriver<Object, Double, Object, MinMaxCountTuple, Object, MinMaxCountTuple> mapReduceDriver;
+
+	@Before
+	public void setUp() {
+		MinMaxCountMapper  mapper = new MinMaxCountMapper();
+		MinMaxCountReducer reducer = new MinMaxCountReducer();
+		mapDriver = MapDriver.newMapDriver(mapper);		
+		reduceDriver = ReduceDriver.newReduceDriver(reducer);
+		mapReduceDriver = MapReduceDriver.newMapReduceDriver(mapper, reducer);
+	}
+
+	@Test
+	public void testMapper() {
+		mapDriver.withInput(new Text("TestKey"), new DoubleWritable(42));
+		MinMaxCountTuple resultTuple = new MinMaxCountTuple();
+		mapDriver.withOutput(new Text("TestKey"),  new MinMaxCountTuple(42.0));
+		mapDriver.runTest();
+	}
+
+	@Test
+	public void testReducer() {
+		List<IntWritable> values = new ArrayList<IntWritable>();
+		values.add(new MinMaxCountTuple(42.0));
+		values.add(new MinMaxCountTuple(23));
+		reduceDriver.withInput(new Text("TestKey"), values);
+		
+		MinMaxCountTuple result = new MinMaxCountTuple();
+		result.setCount(new BigDecimal(42.0 + 23.0));
+		result.setMax(42);
+		result.setMin(23);
+		
+		reduceDriver.withOutput(new Text("TestKey"), result);
+		reduceDriver.runTest();
+	}
+}
+
+	«ENDFILE»
+«ENDDEFINE»

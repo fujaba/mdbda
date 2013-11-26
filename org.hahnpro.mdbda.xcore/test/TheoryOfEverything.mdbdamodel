@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:MDBDADiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:filtering="org.hahnpro.mdbda.model.pattern.filtering" xmlns:join="org.hahnpro.mdbda.model.pattern.join" xmlns:model="org.hahnpro.mdbda.model" xmlns:resources="org.hahnpro.mdbda.model.resources" name="TheoryOfEverything.diagram" author="Marcel Hahn" version="1383927184699">
+<model:MDBDADiagram 
+		xmi:version="2.0" 
+		xmlns:xmi="http://www.omg.org/XMI" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:filtering="org.hahnpro.mdbda.model.pattern.filtering" 
+		xmlns:join="org.hahnpro.mdbda.model.pattern.join" 
+		xmlns:model="org.hahnpro.mdbda.model" 
+		xmlns:resources="org.hahnpro.mdbda.model.resources" 
+		name="TheoryOfEverything.diagram" 
+		author="Marcel Hahn" 
+		version="1383927184699">
   <rootWorkflow name="TheoryOfEverythingWorkflow" inputResources="//TheoryOfEverythingWorkflow/in%20a //TheoryOfEverythingWorkflow/in%20b" outputResources="//TheoryOfEverythingWorkflow/">
     <pattern xsi:type="filtering:BloomFiltering" name="a" inputResources="//TheoryOfEverythingWorkflow/in%20a" outputResources="//TheoryOfEverythingWorkflow/"/>
     <pattern xsi:type="filtering:BloomFiltering" name="b" instanceClassName="" inputResources="//TheoryOfEverythingWorkflow/b" outputResources="//TheoryOfEverythingWorkflow/"/>

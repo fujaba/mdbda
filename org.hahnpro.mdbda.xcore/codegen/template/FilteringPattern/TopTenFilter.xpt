@@ -1,0 +1,28 @@
+«IMPORT org::hahnpro::mdbda::model»
+«EXTENSION MDBDAWorkflowHelper»
+
+«EXTENSION org::hahnpro::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == FilteringPatternTemplateConstatnsTopTen()»
+		 //TODO: TopTen ##########################
+«FILE this.workflow.name + this.name + "Job.java"» 
+«getGeneratePackageName(this)»
+import org.hahnpro.mdbda.runtime.*;
+
+public class  «getGenerateClassName(this)»Job implements TopTenFilterJob{
+
+	public Job getJob(){
+	//...
+	}
+	
+	public Configuration getConfiguration(){
+«IF this.configurationURI != null && this.configurationURI != ""»
+	//TODO import config stuff from «this.configurationURI»
+«ENDIF»
+	}
+}
+
+«ENDFILE»
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:MDBDADiagram 
+		xmi:version="2.0" 
+		xmlns:xmi="http://www.omg.org/XMI" 
+    	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:model="org.hahnpro.mdbda.model" 
+		  xsi:schemaLocation="org.hahnpro.mdbda.model ../model/MDBDA.xcore#/EPackage">
+		author="Marcel Hahn" 
+		version="1384865072066" 
+		name="SimpleFilterJoinSumWorkflow.diagram">
+  <rootWorkflow configurationURI="org.simplefilterjoinsumworkflow.WorkflowConf" name="SimpleFilterJoinSumWorkflow">
+    <pattern inputResources="//@rootWorkflow/@dataResources.0" outputResources="//@rootWorkflow/@pattern.2" configurationURI="org.simplefilterjoinsumworkflow.pattern.BloomFilterConf" typeId="BloomFiltering" name="BloomFiltering"/>
+    <pattern inputResources="//@rootWorkflow/@dataResources.1" outputResources="//@rootWorkflow/@pattern.2" configurationURI="org.simplefilterjoinsumworkflow.pattern.TopTenConf" typeId="TopTen" name="TopTen Filter"/>
+    <pattern inputResources="//@rootWorkflow/@pattern.0 //@rootWorkflow/@pattern.1" outputResources="//@rootWorkflow/@pattern.3" configurationURI="org.simplefilterjoinsumworkflow.pattern.ReduceSideJoinConf" typeId="ReduceSideJoin" name="ReduceSideJoin"/>
+    <pattern inputResources="//@rootWorkflow/@pattern.2" outputResources="//@rootWorkflow/@dataResources.2" configurationURI="org.simplefilterjoinsumworkflow.pattern.NumericalSummConf" typeId="NumericalSummarization" name="NumericalSummarization"/>
+    <dataResources configurationURI="org.simplefilterjoinsumworkflow.res.CassandraInputConf" typeId="CassandraResource" name="Cassandra Input"/>
+    <dataResources configurationURI="org.simplefilterjoinsumworkflow.res.HDFSInputConf" typeId="HDFSResource" name="HDFS Input"/>
+    <dataResources configurationURI="org.simplefilterjoinsumworkflow.res.HDFSOutputConf" typeId="HDFSResource" name="HDFS Output"/>
+  </rootWorkflow>
+</model:MDBDADiagram>

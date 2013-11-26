@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:MDBDADiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:filtering="org.hahnpro.mdbda.model.pattern.filtering" xmlns:join="org.hahnpro.mdbda.model.pattern.join" xmlns:model="org.hahnpro.mdbda.model" xmlns:resources="org.hahnpro.mdbda.model.resources" name="TheoryOfEverything.diagram" author="Marcel Hahn" version="1383840576678">
+  <rootWorkflow inputResources="//@rootWorkflow/@dataResources.1 //@rootWorkflow/@dataResources.0" outputResources="//@rootWorkflow/@dataResources.2" name="TheoryOfEverythingWorkflow">
+    <pattern xsi:type="filtering:BloomFiltering" inputResources="//@rootWorkflow/@dataResources.1" outputResources="//@rootWorkflow/@pattern.2" configurationURI="BloomFilter1.conf.java" name="Bloom1"/>
+    <pattern xsi:type="filtering:BloomFiltering" inputResources="//@rootWorkflow/@dataResources.0" outputResources="//@rootWorkflow/@pattern.2" configurationURI="BloomFilter2.conf.java" name="Bloom2"/>
+    <pattern xsi:type="join:ReduceSideJoin" inputResources="//@rootWorkflow/@pattern.0 //@rootWorkflow/@pattern.1" outputResources="//@rootWorkflow/@pattern.3" configurationURI="ReduceSideJoin1.conf.java"/>
+    <pattern xsi:type="filtering:TopTen" inputResources="//@rootWorkflow/@pattern.2" outputResources="//@rootWorkflow/@dataResources.2" configurationURI="Top10.conf.java" name="top10"/>
+    <dataResources xsi:type="resources:HDFSResource" configurationURI="hdfs://some/dir/a" name="a"/>
+    <dataResources xsi:type="resources:HDFSResource" configurationURI="hdfs://some/dir/b" name="b"/>
+    <dataResources xsi:type="resources:CassandraResource" inputResources="//@rootWorkflow/@pattern.3" configurationURI="cassandra://ks/cf/c/" name="output"/>
+  </rootWorkflow>
+</model:MDBDADiagram>

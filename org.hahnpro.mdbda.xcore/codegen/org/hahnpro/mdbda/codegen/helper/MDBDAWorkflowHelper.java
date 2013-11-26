@@ -2,6 +2,7 @@ package org.hahnpro.mdbda.codegen.helper;
 
 import java.util.HashSet;
 
+import org.eclipse.internal.xpand2.ast.Definition;
 import org.hahnpro.mdbda.model.*;
 
 public class MDBDAWorkflowHelper {
@@ -36,5 +37,11 @@ public class MDBDAWorkflowHelper {
 			className = p.getWorkflow().getName() + p.getName();
 		}
 		return className;
+	}
+	
+	public static Definition getPatternTemplate(Pattern p){
+		Definition def = null;
+		return def;
+		
 	}
 }
