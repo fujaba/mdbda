@@ -23,12 +23,12 @@ public class CreateLinkFeature extends AbstractCreateConnectionFeature
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		// TODO: check for right domain object instance below
 		// return getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof <DomainObject>;
-
-		if( getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Workflow ){
-			// not the root workflow
-			return ((Workflow)  getBusinessObjectForPictogramElement(context.getSourcePictogramElement())).getWorkflow() != null;
-		}
-		return getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Pattern;
+//
+//		if( getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Workflow ){
+//			// not the root workflow
+//			return ((Workflow)  getBusinessObjectForPictogramElement(context.getSourcePictogramElement())).getWorkflow() != null;
+//		}
+		return getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Resource;
 	}
 
 	@Override

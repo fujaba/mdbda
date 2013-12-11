@@ -6,26 +6,24 @@ import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Resource;
 import org.mdbda.model.ResourcesTemplateConstatns;
 
-public class CreateCassandraResourceFeature extends CreateResourceFeature {
+public class CreateNeo4jResourceFeature extends CreateResourceFeature {
 
-	public CreateCassandraResourceFeature(IFeatureProvider fp) {
+	public CreateNeo4jResourceFeature(IFeatureProvider fp) {
 		super(fp, name, description);
 	}
-	public static String name = "Cassandra Resource";
-	public static String description = "Creates a new Cassandra Resource";
+	public static String name = "Neo4j Resource";
+	public static String description = "Creates a new Neo4j Resource";
     
     
 
 
 	@Override
-	public Object[] create(ICreateContext context) {	
+	public Object[] create(ICreateContext context) {		
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
-		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA);
-		
-		addToTargetBO(context,eInst);
+		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_NEO4J);
+		addToTargetBO(context, eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
 }

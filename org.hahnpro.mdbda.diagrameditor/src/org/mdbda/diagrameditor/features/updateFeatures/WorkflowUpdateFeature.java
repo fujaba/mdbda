@@ -1,9 +1,10 @@
-package org.mdbda.diagrameditor.features;
+package org.mdbda.diagrameditor.features.updateFeatures;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
+import org.eclipse.graphiti.features.impl.Reason;
 import org.mdbda.model.Workflow;
 
 public class WorkflowUpdateFeature extends AbstractUpdateFeature {
@@ -22,7 +23,7 @@ public class WorkflowUpdateFeature extends AbstractUpdateFeature {
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		// TODO Auto-generated method stub
-		return null;
+		return Reason.createFalseReason("not implemented");
 	}
 
 	@Override

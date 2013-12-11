@@ -9,6 +9,10 @@ import org.eclipse.emf.common.util.EList
 
 class MDBDADiagram{
 	contains Workflow rootWorkflow opposite diagram
+	contains Dataformat[] dataformates opposite diagram 
+	
+	contains Resource[] resources
+	
 
 	String author
 	String version
@@ -57,8 +61,18 @@ class Pattern extends Resource{
 class Resource{	
 	refers Resource[] inputResources
 	refers Resource[] outputResources
-	String configurationURI
+	String configurationClass
 	String typeId
 	String name
-} 
+	refers Dataformat outputFormat
+	refers Dataformat inputFormat
+}
+
+class Dataformat{
+	container MDBDADiagram diagram opposite dataformates
+	String name
+	String keyTypeClass
+	String valueTypeClass
+	String testDataGeneratorClass
+}
 

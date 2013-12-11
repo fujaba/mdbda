@@ -81,7 +81,8 @@ public abstract class AddPatternFeature extends AbstactMDBDAAddFeature implement
         {
         	
 			Shape shape = peCreateService.createShape(containerShape, false);
-			Text text = gaService.createText(shape, typeName );
+			String txtStr = typeName.trim().replace(' ', '\n');
+			Text text = gaService.createText(shape, txtStr );
 			text.setForeground(manageColor(AbstractMDBDAShape.PATTERN_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);

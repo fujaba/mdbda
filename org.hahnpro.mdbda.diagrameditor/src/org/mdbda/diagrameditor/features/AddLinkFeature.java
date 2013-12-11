@@ -5,17 +5,24 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
+import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.mdbda.diagrameditor.utils.DataformatUtils;
+import org.mdbda.diagrameditor.utils.DiagramUtils;
+import org.mdbda.model.Dataformat;
+import org.mdbda.model.Resource;
 
 
-public class AddLinkFeature extends AbstractAddFeature implements
+public class AddLinkFeature extends AbstactMDBDAAddFeature implements
 		IAddFeature {
 
 	public AddLinkFeature(IFeatureProvider fp) {
@@ -27,6 +34,15 @@ public class AddLinkFeature extends AbstractAddFeature implements
 		// TODO: check for right domain object instance below
 		return context instanceof IAddConnectionContext && ((IAddConnectionContext)context).getSourceAnchor() instanceof BoxRelativeAnchor && ((IAddConnectionContext)context).getTargetAnchor() instanceof BoxRelativeAnchor ;// && context.getNewObject() instanceof Pattern ;
 	}
+	
+	private Polyline createArrow(GraphicsAlgorithmContainer gaContainer) {
+	    IGaService gaService = Graphiti.getGaService();
+	    Polyline polyline =
+	        gaService.createPolyline(gaContainer, new int[] { -10, 5, 0, 0, -10, -5 });
+	    polyline.setForeground(manageColor(IColorConstant.BLACK));
+	    polyline.setLineWidth(2);
+	    return polyline;
+	} 
 
 	@Override
 	public PictogramElement add(IAddContext context) {
@@ -40,10 +56,25 @@ public class AddLinkFeature extends AbstractAddFeature implements
 
 		Polyline polyline = gaService.createPlainPolyline(connection);
 		polyline.setForeground(manageColor(IColorConstant.BLACK));
+		
+		ConnectionDecorator textDecorator =
+		         peCreateService.createConnectionDecorator(connection, true,
+		         0.5, true);
+		Text text = gaService.createDefaultText(getDiagram(), textDecorator);
+		text.setForeground(manageColor(IColorConstant.BLACK));
+		gaService.setLocation(text, 10, 0);
+		// set reference name in the text decorator
+		
+		
+		text.setValue( DataformatUtils.getConnectionTextDecoration(connection ,this ) );
+		
+		
 
-		// TODO: enable the link to the domain object
-//		 Object link = context.getNewObject();
-		// link(connection, addedDomainObjectConnection);
+		// add static graphical decorator (composition and navigable)
+		ConnectionDecorator cd;
+		cd = peCreateService.createConnectionDecorator(connection, false, 1.0,
+				true);
+		createArrow(cd);
 
 		return connection;
 	}

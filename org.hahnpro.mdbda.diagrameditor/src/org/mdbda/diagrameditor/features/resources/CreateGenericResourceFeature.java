@@ -6,26 +6,24 @@ import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Resource;
 import org.mdbda.model.ResourcesTemplateConstatns;
 
-public class CreateCassandraResourceFeature extends CreateResourceFeature {
+public class CreateGenericResourceFeature extends CreateResourceFeature {
 
-	public CreateCassandraResourceFeature(IFeatureProvider fp) {
+	public CreateGenericResourceFeature(IFeatureProvider fp) {
 		super(fp, name, description);
 	}
-	public static String name = "Cassandra Resource";
-	public static String description = "Creates a new Cassandra Resource";
+	public static String name = "Generic Resource";
+	public static String description = "Creates a new Generic Resource";
     
     
 
 
 	@Override
-	public Object[] create(ICreateContext context) {	
+	public Object[] create(ICreateContext context) {		
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
-		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA);
-		
+		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_GENERIC);
 		addToTargetBO(context,eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
 }

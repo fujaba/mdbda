@@ -19,7 +19,7 @@ public class SummatizationPatternGroupConfigurator extends
 	public PaletteCompartmentEntry getPalette(IFeatureProvider fp) {
 		// add new compartment at the end of the existing compartments
 		PaletteCompartmentEntry compartmentEntry = new PaletteCompartmentEntry(
-				"Filtering", null); // TODO iconid
+				"Summatization", null); // TODO iconid
 
 			
 		for(Class<ICreateFeature> clazz : new Class[] {CreateCountingWithCountersFeature.class,CreateInvertedIndexSummarizationFeature.class,CreateNumericalSummarizationFeature.class }){

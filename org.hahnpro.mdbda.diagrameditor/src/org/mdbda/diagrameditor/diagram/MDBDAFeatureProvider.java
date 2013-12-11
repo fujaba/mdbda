@@ -8,13 +8,20 @@ import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeature;
 import org.eclipse.graphiti.features.ILayoutFeature;
+import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
+import org.mdbda.model.Pattern;
+import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.mdbda.diagrameditor.features.AddLinkFeature;
@@ -32,6 +39,11 @@ import org.mdbda.diagrameditor.features.pattern.dataorganization.CreatePartitoni
 import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateShufflingFeature;
 import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
 import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
+import org.mdbda.diagrameditor.features.updateFeatures.AbstractConnectionUpdateFeature;
+import org.mdbda.diagrameditor.features.updateFeatures.PatternUpdateFeature;
+import org.mdbda.diagrameditor.features.updateFeatures.ResourceUpdateFeature;
+import org.mdbda.diagrameditor.features.updateFeatures.UpdateConnectionDataformatDecorationFeature;
+import org.mdbda.diagrameditor.features.updateFeatures.WorkflowUpdateFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 
 
@@ -88,5 +100,23 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		}
 	
 		return super.getLayoutFeature(context);
+	}
+	
+	@Override
+	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
+		  PictogramElement pictogramElement = context.getPictogramElement();
+		   if (pictogramElement  instanceof ContainerShape) {
+		       Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+		       if (bo instanceof Workflow) {
+		           return new WorkflowUpdateFeature(this);
+		       }else if (bo instanceof Pattern) {
+		           return new PatternUpdateFeature(this);
+		       }else if (bo instanceof Resource) {
+		           return new ResourceUpdateFeature(this);
+		       }
+		   }else if(pictogramElement instanceof Connection) {
+	           return new UpdateConnectionDataformatDecorationFeature(this);
+		   }
+		return super.getUpdateFeature(context);
 	}
 }

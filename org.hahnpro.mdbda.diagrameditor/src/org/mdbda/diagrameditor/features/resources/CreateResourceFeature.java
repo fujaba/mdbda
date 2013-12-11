@@ -2,7 +2,9 @@ package org.mdbda.diagrameditor.features.resources;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
+import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.Pattern;
+import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.features.AbstractCreateMDBDAFeature;
 
@@ -17,15 +19,25 @@ public abstract class CreateResourceFeature extends AbstractCreateMDBDAFeature {
 
 	@Override
 	public boolean canCreate(ICreateContext context) {	
-		return getWorkflow(context) != null;		
+		if( getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Workflow ){
+			return true;
+		}
+		if( getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof MDBDADiagram ){
+			return true;
+		}
+		
+		return false;		
 	}
 
-	protected Workflow getWorkflow(ICreateContext context) {
+	protected void addToTargetBO(ICreateContext context,Resource eInst) {
 		Object bo =  getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
-		if(bo instanceof Workflow) return (Workflow) bo;
-		return null;
-		
+		if(bo instanceof Workflow){
+			((Workflow) bo).getDataResources().add(eInst);
+		}
+		if(bo instanceof MDBDADiagram){
+			((MDBDADiagram) bo).getResources().add(eInst);
+		}
 	}
 	
 	protected void addToWorkflow(Workflow wf, Pattern eInst) {

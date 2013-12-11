@@ -15,6 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
@@ -30,7 +31,17 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature  impleme
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		return context.getNewObject() instanceof Resource && getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Workflow;
+		if(context.getNewObject() instanceof Resource){
+			if(getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Workflow){
+				return true;
+			}
+			
+			if(getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof MDBDADiagram){
+				return true;
+			}
+		}
+		
+		return  false;
 	}
 	
 	@Override
@@ -81,7 +92,8 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature  impleme
         {
         	
 			Shape shape = peCreateService.createShape(containerShape, false);
-			Text text = gaService.createText(shape, typeName );
+			String txtStr = typeName.trim().replace(' ', '\n');
+			Text text = gaService.createText(shape, txtStr );
 			text.setForeground(manageColor(AbstractMDBDAShape.RESOURCE_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);

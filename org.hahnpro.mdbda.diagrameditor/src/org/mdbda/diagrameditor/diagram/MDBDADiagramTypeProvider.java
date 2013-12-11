@@ -14,11 +14,20 @@ public class MDBDADiagramTypeProvider extends AbstractDiagramTypeProvider {
 	@Override
 	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
 		if(toolBehaviorProviders == null){
-			toolBehaviorProviders = new IToolBehaviorProvider[] { new MDBDAToolBehaviorProvider(this)};
+			toolBehaviorProviders = new IToolBehaviorProvider[] { new MDBDAToolBehaviorProvider(this) };
 		}
 		
 		return toolBehaviorProviders;
 	}
 	
 	
+	@Override
+	public boolean isAutoUpdateAtStartup() {
+		return true;
+	}
+	
+	@Override
+	public boolean isAutoUpdateAtRuntimeWhenEditorIsSaved() {
+		return true;
+	}
 }
