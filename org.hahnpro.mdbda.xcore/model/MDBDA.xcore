@@ -26,7 +26,7 @@ class Workflow extends Pattern{
 	contains Resource[] dataResources
 	
 	refers Pattern startPattern
-	
+	refers Workflow externalWorkflow
 	op Resource[] getInputDataResources()
 	{
 		//input data resources are dataResources with no inputResources
@@ -70,6 +70,7 @@ class Resource{
 
 class Dataformat{
 	container MDBDADiagram diagram opposite dataformates
+	String formatClass
 	String name
 	String keyTypeClass
 	String valueTypeClass

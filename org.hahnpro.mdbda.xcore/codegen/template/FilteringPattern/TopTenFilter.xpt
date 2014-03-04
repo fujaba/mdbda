@@ -16,8 +16,8 @@ public class  «getGenerateClassName(this)»Job implements TopTenFilterJob{
 	}
 	
 	public Configuration getConfiguration(){
-«IF this.configurationURI != null && this.configurationURI != ""»
-	//TODO import config stuff from «this.configurationURI»
+«IF this.configurationClass != null && this.configurationClass != ""»
+	//TODO import config stuff from «this.configurationClass»
 «ENDIF»
 	}
 }

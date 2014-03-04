@@ -38,8 +38,4 @@ public class CreateSimpleMatcherFeature extends CreatePatternFeature implements
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
 }
