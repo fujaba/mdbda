@@ -3,3 +3,14 @@ org.hahnpro.mdbda.xcore/src-test/
 org.hahnpro.mdbda.xcore/src-edit/
 org.hahnpro.mdbda.xcore/src-gen/
 org.hahnpro.mdbda.xcore/icons/
+*.aux
+*.blg
+*.lof
+*.log
+*.out
+*.lot
+*.lol
+*.bbl
+mdbda/MDBDA.synctex.gz
+*.toc
+mdbda/tmp/
