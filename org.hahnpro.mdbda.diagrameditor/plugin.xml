@@ -38,4 +38,33 @@
 	</wizard>
    </extension>
 
+
+	<extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+          <propertyContributor contributorId="mytutorial.PropertyContributor">
+              <propertyCategory category="MDBDA">
+              </propertyCategory>
+          </propertyContributor>
+      </extension>
+       
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+          <propertyTabs contributorId="mytutorial.PropertyContributor">
+              <propertyTab label="Main" category="MDBDA"
+                  id="graphiti.main.tab">
+              </propertyTab>
+          </propertyTabs>
+      </extension>
+       
+      <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertySections">
+          <propertySections contributorId="mytutorial.PropertyContributor">
+              <propertySection tab="MDBDA.main.tab"           
+               class="org.eclipse.graphiti.examples.tutorial.property
+                     .MyTutorialEClassSection"
+               filter="org.mdbda.diagrameditor.property.ResourceFilter"
+               id="graphiti.main.tab.emfclass">
+              </propertySection>
+          </propertySections>
+      </extension>
 </plugin>
