@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MDBDA Codegen
+Bundle-SymbolicName: org.mdbda.codegen
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.mdbda.codegen.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.mdbda.xcore;bundle-version="0.1.0",
+ org.eclipse.xpand;bundle-version="1.4.0",
+ org.mdbda.runtime;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy

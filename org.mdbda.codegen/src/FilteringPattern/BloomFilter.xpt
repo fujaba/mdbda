@@ -1,0 +1,8 @@
+«IMPORT org::mdbda::model»
+«EXTENSION org::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == FilteringPatternTemplateConstatnsBloomFiltering()»
+		 //TODO: BloomFilter ##########################
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 

@@ -1,0 +1,8 @@
+«IMPORT org::mdbda::model»
+«EXTENSION org::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == FilteringPatternTemplateConstatnsDistinct()»
+		 //TODO: Distinct ##########################
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 

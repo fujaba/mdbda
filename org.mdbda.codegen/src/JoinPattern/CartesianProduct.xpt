@@ -1,0 +1,8 @@
+«IMPORT org::mdbda::model»
+«EXTENSION org::mdbda::model::TemplateConstants»
+«AROUND template::MDBDATemplate::pattern FOR Pattern»
+	«IF this.typeId == JoinPatternTemplateConstatnsCartesianProduct()»
+		 //TODO: CartesianProduct ##########################
+	«ENDIF»
+	«targetDef.proceed()»
+«ENDAROUND» 

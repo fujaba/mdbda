@@ -1,0 +1,54 @@
+«IMPORT org::mdbda::model»
+
+«EXTENSION MDBDAWorkflowHelper»
+
+«DEFINE main FOR MDBDADiagram»
+  
+	«FILE "JobControl.java"» 
+	/**
+	  * name    = «this.name»
+	  *	author  = «this.author»
+	  * version = «this.version»
+	 */
+	public static void main(String... args){
+			Configuration conf = new Configuration();
+			//...
+			«EXPAND workflow FOR this.rootWorkflow»
+	}
+	«ENDFILE»
+«ENDDEFINE»
+
+
+«DEFINE workflow FOR Workflow»
+	«FOREACH this.pattern AS p»
+		«EXPAND pattern FOR p»
+	«ENDFOREACH»
+«ENDDEFINE»
+
+«DEFINE pattern FOR Workflow»
+	//workflow «this.name» Pattern	
+	«FOREACH this.pattern AS p»
+		«IF !containsPattern(p)»
+			 //funny stuff
+		«ENDIF»
+	«ENDFOREACH»
+«ENDDEFINE»
+
+«DEFINE pattern FOR Pattern»
+«addPattern(this)»
+	«REM»
+	Aspect-Oriented Programming in Xpand   
+	
+	Using the workflow engine it is now possible to package ( e.g.  zip) a written generator and deliver it as a kind of black box (this is often called a cartridge
+	
+	). If you want to use such a generator but need to change some small generation stuff, you can make use of the AROUND  aspects. 
+	«AROUND qualifiedDefinitionName(parameterList)? FOR type»
+	   a sequence of statements
+	«ENDAROUND» 
+	AROUND lets you add templates in an non-invasive way (you do not need to touch the generator templates). Because aspects are invasive, a template file containing AROUND aspects must be wrapped by configuration (see next section).
+	
+	
+	
+	das hier wird über ein aspect erweitert
+	«ENDREM»
+«ENDDEFINE»
