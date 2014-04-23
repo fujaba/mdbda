@@ -24,7 +24,7 @@ public class JoinPatternGroupConfigurator extends
 				"Join", null); // TODO iconid
 
 			
-		for(Class<ICreateFeature> clazz : new Class[] {CreateCartesianProductFeature.class, CreateCompositeJoinFeature.class, CreateReduceSideJoinFeature.class, CreateReplicatedJoinFeature.class}){
+		for(Class<ICreateFeature> clazz : new Class[] {CreateCartesianProductFeature.class, CreateReduceSideJoinFeature.class, CreateReplicatedJoinFeature.class}){
 			addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 					compartmentEntry, fp, clazz);
 		}
@@ -39,7 +39,7 @@ public class JoinPatternGroupConfigurator extends
 	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
 
 		ICreateFeature[] cf = new ICreateFeature[] {
-				new CreateCartesianProductFeature(fp), new CreateCompositeJoinFeature(fp),
+				new CreateCartesianProductFeature(fp), 
 				new CreateReduceSideJoinFeature(fp), new CreateReplicatedJoinFeature(fp) };
 
 		return Arrays.asList(cf);
@@ -54,7 +54,6 @@ public class JoinPatternGroupConfigurator extends
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
 				case JoinPatternTemplateConstatns.CartesianProduct:	return new AddCartesianProductFeature(fp);
-				case JoinPatternTemplateConstatns.CompositeJoin: return new AddCompositeJoinFeature(fp);
 				case JoinPatternTemplateConstatns.ReduceSideJoin: return new AddReduceSideJoinFeature(fp);
 				case JoinPatternTemplateConstatns.ReplicatedJoin: return new AddReplicatedJoinFeature(fp);
 			}

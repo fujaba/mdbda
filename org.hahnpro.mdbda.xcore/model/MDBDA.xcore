@@ -1,4 +1,4 @@
-@GenModel(editDirectory="/org.mdbda.xcore/src-edit", editorDirectory="/org.mdbda.xcore/src-editor", fileExtensions="mdbdamodel", testsDirectory="/org.mdbda.xcore/src-test")
+@GenModel(editDirectory="/org.mdbda.xcore/src-edit", editorDirectory="/org.mdbda.xcore/src-editor", fileExtensions="mdbdamodel")
 package org.mdbda.model
 
 /*TODO 
@@ -6,6 +6,7 @@ package org.mdbda.model
  * http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html
  */
 import org.eclipse.emf.common.util.EList
+import java.util.HashSet
 
 class MDBDADiagram{
 	contains Workflow rootWorkflow opposite diagram
@@ -13,6 +14,7 @@ class MDBDADiagram{
 	
 	contains Resource[] resources
 	
+	String configurationString
 
 	String author
 	String version
@@ -22,7 +24,7 @@ class MDBDADiagram{
 class Workflow extends Pattern{
 	contains Pattern[] pattern opposite workflow 
 	container MDBDADiagram diagram opposite rootWorkflow
-	
+	 
 	contains Resource[] dataResources
 	
 	refers Pattern startPattern
@@ -30,26 +32,26 @@ class Workflow extends Pattern{
 	op Resource[] getInputDataResources()
 	{
 		//input data resources are dataResources with no inputResources
-		var EList<Resource> inputDataResources
+		var HashSet<Resource> inputDataResources = new HashSet<Resource>()
 		for( Resource res : dataResources){
 			if( res.inputResources.empty ){
 				inputDataResources.add(res)
 			}
 		}
 		
-		return inputDataResources
+		return inputDataResources.toEList
 	}
 	
 	op Resource[] getOutputDataResources(){
 		//output data resources are dataResources with no inputResources
-		var EList<Resource> outputDataResources
+		var HashSet<Resource> outputDataResources = new HashSet<Resource>()
 		for( Resource res : dataResources){
 			if( res.inputResources.empty ){
 				outputDataResources.add(res)
 			}
 		}
 		
-		return outputDataResources
+		return outputDataResources.toEList
 	}
 } 
 
@@ -61,7 +63,7 @@ class Pattern extends Resource{
 class Resource{	
 	refers Resource[] inputResources
 	refers Resource[] outputResources
-	String configurationClass
+	String configurationString
 	String typeId
 	String name
 	refers Dataformat outputFormat

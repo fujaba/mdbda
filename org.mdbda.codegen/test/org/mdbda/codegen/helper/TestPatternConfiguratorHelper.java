@@ -21,15 +21,15 @@ public class TestPatternConfiguratorHelper {
 	}
 	
 	
-	@Test
-	public void testGetMatcherMethod(){
-
-		try{
-			String matcherMethod = PatternConfiguratorHelper.getMatcherMethod(A.class.getName());
-		
-			assertTrue("bar".equals(matcherMethod));
-		}catch(ClassNotFoundException e){
-			fail();
-		}
-	}
+//	@Test
+//	public void testGetMatcherMethod(){
+//
+//		try{
+//			String matcherMethod = PatternConfiguratorHelper.getMatcherMethod(A.class.getName());
+//		
+//			assertTrue("bar".equals(matcherMethod));
+//		}catch(ClassNotFoundException e){
+//			fail();
+//		}
+//	}
 }

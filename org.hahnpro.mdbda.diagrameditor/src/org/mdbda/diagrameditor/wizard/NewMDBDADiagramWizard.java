@@ -31,7 +31,8 @@ import org.mdbda.diagrameditor.utils.DiagramUtils;
 
 public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 
-	private static final String PAGE_NAME_NEW_MDBDA_DIAGRAM_FILE = "New MDBDA Diagram File";
+	public static final String id = "org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard";
+	public static final String PAGE_NAME_NEW_MDBDA_DIAGRAM_FILE = "New MDBDA Diagram File";
 
     protected IStructuredSelection selection;
 
@@ -49,6 +50,12 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 		
 	}
 	
+	String fileName = null;
+	
+	public String getFileName() {
+		return fileName;
+	}
+	
 	@Override
 	public boolean performFinish() {
 		NewMDBDADiagramWizardPage filePage = (NewMDBDADiagramWizardPage) getPage(PAGE_NAME_NEW_MDBDA_DIAGRAM_FILE);
@@ -57,16 +64,19 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 		IProject project = null;
 		if(firstElement instanceof IFile){
 			IFile file = (IFile) firstElement;
-			project = file.getProject();;
+			project = file.getProject();
 		}else if(firstElement instanceof IProject){
 			project = (IProject) firstElement;
 		}
 		
 
 		this.diagram =  DiagramUtils.newDiagram(project,fileName);
+		this.fileName = fileName;
+		
 		return true;
 	}
 
+	
 //	private IStructuredSelection getSelection() {
 //		return this.selection;
 //	}
@@ -80,7 +90,9 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 	public Diagram getDiagram() {
 		return diagram;
 	}
+	
 	IWorkbench workbench;
+	
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;

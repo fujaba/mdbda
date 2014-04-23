@@ -23,7 +23,7 @@ public class FilteringPatternGroupConfigurator extends
 				"Filtering", null); // TODO iconid
 
 			
-		for(Class<ICreateFeature> clazz : new Class[] {CreateBloomFilteringFeature.class,CreateTopTenFeature.class,CreateDistinctFeature.class,CreateSimpleMatcherFeature.class }){
+		for(Class<ICreateFeature> clazz : new Class[] {CreateTopTenFeature.class,CreateDistinctFeature.class,CreateSimpleMatcherFeature.class }){
 			addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 					compartmentEntry, fp, clazz);
 		}
@@ -38,7 +38,7 @@ public class FilteringPatternGroupConfigurator extends
 	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
 
 		ICreateFeature[] cf = new ICreateFeature[] {
-				new CreateBloomFilteringFeature(fp), new CreateTopTenFeature(fp),
+				new CreateTopTenFeature(fp),
 				new CreateDistinctFeature(fp), new CreateSimpleMatcherFeature(fp) };
 
 		return Arrays.asList(cf);
@@ -51,7 +51,6 @@ public class FilteringPatternGroupConfigurator extends
 				&& context.getNewObject() instanceof Resource) {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case FilteringPatternTemplateConstatns.BloomFiltering:		return new AddBloomFilteringFeature(fp);
 				case FilteringPatternTemplateConstatns.TopTen: 				return new AddTopTenFeature(fp);
 				case FilteringPatternTemplateConstatns.Distinct: 			return new AddDistinctFeature(fp);
 				case FilteringPatternTemplateConstatns.SimpleMatcherFilter: return new AddSimpleMatcherFeature(fp);

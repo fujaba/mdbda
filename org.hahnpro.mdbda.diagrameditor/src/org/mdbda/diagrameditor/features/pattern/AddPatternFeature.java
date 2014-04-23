@@ -86,7 +86,7 @@ public abstract class AddPatternFeature extends AbstactMDBDAAddFeature implement
 			text.setForeground(manageColor(AbstractMDBDAShape.PATTERN_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-			gaService.setLocationAndSize(text, 0, 0, context.getWidth(), context.getHeight());
+			gaService.setLocationAndSize(text, AbstractMDBDAShape.INVISIBLE_RECT_SIDE + 6, 0, width- AbstractMDBDAShape.INVISIBLE_RECT_SIDE -6, height);
 	
 			link(containerShape, pattern);
         }

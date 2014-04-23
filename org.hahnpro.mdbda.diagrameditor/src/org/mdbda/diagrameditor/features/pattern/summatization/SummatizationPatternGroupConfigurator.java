@@ -22,7 +22,7 @@ public class SummatizationPatternGroupConfigurator extends
 				"Summatization", null); // TODO iconid
 
 			
-		for(Class<ICreateFeature> clazz : new Class[] {CreateCountingWithCountersFeature.class,CreateInvertedIndexSummarizationFeature.class,CreateNumericalSummarizationFeature.class }){
+		for(Class<ICreateFeature> clazz : new Class[] {CreateCustomCalculationFeature.class,CreateNumericalSummarizationFeature.class }){
 			addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 					compartmentEntry, fp, clazz);
 		}
@@ -37,7 +37,7 @@ public class SummatizationPatternGroupConfigurator extends
 	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
 
 		ICreateFeature[] cf = new ICreateFeature[] {
-				new CreateCountingWithCountersFeature(fp), new CreateInvertedIndexSummarizationFeature(fp),
+				new CreateCustomCalculationFeature(fp),
 				new CreateNumericalSummarizationFeature(fp) };
 
 		return Arrays.asList(cf);
@@ -51,8 +51,7 @@ public class SummatizationPatternGroupConfigurator extends
 				&& context.getNewObject() instanceof Resource) {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
-				case SummatizationPatternTemplateConstatns.CountingWithCounters:			return new AddCountingWithCountersFeature(fp);
-				case SummatizationPatternTemplateConstatns.InvertedIndexSummarization: return new AddInvertedIndexSummarizationFeature(fp);
+				case SummatizationPatternTemplateConstatns.CustomCalculation:			return new AddCustomCalculationFeature(fp);
 				case SummatizationPatternTemplateConstatns.NumericalSummarization: return new AddNumericalSummarizationFeature(fp);
 			}
 		} 

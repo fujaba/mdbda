@@ -21,7 +21,7 @@ public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 				"Resources", null); // TODO iconid
 
 			
-		for(Class<ICreateFeature> clazz : new Class[] {CreateCassandraResourceFeature.class,CreateHDFSResourceFeature.class, CreateNeo4jResourceFeature.class, CreateGenericResourceFeature.class}){
+		for(Class<ICreateFeature> clazz : new Class[] {CreateCassandraResourceFeature.class,CreateHDFSResourceFeature.class, CreateNeo4jResourceFeature.class, CreateGenericResourceFeature.class, CreateHazelcastResourceFeature.class}){
 			addPaletteElementToCompartmentAndLinkCreateFeatureFromCreateFeatureClass(
 					compartmentEntry, fp, clazz);
 		}
@@ -34,7 +34,7 @@ public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 	@Override
 	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
 		ICreateFeature[] cf = new ICreateFeature[] {
-				new CreateCassandraResourceFeature(fp), new CreateHDFSResourceFeature(fp), new CreateNeo4jResourceFeature(fp), new CreateGenericResourceFeature(fp)};
+				new CreateCassandraResourceFeature(fp), new CreateHDFSResourceFeature(fp), new CreateNeo4jResourceFeature(fp), new CreateGenericResourceFeature(fp), new CreateHazelcastResourceFeature(fp)};
 
 		return Arrays.asList(cf);
 	}
@@ -46,6 +46,7 @@ public class ResourceGroupConfigurator extends AbstractGroupConfigurator {
 			
 			switch(((Resource)context.getNewObject()).getTypeId()){
 				case ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA:			return new AddCassandraResourceFeature(fp);
+				case ResourcesTemplateConstatns.RESOURCETYPE_HAZELCAST:			return new AddHazelcastResourceFeature(fp);
 				case ResourcesTemplateConstatns.RESOURCETYPE_HDFS: return new AddHDFSResourceFeature(fp);
 				case ResourcesTemplateConstatns.RESOURCETYPE_GENERIC: return new AddGenericResourceFeature(fp);
 				case ResourcesTemplateConstatns.RESOURCETYPE_NEO4J: return new AddNeo4jResourceFeature(fp);

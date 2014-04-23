@@ -2,7 +2,7 @@ package org.mdbda.model;
 
 public class SummatizationPatternTemplateConstatns {
 	public static String getCountingwithcounters() {
-		return CountingWithCounters;
+		return CustomCalculation;
 	}
 	public static String getInvertedindexsummarization() {
 		return InvertedIndexSummarization;
@@ -10,7 +10,7 @@ public class SummatizationPatternTemplateConstatns {
 	public static String getNumericalsummarization() {
 		return NumericalSummarization;
 	}
-	public static final String CountingWithCounters = "CountingWithCounters";
+	public static final String CustomCalculation = "CustomCalculation";
 	public static final String InvertedIndexSummarization = "InvertedIndexSummarization";
 	public static final String NumericalSummarization = "NumericalSummarization";
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:MDBDADiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:model="org.mdbda.model" author="Marcel Hahn" version="1394022128951" name="Wordcount">
+  <rootWorkflow name="Wordcount">
+    <pattern inputResources="//@rootWorkflow/@dataResources.0" outputResources="//@rootWorkflow/@dataResources.1" typeId="NumericalSummarization" name="SummatizationOfWords"/>
+    <dataResources outputResources="//@rootWorkflow/@pattern.0" typeId="HDFSResource" name="TextInput"/>
+    <dataResources inputResources="//@rootWorkflow/@pattern.0" configurationString="" typeId="CassandraResource" name="CassandraOutput"/>
+  </rootWorkflow>
+  <dataformates name="KeyValuePair"/>
+</model:MDBDADiagram>

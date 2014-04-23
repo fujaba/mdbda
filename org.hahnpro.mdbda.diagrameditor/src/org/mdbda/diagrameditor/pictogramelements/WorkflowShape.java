@@ -133,6 +133,7 @@ public class WorkflowShape extends AbstractMDBDAShape {
 	        //Anchor
 	        {
 	        	EList<Resource> ioDataResources = workflow.getOutputDataResources();
+	        	
 	        	double factor = 1.0d / (ioDataResources.size() + 1);
 	        	double pos = factor;
 	        	

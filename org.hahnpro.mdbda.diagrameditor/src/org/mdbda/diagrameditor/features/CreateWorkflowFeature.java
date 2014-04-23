@@ -51,6 +51,8 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 		}
 		return false;
 	}
+	
+	public static final String DIALOG_TITLE = "Create new workflow diagram or open diagram";
 
 	@Override
 	public Object[] create(ICreateContext context) {
@@ -65,7 +67,7 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 
 			MessageDialog dialog = new MessageDialog(new Shell(
 					Display.getDefault()),
-					"Create new workflow diagram or open diagram", null,
+					DIALOG_TITLE , null,
 					"Open workflow MDBDA diagram or create a new one",
 					MessageDialog.QUESTION, new String[] { "new", "open" }, 0);
 			int res = dialog.open();

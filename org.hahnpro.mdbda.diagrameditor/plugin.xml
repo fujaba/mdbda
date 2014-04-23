@@ -2,6 +2,23 @@
 <?eclipse version="3.4"?>
 <plugin>
 
+
+<extension point="org.eclipse.ui.popupMenus"> 
+    <objectContribution
+      adaptable="true"
+      id="org.mdbda.diagrameditor.popup"
+      nameFilter="*.mdbdamodel"
+      objectClass="org.eclipse.core.resources.IFile">
+      <action
+         id="org.mdbda.diagrameditor.generatorAction" 
+         label="Generate MDBDA Code"
+         icon="icon/gen_016.png"
+         menubarPath="additions"
+         class="org.mdbda.diagrameditor.action.GeneratorAction"> 
+      </action>
+    </objectContribution>
+</extension>
+
    <extension
          point="org.eclipse.graphiti.ui.diagramTypes">
       <diagramType

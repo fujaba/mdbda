@@ -1,6 +1,6 @@
 package org.mdbda.codegen.helper
 
-import org.mdbda.model.Dataformat
+import org.mdbda.model.Dataformat 
 import org.mdbda.model.Pattern
 
 class ConfigurationReader {
@@ -44,4 +44,10 @@ class ConfigurationReader {
 	public static def CharSequence formatClassConfigutation(Dataformat dataformat, Pattern pattern){
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
+	
+	//TODO: asd
+	public static def CharSequence getHDFSPath(String string)'''someAwesomePath'''
+	
+	public static def CharSequence getMapReduceTempPath(String string)'''someAwesomeTempPath'''
+	
 }

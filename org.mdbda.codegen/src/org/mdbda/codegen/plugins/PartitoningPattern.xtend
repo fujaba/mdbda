@@ -5,22 +5,16 @@ import org.mdbda.codegen.IPatternTemplate
 
 import static extension org.mdbda.codegen.helper.ConfigurationReader.*
 import org.mdbda.model.Dataformat
+import org.mdbda.codegen.CodegenContext
 
 class PartitoningPattern implements IPatternTemplate {
 	
-	override generareStormBolt(Pattern pattern) {
+	override generareStormBolt(Pattern pattern, CodegenContext context) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override generareMapReducePattern(Pattern pattern) {
+	override generareMapReducePattern(Pattern pattern, CodegenContext context) {
 		'''
-		package test;
-
-		import org.apache.hadoop.conf.Configurable;
-		import org.apache.hadoop.conf.Configuration;
-		import org.apache.hadoop.mapreduce.Mapper;
-		import org.apache.hadoop.mapreduce.Partitioner;
-		import org.apache.hadoop.mapreduce.Reducer;
 		
 		class «pattern.name»MapReducePattern {
 						
@@ -47,26 +41,26 @@ class PartitoningPattern implements IPatternTemplate {
 				return job;		
 			}
 				static class «pattern.name»Mapper extends Mapper<«pattern.inputFormat.keyTypeClass», «pattern.inputFormat.valueTypeClass»,
-																 «pattern.configurationClass.intermediateKeyType», «pattern.configurationClass.intermediateValueType»>
+																 «pattern.configurationString.intermediateKeyType», «pattern.configurationString.intermediateValueType»>
 					
-					«pattern.configurationClass.mapFields»
+					«pattern.configurationString.mapFields»
 					
 					protected void map(	«pattern.inputFormat.keyTypeClass» key, «pattern.inputFormat.valueTypeClass» value,
 										org.apache.hadoop.mapreduce.Mapper.Context context)
 										throws IOException, InterruptedException {
-						«pattern.configurationClass.mapMethod»
+						«pattern.configurationString.mapMethod»
 					}
 				}
 				
-				static class «pattern.name»Partitoner extends Partitioner<«pattern.configurationClass.intermediateKeyType», «pattern.configurationClass.intermediateValueType»> implements Configurable{
+				static class «pattern.name»Partitoner extends Partitioner<«pattern.configurationString.intermediateKeyType», «pattern.configurationString.intermediateValueType»> implements Configurable{
 			
-					«pattern.configurationClass.partitonerFields»
+					«pattern.configurationString.partitonerFields»
 						
 					private Configuration conf = null;
 					@Override
 					public void setConf(Configuration conf) {
 						this.conf = conf;
-						«pattern.configurationClass.partitonerConfiguration»
+						«pattern.configurationString.partitonerConfiguration»
 					}
 			
 					@Override
@@ -75,25 +69,33 @@ class PartitoningPattern implements IPatternTemplate {
 					}
 			
 					@Override
-					public int getPartition(«pattern.configurationClass.intermediateKeyType» key, 
-											«pattern.configurationClass.intermediateValueType» value, 
+					public int getPartition(«pattern.configurationString.intermediateKeyType» key, 
+											«pattern.configurationString.intermediateValueType» value, 
 											int numPartitions) {						
-						«pattern.configurationClass.partitionMethod»
+						«pattern.configurationString.partitionMethod»
 					}
 					
 				}
 				
-				static class «pattern.name»Reducer extends Reducer<«pattern.configurationClass.intermediateKeyType», «pattern.configurationClass.intermediateValueType», «pattern.outputFormat.keyTypeClass», «pattern.outputFormat.valueTypeClass»>{
-					«pattern.configurationClass.mapFields»
-					protected void reduce(«pattern.configurationClass.intermediateKeyType» key, 
-											Iterable<«pattern.configurationClass.intermediateValueType»> values, 
+				static class «pattern.name»Reducer extends Reducer<«pattern.configurationString.intermediateKeyType», «pattern.configurationString.intermediateValueType», «pattern.outputFormat.keyTypeClass», «pattern.outputFormat.valueTypeClass»>{
+					«pattern.configurationString.mapFields»
+					protected void reduce(«pattern.configurationString.intermediateKeyType» key, 
+											Iterable<«pattern.configurationString.intermediateValueType»> values, 
 											org.apache.hadoop.mapreduce.Reducer.Context context)
 											throws IOException, InterruptedException {
-						«pattern.configurationClass.reduceMethod»
+						«pattern.configurationString.reduceMethod»
 				}
 		}
 				
 		'''
+	}
+	
+	override genJobConf(Pattern pattern, CodegenContext context) '''
+	sadf
+	'''
+	
+	override genTempOutputs(Pattern pattern, CodegenContext context) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	

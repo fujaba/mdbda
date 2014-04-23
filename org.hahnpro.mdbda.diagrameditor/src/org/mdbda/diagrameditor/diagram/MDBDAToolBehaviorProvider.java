@@ -1,25 +1,16 @@
 package org.mdbda.diagrameditor.diagram;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
-import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
-import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
-import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
-import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.mdbda.diagrameditor.features.CreateWorkflowFeature;
-import org.mdbda.diagrameditor.features.pattern.summatization.CreateCountingWithCountersFeature;
-import org.mdbda.diagrameditor.features.pattern.summatization.CreateInvertedIndexSummarizationFeature;
-import org.mdbda.diagrameditor.features.pattern.summatization.CreateNumericalSummarizationFeature;
 
 public class MDBDAToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
