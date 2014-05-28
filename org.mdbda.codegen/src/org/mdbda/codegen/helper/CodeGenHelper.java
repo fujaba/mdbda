@@ -28,11 +28,29 @@ public class CodeGenHelper {
 		
 		return ret;
 	}
+
 	
-	public static String getMapReduceClassNameFromPattern(Pattern p){
+	public static String getMapReduceControlledJobVarName(org.mdbda.model.Resource p){
+		String name = getMapReduceClassNameFromPattern(p) + "ControlledJob";
+		return name.substring(0,1).toLowerCase() + name.substring(1);		
+	}
+	
+	public static String getMapperInnderClassName(org.mdbda.model.Resource p){
+		return p.getName() + "Mapper";
+	}
+	
+	public static String getReducerInnderClassName(org.mdbda.model.Resource p){
+		return p.getName() + "Reducer";
+	}
+	
+	public static String getMapReduceTestClassNameFromPattern(org.mdbda.model.Resource p){
+		return getMapReduceClassNameFromPattern(p) + "Test";
+	}
+	
+	public static String getMapReduceClassNameFromPattern(org.mdbda.model.Resource p){
 		return fixClassName(p.getName()) + "MapReduce";
 	}
-	public static String getStormClassNameFromPattern(Pattern p){
+	public static String getStormClassNameFromPattern(org.mdbda.model.Resource p){
 		return fixClassName(p.getName()) + "Storm";		
 	}
 	

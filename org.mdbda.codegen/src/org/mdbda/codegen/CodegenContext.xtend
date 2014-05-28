@@ -10,6 +10,7 @@ class CodegenContext {
 		IFileSystemAccess fsa
 		String filename
 		
+		var tempResources = new HashSet<String>()
 		
 	new( IFileSystemAccess fsa , String filename, String packageName) {
 		 this.fsa = fsa
@@ -24,6 +25,14 @@ class CodegenContext {
 	
 	public def getImports(){
 		return imports
+	}
+	
+	public def void addTempResource(String path){
+		tempResources.add(path)
+	}
+	
+	public def getTempResources(){
+		return tempResources
 	}
 	
 	public def getFileSystemAccess(){

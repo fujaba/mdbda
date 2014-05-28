@@ -5,21 +5,15 @@ import org.mdbda.model.Pattern
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.model.Workflow
 import org.mdbda.codegen.helper.ConfigurationReader
+import org.mdbda.codegen.DefaultMapReducePatternTemplate
 
-class NumericalSummarizationPattern implements IPatternTemplate {
+class NumericalSummarizationPattern extends DefaultMapReducePatternTemplate implements IPatternTemplate {
 	
-	override generareStormBolt(Pattern pattern, CodegenContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override generareMapReducePattern(Pattern pattern, CodegenContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override genJobConf(Pattern pattern, CodegenContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
+	override generareStormBolt(Pattern pattern, CodegenContext context) '''
+		//TODO
+	'''
+
+		
 	/*
 	 * Es gibt nur eine Temp Resource
 	 */
@@ -37,7 +31,6 @@ class NumericalSummarizationPattern implements IPatternTemplate {
 			
 			Path «tmpPathName» = new Path("«ConfigurationReader.getMapReduceTempPath(pattern.workflow.diagram.configurationString)»");
 		«ENDIF»
-	
 	'''
 	
 }

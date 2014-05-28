@@ -21,7 +21,7 @@ public class GeneratorAction implements IObjectActionDelegate{
 		
 		IFile file = (IFile) selection.getFirstElement();
 		
-		CodeGenHelper.doGenerate(file.getLocationURI().toASCIIString() , file.getProject().getFullPath().toString());
+		CodeGenHelper.doGenerate(file.getLocationURI().toASCIIString() , file.getProject().getLocation().toOSString());
 		
 		//CodeGenHelper.doGenerate
 		

@@ -6,6 +6,7 @@ import org.mdbda.codegen.IPatternTemplate
 import static extension org.mdbda.codegen.helper.ConfigurationReader.*
 import org.mdbda.model.Dataformat
 import org.mdbda.codegen.CodegenContext
+import org.mdbda.codegen.helper.MDBDAConfiguration
 
 class PartitoningPattern implements IPatternTemplate {
 	
@@ -15,6 +16,7 @@ class PartitoningPattern implements IPatternTemplate {
 	
 	override generareMapReducePattern(Pattern pattern, CodegenContext context) {
 		'''
+			«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		
 		class «pattern.name»MapReducePattern {
 						
@@ -48,7 +50,10 @@ class PartitoningPattern implements IPatternTemplate {
 					protected void map(	«pattern.inputFormat.keyTypeClass» key, «pattern.inputFormat.valueTypeClass» value,
 										org.apache.hadoop.mapreduce.Mapper.Context context)
 										throws IOException, InterruptedException {
-						«pattern.configurationString.mapMethod»
+						
+						//in: «config.getTestInput(config.mapFunction)»
+						«config.getFunction(config.mapFunction)»
+						//out: «config.getTestOutput(config.mapFunction)»
 					}
 				}
 				
