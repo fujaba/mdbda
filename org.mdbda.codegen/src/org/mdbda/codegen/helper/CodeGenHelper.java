@@ -28,8 +28,62 @@ public class CodeGenHelper {
 		
 		return ret;
 	}
+	
+	public static String beautifyJava(String code, int tab_deep){
+		//TODO Remove extra tabs and spaces at each line beginning
+		String[] lines = code.split("\n");
+		
+		int min_deep = 1000;
+		//calc min tab deep
+		for(String line : lines){
+			if(line.replaceAll("\\s+","").length() > 0){//has context
+				int line_deep = countPrefixWhitespaces(line);
+				
+				if(line_deep < min_deep){
+					min_deep = line_deep;
+				}
+			}
+		}
+		 
+		String newPrefix = "";
+		
+		for(int n = 0 ; n < tab_deep ; n++){
+			newPrefix += "\t";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		//remove min_deep and add tab_deep
+		for(String line : lines){
+			line = line.replace('\r', ' ');
+			if(line.replaceAll("\\s+","").length() > 0){//has context
+				
+				
+				line = newPrefix + line.subSequence(min_deep, line.length());
+			}
+			
+
+			sb.append(line).append('\n');
+		}
+		return sb.toString();
+	}
 
 	
+	private static int countPrefixWhitespaces(String line) {
+		int line_deep = 0;
+		for(int i = 0 ; i < line.length(); i++){
+			switch (line.charAt(i)) {
+			case ' '://space
+			case '\t'://tab
+				line_deep++;
+				break;
+
+			default:
+				return line_deep;
+			}
+		}
+		return line_deep;
+	}
+
 	public static String getMapReduceControlledJobVarName(org.mdbda.model.Resource p){
 		String name = getMapReduceClassNameFromPattern(p) + "ControlledJob";
 		return name.substring(0,1).toLowerCase() + name.substring(1);		
@@ -41,6 +95,10 @@ public class CodeGenHelper {
 	
 	public static String getReducerInnderClassName(org.mdbda.model.Resource p){
 		return p.getName() + "Reducer";
+	}
+	
+	public static String getPartitonerInnderClassName(org.mdbda.model.Resource p){
+		return p.getName() + "Partitoner";
 	}
 	
 	public static String getMapReduceTestClassNameFromPattern(org.mdbda.model.Resource p){

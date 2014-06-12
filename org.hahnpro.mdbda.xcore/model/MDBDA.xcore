@@ -63,6 +63,7 @@ class Pattern extends Resource{
 class Resource{	
 	refers Resource[] inputResources
 	refers Resource[] outputResources
+ @GenModel(propertyMultiLine="true")
 	String configurationString
 	String typeId
 	String name

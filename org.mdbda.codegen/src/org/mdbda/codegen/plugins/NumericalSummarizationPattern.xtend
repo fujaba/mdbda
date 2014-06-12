@@ -13,24 +13,4 @@ class NumericalSummarizationPattern extends DefaultMapReducePatternTemplate impl
 		//TODO
 	'''
 
-		
-	/*
-	 * Es gibt nur eine Temp Resource
-	 */
-	override genTempOutputs(Pattern pattern, CodegenContext context) '''
-		«var needsTempOutput = false»
-		«FOR outputResource : pattern.outputResources»
-			«IF outputResource instanceof Workflow || outputResource instanceof Pattern»	
-				«needsTempOutput = true»
-			«ENDIF»«/* ist eine Resource */»			
-		«ENDFOR»
-		
-		«IF needsTempOutput»
-			«context.addImport("org.apache.hadoop.fs.Path")»
-			«val tmpPathName = "tempRessourceFor" + pattern.name»
-			
-			Path «tmpPathName» = new Path("«ConfigurationReader.getMapReduceTempPath(pattern.workflow.diagram.configurationString)»");
-		«ENDIF»
-	'''
-	
 }

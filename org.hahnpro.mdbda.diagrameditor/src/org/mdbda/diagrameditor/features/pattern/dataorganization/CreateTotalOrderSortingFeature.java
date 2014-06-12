@@ -26,7 +26,7 @@ public class CreateTotalOrderSortingFeature extends CreatePatternFeature impleme
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(DataOrganizationPatternTemplateConstatns.TotalOrderSorting);
+		initPattern(eInst,DataOrganizationPatternTemplateConstatns.TotalOrderSorting);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -37,5 +37,10 @@ public class CreateTotalOrderSortingFeature extends CreatePatternFeature impleme
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 
+	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/dataorganization/TotalOrderSortingConfig.json";
 	}
 }

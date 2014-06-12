@@ -26,7 +26,7 @@ public class CreateCustomCalculationFeature extends CreatePatternFeature impleme
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(SummatizationPatternTemplateConstatns.CustomCalculation);
+		initPattern(eInst,SummatizationPatternTemplateConstatns.CustomCalculation);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -38,8 +38,9 @@ public class CreateCustomCalculationFeature extends CreatePatternFeature impleme
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/summatization/CustomCalculationConfig.json";
+	}
 }

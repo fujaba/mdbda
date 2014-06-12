@@ -20,11 +20,16 @@ public class CreateSimpleMatcherFeature extends CreatePatternFeature implements
 	@Override
 	public Object[] create(ICreateContext context) {
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(FilteringPatternTemplateConstatns.SimpleMatcherFilter);
+		initPattern(eInst,FilteringPatternTemplateConstatns.SimpleMatcherFilter);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
+	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/filtering/SimpleMatcherConfig.json";
 	}
 }

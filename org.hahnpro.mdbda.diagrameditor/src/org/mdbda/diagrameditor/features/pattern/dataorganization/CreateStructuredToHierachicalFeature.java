@@ -26,7 +26,7 @@ public class CreateStructuredToHierachicalFeature extends CreatePatternFeature i
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(DataOrganizationPatternTemplateConstatns.StructuredToHierachical);
+		initPattern(eInst,DataOrganizationPatternTemplateConstatns.StructuredToHierachical);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -37,5 +37,10 @@ public class CreateStructuredToHierachicalFeature extends CreatePatternFeature i
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
+	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/dataorganization/StructuredToHierachicalConfig.json";
 	}
 }

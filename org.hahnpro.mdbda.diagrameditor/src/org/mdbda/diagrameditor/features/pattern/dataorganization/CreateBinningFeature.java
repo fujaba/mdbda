@@ -26,8 +26,10 @@ public class CreateBinningFeature extends CreatePatternFeature implements
 		//Object newDomainObject = null;
 		
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(DataOrganizationPatternTemplateConstatns.Binning);
+		initPattern(eInst,DataOrganizationPatternTemplateConstatns.Binning);
 
+		
+		
 		addToWorkflow(getWorkflow(context), eInst);
 		
 		// TODO: in case of an EMF object add the new object to a suitable resource
@@ -39,7 +41,9 @@ public class CreateBinningFeature extends CreatePatternFeature implements
 		return new Object[] { eInst };
 	}
 
-
-
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/dataorganization/BinningConfig.json";
+	}
 
 }

@@ -1,0 +1,35 @@
+{
+	"mapFunction":{
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"LongWritable",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"NullWritable", 
+		"fields":"
+		private org.apache.hadoop.mapreduce.lib.output.MultipleOutputs<Text,NullWritable> mos = null;
+		",
+		"setup":"
+		mos = new org.apache.hadoop.mapreduce.lib.output.MultipleOutputs(context);
+		",
+		"cleanup":"mos.close();",
+		"function":"
+		String[] input = value.toString().split(\"\\n\"); //split input value in lines
+		for(String in : input){ 
+			if(in.contains(\"keyA\")){ 
+				mos.write(\"binningExample\",value,NullWritable.get(),\"keyA\"); 
+			} 
+			if(in.contains(\"keyB\")){ 
+				mos.write(\"binningExample\",value,NullWritable.get(),\"keyB\"); 
+			} 
+		}"
+	},
+	"jobConfig":"
+		//default conf
+	",
+	"driver":"
+		org.apache.hadoop.mapreduce.lib.output.MultipleOutputs.addNamedOutput(job, \"binningExample\", TextOutputFormat.class, Text.class, NullWritable.class);
+		
+		job.setNumReduceTasks(0);
+	"
+}

@@ -27,7 +27,7 @@ public class CreateNumericalSummarizationFeature extends CreatePatternFeature im
 		
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(SummatizationPatternTemplateConstatns.NumericalSummarization);
+		initPattern(eInst,SummatizationPatternTemplateConstatns.NumericalSummarization);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -39,8 +39,9 @@ public class CreateNumericalSummarizationFeature extends CreatePatternFeature im
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/summatization/NumericalSummarization.json";
+	}
 }

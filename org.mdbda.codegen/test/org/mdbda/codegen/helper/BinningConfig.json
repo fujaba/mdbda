@@ -1,0 +1,32 @@
+{
+	"mapFunction":{
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"LongWritable",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"fields":"private MultipleOutputs<Text,IntWritable> mos = null;\r\n",
+		"setup":"mos = new MultipleOutputs(context);\r\n",
+		"cleanup":"mos.close();\r\n",
+		"function":"
+		String[] input = value.toString().split(\"\\n\"); //split input value in lines
+		for(Sting in : input){ 
+			if(in.contains(\"keyA\")){ 
+				mos.write(\"keyA\",value,NullWritable.get()); 
+			} 
+			if(in.contains(\"keyB\")){ 
+				mos.write(\"keyB\",value,NullWritable.get()); 
+			} 
+		}"
+	},
+	"reduceFunction":{		
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"Text",
+		"VALUEIN":"IntWritable",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"function":" "
+	}
+}

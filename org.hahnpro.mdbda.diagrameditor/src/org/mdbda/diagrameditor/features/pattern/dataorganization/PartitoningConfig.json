@@ -1,0 +1,45 @@
+{
+	"mapFunction":{
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"LongWritable",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"function":""
+	},
+	"reduceFunction":{		
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"Text",
+		"VALUEIN":"IntWritable",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"function":" "
+	},
+	"partitioner":{
+		"KEY":"IntWritable",
+		"VALUE":"Text",
+		"partitionFunction":"
+			if(key.get() % 2 == 0){
+				return 1;
+			}
+			if(key.get() % 3 == 0){
+				return 2;
+			}
+			if(key.get() % 5 == 0){
+				return 3;
+			}
+			if(key.get() % 7 == 0){
+				return 4;
+			}
+			if(key.get() % 11 == 0){
+				return 5;
+			}
+			return 0;
+		"
+	},
+	"jobConfig":"
+		//default conf
+	"
+}

@@ -26,7 +26,7 @@ public class CreateCartesianProductFeature extends CreatePatternFeature implemen
 		//Object newDomainObject = null;		
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(JoinPatternTemplateConstatns.CartesianProduct);
+		initPattern(eInst,JoinPatternTemplateConstatns.CartesianProduct);
 
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -38,8 +38,9 @@ public class CreateCartesianProductFeature extends CreatePatternFeature implemen
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/join/CartesianProductConfig.json";
+	}
 }

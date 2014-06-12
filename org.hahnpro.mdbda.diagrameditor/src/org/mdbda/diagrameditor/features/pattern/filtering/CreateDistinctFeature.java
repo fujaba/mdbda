@@ -26,7 +26,7 @@ public class CreateDistinctFeature extends CreatePatternFeature implements
 		//Object newDomainObject = null;
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(FilteringPatternTemplateConstatns.Distinct);
+		initPattern(eInst,FilteringPatternTemplateConstatns.Distinct);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -38,8 +38,9 @@ public class CreateDistinctFeature extends CreatePatternFeature implements
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/filtering/DistinctConfig.json";
+	}
 }

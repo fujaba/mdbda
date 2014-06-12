@@ -27,7 +27,7 @@ public class CreateTopTenFeature extends CreatePatternFeature implements
 		
 
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(FilteringPatternTemplateConstatns.TopTen);
+		initPattern(eInst,FilteringPatternTemplateConstatns.TopTen);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -38,8 +38,9 @@ public class CreateTopTenFeature extends CreatePatternFeature implements
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/filtering/TopTenConfig.json";
+	}
 }

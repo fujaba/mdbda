@@ -26,7 +26,7 @@ public class CreateReduceSideJoinFeature extends CreatePatternFeature implements
 		//Object newDomainObject = null;
 		
 		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
-		eInst.setTypeId(JoinPatternTemplateConstatns.ReduceSideJoin);
+		initPattern(eInst,JoinPatternTemplateConstatns.ReduceSideJoin);
 		
 		addToWorkflow(getWorkflow(context), eInst);
 		
@@ -38,8 +38,9 @@ public class CreateReduceSideJoinFeature extends CreatePatternFeature implements
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
 	}
-
-
-
-
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/pattern/join/ReduceSideConfig.json";
+	}
 }

@@ -1,0 +1,20 @@
+{
+	"mapFunction":{
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"LongWritable",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"function":""
+	},
+	"reduceFunction":{		
+		"testInput":[ ],
+		"testOutput":[ ],
+		"KEYIN":"Text",
+		"VALUEIN":"IntWritable",
+		"KEYOUT":"Text",
+		"VALUEOUT":"IntWritable", 
+		"function":" "
+	}
+}
