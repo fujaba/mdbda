@@ -143,4 +143,21 @@ public class CodeGenHelper {
 	    gen.init();
 		gen.doGenerate(resource, fsa);
 	}
+
+	public static String genWriterConstructorCall(String type, String value) {
+		switch (type) {
+		case "NullWritable":
+			return "NullWritable.get()";
+		case "Text":
+			if(!value.startsWith("\"")){
+				value = "\"" + value;
+			}
+			if(!value.endsWith("\"")){
+				value = value + "\"";
+			}
+			return "new Text( " + value + " )";
+		default:
+			return "new " + type + "( " + value + " )";
+		}
+	}
 }

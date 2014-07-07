@@ -100,4 +100,10 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 		}
 
 	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/DefaultWorkflowConfig.json";
+	}
+
 }

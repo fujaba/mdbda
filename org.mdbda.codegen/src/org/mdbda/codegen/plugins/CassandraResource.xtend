@@ -5,10 +5,11 @@ import org.mdbda.model.Resource
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.helper.ConfigurationReader
 import org.mdbda.codegen.helper.MDBDAConfiguration
+import org.mdbda.model.Pattern
 
 class CassandraResource implements IResourceTemplate {
 	
-	override generareMapReduceInputResouce(Resource res, CharSequence controledJobName,  CodegenContext context) '''
+	override generareMapReduceInputResouce(Resource res , Pattern pattern, CharSequence controledJobName,  CodegenContext context) '''
 	{
 		«val conf = MDBDAConfiguration.readConfigString(res.configurationString)»		
 		«context.addImport("org.apache.cassandra.hadoop.ColumnFamilyInputFormat")»

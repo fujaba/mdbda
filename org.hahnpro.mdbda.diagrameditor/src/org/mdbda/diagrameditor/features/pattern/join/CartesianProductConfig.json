@@ -1,5 +1,5 @@
 {
-	"mapFunction":{
+	"mapFunction":[{
 		"testInput":[ ],
 		"testOutput":[ ],
 		"KEYIN":"LongWritable",
@@ -7,7 +7,7 @@
 		"KEYOUT":"Text",
 		"VALUEOUT":"IntWritable", 
 		"function":""
-	},
+	}],
 	"reduceFunction":{		
 		"testInput":[ ],
 		"testOutput":[ ],

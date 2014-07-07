@@ -20,10 +20,17 @@ public class CreateGenericResourceFeature extends CreateResourceFeature {
 	@Override
 	public Object[] create(ICreateContext context) {		
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
-		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_GENERIC);
+
+		initPattern(eInst, ResourcesTemplateConstatns.RESOURCETYPE_GENERIC);
+		
 		addToTargetBO(context,eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
+	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/resources/GenericConfig.json";
 	}
 }

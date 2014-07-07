@@ -1,0 +1,90 @@
+{
+	"mapFunction":{
+		"testInput":[
+"\"Road.Runner@acme.com:mh@hahnpro.com\";\"ts1:Wile.E.Coyote@acme.com:ts2\"",
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";\"ts2:Road.Runner@acme.com:ts1\""
+],
+		"testOutput":[
+"\"mh@hahnpro.com\";\"Road.Runner@acme.com:ts1:Wile.E.Coyote@acme.com:ts2\"",
+"\"mh@hahnpro.com\";\"Wile.E.Coyote@acme.com:ts2:Road.Runner@acme.com:ts1\""
+		],
+		"KEYIN":"Text",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"Text", 
+		"function":"
+String[] splitKey = key.toString().split(\":\");
+context.write(new Text(splitKey[1]), new Text(splitKey[0] + \":\" + value));
+		"
+	},
+	"reduceFunction":{		
+		"testInput":[ 
+"\"mh@hahnpro.com\";[\"Road.Runner@acme.com:ts1:Wile.E.Coyote@acme.com:ts2\",\"Wile.E.Coyote@acme.com:ts2:Road.Runner@acme.com:ts1\"]",
+"\"info@hahnpro.com\";[\"Foghorn.Leghorn@acme.com:ts23:Elmer.Fudd@acme.com:ts42\",\"Wile.E.Coyote@acme.com:ts1337:Foghorn.Leghorn@acme.com:ts0815\",\"Wile.E.Coyote@acme.com:ts1337:Elmer.Fudd@acme.com:ts42\"]"
+		],
+		"testOutput":[
+"[{\\\"mh@hahnpro.com\\\":{\\\"Road.Runner@acme.com\\\":[\\\"Wile.E.Coyote@acme.com:ts2\\\"],\\\"Wile.E.Coyote@acme.com\\\":[\\\"Road.Runner@acme.com:ts1\\\"]}},{\\\"info@hahnpro.com\\\"{\\\"Foghorn.Leghorn@acme.com\\\":[\\\"Elmer.Fudd@acme.com:ts42\\\"],\\\"Wile.E.Coyote@acme.com\\\":[\\\"Foghorn.Leghorn@acme.com:ts0815\\\",\\\"Elmer.Fudd@acme.com:ts42\\\"]}}];null"
+],
+		"KEYIN":"Text",
+		"VALUEIN":"Text",
+		"KEYOUT":"Text",
+		"VALUEOUT":"NullWritable", 
+		"function":"
+			java.util.HashMap<String,java.util.ArrayList<String>> map = new java.util.HashMap();
+			while(values.iterator().hasNext()){
+				
+				
+				Text val = values.iterator().next();
+				String[] splitValue = val.toString().split(\":\");
+				
+				if(map.containsKey(splitValue[0])){
+					map.get(splitValue[0]).add(splitValue[2] + \":\" + splitValue[3]);
+				}else{
+					java.util.ArrayList<String> list = new java.util.ArrayList<>();
+					list.add(splitValue[2] + \":\" + splitValue[3]);
+					map.put(splitValue[0], list);
+				}
+				
+				
+			}
+			
+			
+			StringBuilder sb = new StringBuilder();
+			boolean setSeperator = false;
+			sb.append(\"[\");
+			for(String k : map.keySet()){
+				if(setSeperator){
+					sb.append(\",\");
+				}else{
+					setSeperator = true;
+				}
+				
+				sb.append(\"{\\\"\").append(k).append(\"\\\":[\");
+				boolean setSeperator2 = false;
+				for(String v : map.get(k)){
+					if(setSeperator2){
+						sb.append(\",\");
+					}else{
+						setSeperator2 = true;
+					}
+					
+					sb.append(\"\\\"\").append(v).append(\"\\\"\");					
+				}
+				
+				sb.append(\"]\");
+			}
+			sb.append(\"]\");
+			
+			context.write(new Text(sb.toString()), NullWritable.get());
+		
+		"
+	}
+}
+
+[{\"mh@hahnpro.com\":{
+		\"Road.Runner@acme.com\":[\"Wile.E.Coyote@acme.com:ts2\"],
+		\"Wile.E.Coyote@acme.com\":[\"Road.Runner@acme.com:ts1\"]
+}},{\"info@hahnpro.com\"{
+	\"Foghorn.Leghorn@acme.com\":[\"Elmer.Fudd@acme.com:ts42\"],
+	\"Wile.E.Coyote@acme.com\":[\"Foghorn.Leghorn@acme.com:ts0815\",\"Elmer.Fudd@acme.com:ts42\"]
+}}]

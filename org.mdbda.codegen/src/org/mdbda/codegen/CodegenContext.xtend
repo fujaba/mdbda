@@ -2,6 +2,7 @@ package org.mdbda.codegen
 
 import java.util.HashSet
 import org.eclipse.xtext.generator.IFileSystemAccess
+import java.util.HashMap
 
 class CodegenContext {
 	
@@ -45,6 +46,20 @@ class CodegenContext {
 	
 	public def getPackageName(){
 		return packageName
+	}
+	
+	var counter = new HashMap<String,Long>()
+	
+	def getCounter(String key) {
+		var c = counter.get(key)
+		if(c == null){
+			c = new Long(0)
+		}
+		return c
+	}
+	
+	def void setCounter(String key, Long value) {
+		 counter.put(key,value)
 	}
 	
 }

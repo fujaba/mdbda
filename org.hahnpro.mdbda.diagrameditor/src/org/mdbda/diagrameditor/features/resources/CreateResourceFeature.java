@@ -44,4 +44,6 @@ public abstract class CreateResourceFeature extends AbstractCreateMDBDAFeature {
 		//wf.eResource().getContents().add(eInst);
 		eInst.setWorkflow(wf);
 	}
+	
+
 }

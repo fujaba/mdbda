@@ -42,8 +42,8 @@ String[] splitKey = key.toString().split(\":\");
 context.write(new Text(splitKey[0] + \":\" + splitKey[1]), new Text(\"1:\" + splitKey[2]));
 		"
 	}],
-	"reduceFunction":{
-		"testInput":[
+	"reduceFunction":{		
+		"testInput":[ 
 "\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";[\"0:Road.Runner@acme.com:ts1\",\"1:ts2\"]",
 "\"Foghorn.Leghorn@acme.com:mh@hahnpro.com\";[\"0:Road.Runner@acme.com:ts1\"]",
 "\"Foghorn.Leghorn@acme.com:info@hahnpro.com\";[\"1:ts3\"]",
@@ -54,7 +54,7 @@ context.write(new Text(splitKey[0] + \":\" + splitKey[1]), new Text(\"1:\" + spl
 ],
 		"testOutput":[
 "\"Road.Runner@acme.com:mh@hahnpro.com\";\"ts1:Wile.E.Coyote@acme.com:ts2\"",
-"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";\"ts2:Road.Runner@acme.com:ts1\"",
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";\"ts2:Road.Runner@acme.com:ts1\""
 ],
 		"KEYIN":"Text",
 		"VALUEIN":"Text",

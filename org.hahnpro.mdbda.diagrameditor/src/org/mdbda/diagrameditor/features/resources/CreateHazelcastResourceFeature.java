@@ -20,10 +20,17 @@ public class CreateHazelcastResourceFeature extends CreateResourceFeature {
 	@Override
 	public Object[] create(ICreateContext context) {		
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
-		eInst.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_HAZELCAST);
+		
+		initPattern(eInst, ResourcesTemplateConstatns.RESOURCETYPE_HAZELCAST);
+		
 		addToTargetBO(context,eInst);
 		
 		addGraphicalRepresentation(context, eInst);
 		return new Object[] { eInst };
+	}
+	
+	@Override
+	public String getDefaultConfigJSONFileLocation() {
+		return "/target/classes/org/mdbda/diagrameditor/features/resources/HazelcastConfig.json";
 	}
 }

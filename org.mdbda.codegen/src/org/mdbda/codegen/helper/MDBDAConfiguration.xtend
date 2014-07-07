@@ -4,6 +4,7 @@ import org.json.simple.JSONObject
 import org.json.simple.JSONValue
 import java.util.HashMap
 import org.json.simple.JSONArray
+import org.json.simple.parser.ParseException
 
 class MDBDAConfiguration {
 	//var JSONObject config = new JSONObject();
@@ -11,7 +12,6 @@ class MDBDAConfiguration {
 	val HDFSPath = "HDFSPath";
 	
 	def void setHDFSPath(String path){
-		
 		config.put(HDFSPath , path)
 	}
 	
@@ -20,14 +20,20 @@ class MDBDAConfiguration {
 	}
 	
 	def writeConfigString(){
-		config.toString
+		JSONObject.toJSONString(config)
 	}
 	
  	static def readConfigString(String config){
  		val instance = new MDBDAConfiguration();
  		
  		if(config != null && !"".equals(config)){
- 			instance.config = JSONValue.parse(config) as JSONObject
+ 			try{
+ 				instance.config = JSONValue.parseWithException(config) as JSONObject
+ 			}catch(ParseException e){
+ 				instance.config = new HashMap();
+ 				System.err.println(config);
+ 				System.err.println(e);
+ 			}
  		}
  		return instance
 	}
@@ -73,6 +79,17 @@ class MDBDAConfiguration {
 	
 	def setMapFunction(JSONObject mapFun){
 		config.put(MapFunction ,mapFun)
+	}
+	
+	def isMultipleMapFunction(){
+		config.get(MapFunction) instanceof JSONArray
+	}
+	def getMultipleMapFunction(){
+		config.get(MapFunction) as JSONArray
+	}
+	
+	def setMultipleFunction(JSONArray arrayOfMapFunktions){//a array of mapFunktions
+		config.put(MapFunction ,arrayOfMapFunktions)
 	}
 	
 	val ReduceFunction = "reduceFunction";
