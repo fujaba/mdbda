@@ -251,8 +251,9 @@ class MDBDACodegenerator implements IGenerator {
 	'''
 	
 	def CharSequence genStormPatternClass(Pattern p, CodegenContext context)'''
-		class «CodeGenHelper.getStormClassNameFromPattern(p)» {
+		public class «CodeGenHelper.getStormClassNameFromPattern(p)» {
 		«IF patternTemplates.containsKey(p.typeId)»
+		
 			«patternTemplates.get(p.typeId).generareStormBolt(p, context)»
 		«ELSE»
 			//keine implementierung in patternTemplates für «p.typeId» vorhanden

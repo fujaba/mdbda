@@ -5,10 +5,10 @@ import org.mdbda.model.Pattern
 
 class DefaultPatternTemplate implements IPatternTemplate {
 	DefaultMapReducePatternTemplate defaultMapReducePatternTemplate = new DefaultMapReducePatternTemplate();
-	
-	override generareStormBolt(Pattern pattern, CodegenContext context) '''
-		//not implemented 	generareStormBolt @ DefaultPatternTemplat
-	'''
+	DefaultStormPatternTemplate defaultStormPatternTemplate = new DefaultStormPatternTemplate();
+	override generareStormBolt(Pattern pattern, CodegenContext context) {
+		defaultStormPatternTemplate.generareStormBolt(pattern, context)
+	}
 	
 	override generareMapReducePattern(Pattern pattern, CodegenContext context) {
 		defaultMapReducePatternTemplate.generareMapReducePattern(pattern,context)

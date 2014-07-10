@@ -162,6 +162,14 @@ class MDBDAConfiguration {
 		map.put(Function,function)
 	}
 	
+	val StormExecuteFunction = "stormExecute"
+	def getStormExecuteFunction(JSONObject MRFunction){
+		MRFunction.get(StormExecuteFunction) as String
+	}
+	def setStormExecuteFunction(JSONObject MRFunction, String function){
+		var HashMap map = MRFunction
+		map.put(StormExecuteFunction,function)
+	}
 	val Setup = "setup"
 	def getSetup(JSONObject MRFunction){
 		if(MRFunction.containsKey(Setup)){
