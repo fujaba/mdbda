@@ -20,6 +20,9 @@
 		"VALUEOUT":"Text", 
 		"function":"
 	context.write(key, new Text(\"0:\" + value));
+		",
+		"stormExecute":"
+	collector.emit(new Values(input.getString(0), \"0:\" + input.getString(1)));
 		"
 	},{
 		"testInput":[
@@ -40,9 +43,13 @@
 		"function":"
 	String[] splitKey = key.toString().split(\":\");
 	context.write(new Text(splitKey[0]), new Text(\"1:\" + splitKey[1] + \":\" + splitKey[2]));
+		",
+		"stormExecute":"
+	String[] splitKey = input.getString(0).split(\":\");
+	collector.emit(new Values(splitKey[0], \"1:\" + splitKey[1] + \":\" + splitKey[2]));
 		"
 	}],
-	"reduceFunction":{		
+	"reduceFunction":{
 		"testInput":[
 "\"Road.Runner@acme.com\";[
 	\"0:Wile.E.Coyote@acme.com\",
@@ -76,26 +83,61 @@
 		Text val = values.iterator().next();
 		switch (val.charAt(0)) {
 		case '0':
-			input0.add(new Text(val.toString().substring(2)));
+			input0.add(val.toString().substring(2));
 			break;
 		case '1':
-			input1.add(new Text(val.toString().substring(2)));
+			input1.add(val.toString().substring(2));
 			break;
 		default:
 			break;
 		}
 	}
 			
-	for(Text el0 : input0){
-		for(Text el1 : input1){
+	for(String el0 : input0){
+		for(String el1 : input1){
 			context.write(key, new Text(el0 + \":\" + el1));
 		}
 	}
 		",
+		"stormExecute":"
 		
+	
+	java.util.HashMap<String, java.util.ArrayList<String>> inputMap0 = new HashMap<>();
+	java.util.HashMap<String, java.util.ArrayList<String>> inputMap1 = new HashMap<>();
+	
+	while(!collectedTupels.isEmpty()){ 
+		Tuple tuple = collectedTupels.poll();
+		switch (tuple.getString(1).charAt(0)) {
+		case '0':
+			if(!inputMap0.containsKey(tuple.getString(0))){
+				inputMap0.put(tuple.getString(0),new java.util.ArrayList<String>());
+			}
+			inputMap0.get(tuple.getString(0)).add(tuple.getString(1).substring(2));
+			break;
+		case '1':
+			if(!inputMap1.containsKey(tuple.getString(0))){
+				inputMap1.put(tuple.getString(0),new java.util.ArrayList<String>());
+			}
+			inputMap1.get(tuple.getString(0)).add(tuple.getString(1).substring(2));
+			break;
+		default:
+			break;
+		}
+	}
+	
+	for(String key : inputMap0.keySet()){
+		for(String el0 : inputMap0.get(key)){
+			if(inputMap1.containsKey(key))
+			for(String el1 : inputMap1.get(key)){
+				collector.emit(new Values(key, el0 + \":\" + el1));
+			}
+		}
+	}
+	
+		",
 		"fields":"
-	java.util.ArrayList<Text> input0 = new java.util.ArrayList<>();
-	java.util.ArrayList<Text> input1= new java.util.ArrayList<>();
+	java.util.ArrayList<String> input0 = new java.util.ArrayList<>();
+	java.util.ArrayList<String> input1= new java.util.ArrayList<>();
 		"
 	},
 	

@@ -5,9 +5,10 @@ import org.mdbda.model.Pattern
 
 class MultipleInputTemplate implements IPatternTemplate {
 	MultipleInputMapReducePatternTemplate mrTemplateImpl = new MultipleInputMapReducePatternTemplate();
-	override generareStormBolt(Pattern pattern, CodegenContext context) '''
-		//not implemented 	generareStormBolt @ MultipleInputTemplate
-	'''
+	MultipleInputSormPatternTemplate stormTemplateImpl = new MultipleInputSormPatternTemplate();
+	override generareStormPattern(Pattern pattern, CodegenContext context) {
+		stormTemplateImpl.generareStormPattern(pattern,context)
+	}
 	
 	override generareMapReducePattern(Pattern pattern, CodegenContext context) {
 		mrTemplateImpl.generareMapReducePattern(pattern,context)

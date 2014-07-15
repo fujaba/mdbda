@@ -251,10 +251,11 @@ class MDBDACodegenerator implements IGenerator {
 	'''
 	
 	def CharSequence genStormPatternClass(Pattern p, CodegenContext context)'''
-		public class «CodeGenHelper.getStormClassNameFromPattern(p)» {
+		«context.addImport("java.io.Serializable")»
+		public class «CodeGenHelper.getStormClassNameFromPattern(p)» implements Serializable {
 		«IF patternTemplates.containsKey(p.typeId)»
 		
-			«patternTemplates.get(p.typeId).generareStormBolt(p, context)»
+			«patternTemplates.get(p.typeId).generareStormPattern(p, context)»
 		«ELSE»
 			//keine implementierung in patternTemplates für «p.typeId» vorhanden
 		«ENDIF»

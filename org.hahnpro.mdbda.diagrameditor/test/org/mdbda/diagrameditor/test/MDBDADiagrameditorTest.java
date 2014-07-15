@@ -160,7 +160,10 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 		
 		SWTBotShell shell = bot.shell("New Project");
 		shell.activate();
-		bot.tree().expandNode("Examples").expandNode("Graphiti").select("Graphiti Sample Project");
+		//bot.tree().expandNode("Examples").expandNode("Graphiti").select("Graphiti Sample Project");
+		//Luna update:
+		bot.tree().expandNode("Other").select("Graphiti Example Project");
+		
 		bot.button("Next >").click();
 		
 		bot.textWithLabel("Project name:").setText(PROJECT_NAME);
@@ -168,7 +171,7 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 		
 		try {
 			bot.sleep(500);
-			//wait(1000);//TODO: dynamisch prüfen ob fertig
+			//wait(1000);//TODO: dynamisch prï¿½fen ob fertig
 			project.open(null);
 			//wait(1000);//TODO 
 			assertTrue(project.isOpen());
@@ -199,7 +202,7 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 	
 	@After 
 	public void closeDiagramAndDelete() {
-		bot.gefEditor(DIAGRAM_NAME).saveAndClose();
+		bot.gefEditor(DIAGRAM_NAME).close();//  saveAndClose();
 		
 		bot.viewByTitle(PACKAGE_EXPLORER);
 		try {
@@ -211,8 +214,6 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
 		}
-		
-		
 	}
 
 	
@@ -390,7 +391,7 @@ public class MDBDADiagrameditorTest extends SWTBotEclipseTestCase{
 			}
 		});
 		
-		editingDomain.dispose();
+		//editingDomain.dispose();
 				//					}
 //				});
 				

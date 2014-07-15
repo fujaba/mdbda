@@ -113,7 +113,7 @@ class MRUnitTestCodeGenerator {
 	def static getMultipleMap(MDBDAConfiguration config) {
 		var multipleMapFunction = new ArrayList<JSONObject>()
 		if( config.isMultipleMapFunction ){
-			multipleMapFunction = config.multipleMapFunction
+			multipleMapFunction = config.getMultipleMapFunction()
 		}else{
 			multipleMapFunction.add(config.mapFunction)
 		}

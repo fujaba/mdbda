@@ -9,7 +9,7 @@ import org.mdbda.codegen.DefaultMapReducePatternTemplate
 
 class NumericalSummarizationPattern extends DefaultMapReducePatternTemplate implements IPatternTemplate {
 	
-	override generareStormBolt(Pattern pattern, CodegenContext context) '''
+	override generareStormPattern(Pattern pattern, CodegenContext context) '''
 		//TODO
 	'''
 

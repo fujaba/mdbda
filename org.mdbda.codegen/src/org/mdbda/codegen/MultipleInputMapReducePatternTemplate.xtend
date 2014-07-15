@@ -9,14 +9,14 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 	
 	override genMapperClass(Pattern pattern, CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val funktions = config.multipleMapFunction»
+		«val funktions = config.getMultipleMapFunction()»
 		
-		«var int fooCount = -1»
+		«var int fooCount = 0»
 		«FOR foo : funktions»
 			«val JSONObject funktion = foo as JSONObject»
 			«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
 			
-			public static class «CodeGenHelper.getMapperInnderClassName(pattern)»«fooCount = fooCount + 1» extends «Mapper» {
+			public static class «CodeGenHelper.getMapperInnderClassName(pattern)»«fooCount» extends «Mapper» {
 				
 				«val fields = config.getFields(funktion)»
 				«IF fields != null»
@@ -47,6 +47,7 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 					}
 				«ENDIF»
 			}
+			«{fooCount = fooCount + 1 ; ""}»
 		«ENDFOR»
 	'''
 	
@@ -63,7 +64,7 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 		«IF config.reduceFunction != null»
 			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(pattern)».class);
 		«ENDIF»
-		«IF config.multipleMapFunction != null»
+		«IF config.getMultipleMapFunction() != null»
 			//job.setMapperClass(<CodeGenHelper.getMapperInnderClassName(pattern)>.class);
 			
 		«ENDIF»

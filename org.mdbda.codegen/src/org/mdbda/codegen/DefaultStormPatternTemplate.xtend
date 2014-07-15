@@ -4,10 +4,11 @@ import org.mdbda.codegen.IStormPatternTemplate
 import org.mdbda.model.Pattern
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.json.simple.JSONArray
+import org.json.simple.JSONObject
 
 class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	
-	override generareStormBolt(Pattern pattern, CodegenContext context) '''
+	override generareStormPattern(Pattern pattern, CodegenContext context) '''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
 		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
@@ -17,8 +18,14 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 		«genMapBolt(pattern, context)»
 		«genReduceBolt(pattern, context)»
 		«genTestDataValidationBolt(pattern, context)»
+		
 		«genTestDataBolt(pattern, context)»
 		
+		//############## junit test  ###########
+		«genJUnitTest(pattern, context)»
+	'''
+	
+	def genJUnitTest(Pattern pattern,CodegenContext context)'''
 		«context.addImport("org.junit.Test")»
 		@Test
 		public void test() {
@@ -54,11 +61,18 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 		
 		}
 	'''
+	def genTestDataBolt(Pattern pattern,CodegenContext context){
+		val config = MDBDAConfiguration.readConfigString(pattern.configurationString)
+		genTestDataBolt(pattern,context,config.mapFunction , "");
+	}
 	
-	val ReduceBoltBoltClass = "ReduceBolt"
+	protected val ReduceBoltBoltClass = "ReduceBolt"
 	def genReduceBolt(Pattern pattern, CodegenContext context) '''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		public static class «ReduceBoltBoltClass» extends BaseBasicBolt{
+			
+			«config.getFields(config.reduceFunction)»
+			
 			«context.addImport("java.util.Queue")»
 			«context.addImport("java.util.LinkedList")»
 			Queue<Tuple> collectedTupels = new LinkedList<>();
@@ -92,7 +106,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 			}
 		}
 	'''
-	val MapBoltClass = "MapBolt"
+	protected val MapBoltClass = "MapBolt"
 	def genMapBolt(Pattern pattern, CodegenContext context) '''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		public static class «MapBoltClass» extends BaseBasicBolt{
@@ -109,7 +123,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 		}
 	'''
 	
-	val TestDataValidationBoltClass = "TestDataValidationBolt"
+	protected val TestDataValidationBoltClass = "TestDataValidationBolt"
 	
 	def genTestDataValidationBolt(Pattern pattern, CodegenContext context) '''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
@@ -152,9 +166,9 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 		}
 	'''
 	
-	val TestDataSpoutClass = "TestDataSpout"
+	protected val TestDataSpoutClass = "TestDataSpout"
 	
-	def genTestDataBolt(Pattern pattern, CodegenContext context) '''
+	def genTestDataBolt(Pattern pattern, CodegenContext context, JSONObject jsonFunktion, String suffix) '''
 		«context.addImport("backtype.storm.spout.SpoutOutputCollector")»
 		«context.addImport("backtype.storm.task.TopologyContext")»
 		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
@@ -167,7 +181,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 		«context.addImport("java.util.Stack")»
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		
-		public static class «TestDataSpoutClass» extends BaseRichSpout {
+		public static class «TestDataSpoutClass»«suffix» extends BaseRichSpout {
 			SpoutOutputCollector _collector;
 			«context.addImport("java.util.Queue")»
 			«context.addImport("java.util.LinkedList")»
@@ -176,7 +190,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 			@Override
 			public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
 				_collector = collector;
-				«val JSONArray testMapInput = config.getTestInput(config.mapFunction)»
+				«val JSONArray testMapInput = config.getTestInput(jsonFunktion)» 
 				«FOR inputString : testMapInput »
 					«var String[] inputElements = (inputString as String).split(";")»
 					testData.offer(new Values(«inputElements.get(0)»,«inputElements.get(1)»));
