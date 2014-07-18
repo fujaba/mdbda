@@ -23,7 +23,7 @@ class CassandraResource implements IResourceTemplate {
 		ConfigHelper.setInputSlicePredicate(«controledJobName».getJob().getConfiguration(), predicate);
 	}
 	'''
-	
+
 	
 	
 	override generareMapReduceOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''

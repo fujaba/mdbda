@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
- mdbda.dependencies;bundle-version="1.0.0",
- networkparsercore;bundle-version="1.0.0"
+ mdbda.dependencies;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: org.mdbda.codegen,

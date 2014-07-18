@@ -60,9 +60,10 @@ context.write(new Text(splitKey[0] + \":\" + splitKey[1]), new Text(\"1:\" + spl
 		"VALUEIN":"Text",
 		"KEYOUT":"Text",
 		"VALUEOUT":"Text", 
-		"function":" 
-	input0.clear();
-	input1.clear();
+		"function":"
+	java.util.ArrayList<Text> input0 = new java.util.ArrayList<>();
+	java.util.ArrayList<Text> input1= new java.util.ArrayList<>();
+	
 	while(values.iterator().hasNext()){
 		Text val = values.iterator().next();
 		switch (val.charAt(0)) {
@@ -83,11 +84,40 @@ context.write(new Text(splitKey[0] + \":\" + splitKey[1]), new Text(\"1:\" + spl
 		}
 	}
 		",
-		
-		"fields":"
-	java.util.ArrayList<Text> input0 = new java.util.ArrayList<>();
-	java.util.ArrayList<Text> input1= new java.util.ArrayList<>();
-		"
+		"stormExecute":"
+	java.util.HashMap<String, java.util.ArrayList<String>> inputMap0 = new HashMap<>();
+	java.util.HashMap<String, java.util.ArrayList<String>> inputMap1 = new HashMap<>();
+	
+	while(!collectedTupels.isEmpty()){ 
+		Tuple tuple = collectedTupels.poll();
+		switch (tuple.getString(1).charAt(0)) {
+		case '0':
+			if(!inputMap0.containsKey(tuple.getString(0))){
+				inputMap0.put(tuple.getString(0),new java.util.ArrayList<String>());
+			}
+			inputMap0.get(tuple.getString(0)).add(tuple.getString(1).substring(2));
+			break;
+		case '1':
+			if(!inputMap1.containsKey(tuple.getString(0))){
+				inputMap1.put(tuple.getString(0),new java.util.ArrayList<String>());
+			}
+			inputMap1.get(tuple.getString(0)).add(tuple.getString(1).substring(2));
+			break;
+		default:
+			break;
+		}
+	}
+	
+	for(String key : inputMap0.keySet()){
+		for(String el0 : inputMap0.get(key)){
+			if(inputMap1.containsKey(key))
+			for(String el1 : inputMap1.get(key)){
+				collector.emit(new Values(key, el0 + \":\" + el1));
+			}
+		}
+	}
+		",
+		"fields":""
 	},
 	"jobConfig":"
 		//default conf
