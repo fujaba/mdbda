@@ -29,13 +29,13 @@ collector.emit(new Values(splitValue[0] + \":\" + splitValue[1]	, \"0:\" + input
 	},{
 		"testInput":[
 "\"Road.Runner@acme.com:mh@hahnpro.com:ts1\";null",
-"\"Foghorn.Leghorn@acme.com:mh@hahnpro.com:ts2\";null",
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com:ts2\";null",
 "\"Elmer.Fudd@acme.com:info@hahnpro.com:ts3\";null"
 ],	
 		"testOutput":[ 
 "\"Road.Runner@acme.com:mh@hahnpro.com\";\"1:ts1\"",
 "\"Elmer.Fudd@acme.com:info@hahnpro.com\";\"1:ts3\"",
-"\"Foghorn.Leghorn@acme.com:mh@hahnpro.com\";\"1:ts2\""
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";\"1:ts2\""
 ],
 		"KEYIN":"Text",
 		"VALUEIN":"Text",
@@ -52,12 +52,20 @@ collector.emit(new Values(splitKey[0] + \":\" + splitKey[1], \"1:\" + splitKey[2
 	}],
 	"reduceFunction":{		
 		"testInput":[ 
-"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";[\"0:Road.Runner@acme.com:ts1\",\"1:ts2\"]",
-"\"Foghorn.Leghorn@acme.com:mh@hahnpro.com\";[\"0:Road.Runner@acme.com:ts1\"]",
-"\"Foghorn.Leghorn@acme.com:info@hahnpro.com\";[\"1:ts3\"]",
-"\"Elmer.Fudd@acme.com:mh@hahnpro.com\";[\"0:Road.Runner@acme.com:ts1\"]",
-"\"Road.Runner@acme.com:mh@hahnpro.com\";[\"0:Wile.E.Coyote@acme.com:ts2\",\"1:ts1\"]",
-"\"Road.Runner@acme.com:info@hahnpro.com\";[\"0:Foghorn.Leghorn@acme.com:ts3\"]",
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com\";[ 
+	\"0:Road.Runner@acme.com:ts1\",
+	\"1:ts2\"]",
+"\"Foghorn.Leghorn@acme.com:mh@hahnpro.com\";[
+	\"0:Road.Runner@acme.com:ts1\"]",
+"\"Foghorn.Leghorn@acme.com:info@hahnpro.com\";[
+	\"1:ts3\"]",
+"\"Elmer.Fudd@acme.com:mh@hahnpro.com\";[
+	\"0:Road.Runner@acme.com:ts1\"]",
+"\"Road.Runner@acme.com:mh@hahnpro.com\";[
+	\"0:Wile.E.Coyote@acme.com:ts2\",
+	\"1:ts1\"]",
+"\"Road.Runner@acme.com:info@hahnpro.com\";[
+	\"0:Foghorn.Leghorn@acme.com:ts3\"]",
 
 ],
 		"testOutput":[
@@ -119,7 +127,7 @@ collector.emit(new Values(splitKey[0] + \":\" + splitKey[1], \"1:\" + splitKey[2
 		for(String el0 : inputMap0.get(key)){
 			if(inputMap1.containsKey(key))
 			for(String el1 : inputMap1.get(key)){
-				collector.emit(new Values(key, el0 + \":\" + el1));
+				collector.emit(new Values(key, el1 + \":\" + el0));
 			}
 		}
 	}

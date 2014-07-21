@@ -28,13 +28,15 @@
 		"testInput":[
 "\"Road.Runner@acme.com:mh@hahnpro.com:ts1\";null",
 "\"Foghorn.Leghorn@acme.com:mh@hahnpro.com:ts2\";null",
-"\"Elmer.Fudd@acme.com:info@hahnpro.com:ts3\";null" 
+"\"Elmer.Fudd@acme.com:info@hahnpro.com:ts3\";null",
+"\"Wile.E.Coyote@acme.com:mh@hahnpro.com:ts42\";null"
 ],
 
 		"testOutput":[ 
 "\"Road.Runner@acme.com\";\"1:mh@hahnpro.com:ts1\"",
 "\"Foghorn.Leghorn@acme.com\";\"1:mh@hahnpro.com:ts2\"",
-"\"Elmer.Fudd@acme.com\";\"1:info@hahnpro.com:ts3\""
+"\"Elmer.Fudd@acme.com\";\"1:info@hahnpro.com:ts3\"",
+"\"Wile.E.Coyote@acme.com\";\"1:mh@hahnpro.com:ts42\""
 ],
 		"KEYIN":"Text",
 		"VALUEIN":"NullWritable",
@@ -58,18 +60,19 @@
 	\"1:mh@hahnpro.com:ts1\" ] ",
 "\"Wile.E.Coyote@acme.com\";[
 	\"0:Road.Runner@acme.com\",
-	\"1:mh@hahnpro.com:ts2\" ]",
-	
+	\"1:mh@hahnpro.com:ts42\" ]",
 "\"Foghorn.Leghorn@acme.com\";[
 	\"0:Road.Runner@acme.com\",
-	\"1:info@hahnpro.com:ts3\" ]"
+	\"1:mh@hahnpro.com:ts2\" ]"
+"\"Elmer.Fudd@acme.com\";[
+	\"1:info@hahnpro.com:ts3\"]"
 ],
 		"testOutput":[
 "\"Road.Runner@acme.com\";\"Wile.E.Coyote@acme.com:mh@hahnpro.com:ts1\"",
 "\"Road.Runner@acme.com\";\"Foghorn.Leghorn@acme.com:mh@hahnpro.com:ts1\"",
 "\"Road.Runner@acme.com\";\"Elmer.Fudd@acme.com:mh@hahnpro.com:ts1\"",
-"\"Wile.E.Coyote@acme.com\";\"Road.Runner@acme.com:mh@hahnpro.com:ts2\"",
-"\"Foghorn.Leghorn@acme.com\";\"Road.Runner@acme.com:info@hahnpro.com:ts3\""
+"\"Wile.E.Coyote@acme.com\";\"Road.Runner@acme.com:mh@hahnpro.com:ts42\"",
+"\"Foghorn.Leghorn@acme.com\";\"Road.Runner@acme.com:mh@hahnpro.com:ts2\""
  ],
 		"KEYIN":"Text",
 		"VALUEIN":"Text",
