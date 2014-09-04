@@ -5,6 +5,7 @@ import org.mdbda.model.Pattern
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
+import org.mdbda.codegen.helper.CodeGenHelper
 
 class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	
@@ -136,7 +137,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 				«val JSONArray testReduceOutput = config.getTestOutput(config.reduceFunction)»
 				«FOR inputString : testReduceOutput »
 					«var String[] inputElements = (inputString as String).split(";")»
-					testData.offer(new Values(«inputElements.get(0)»,«inputElements.get(1)»));
+					testData.offer(new Values(«CodeGenHelper.fixInputString(inputElements.get(0))»,«CodeGenHelper.fixInputString(inputElements.get(1))»));
 				«ENDFOR»
 			}
 			
@@ -144,7 +145,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 			public void execute(Tuple input, BasicOutputCollector collector) {
 				for( Values v : testData){
 					if(		input.getString(0).equals(v.get(0)) 
-						&& 	((input.getString(1) == null && v.get(1) == null) || input.getString(1).equals(v.get(1)))  ){
+						&& 	((input.getString(1) == null && v.get(1) == null) || input.getString(1) != null && input.getString(1).equals(v.get(1)))  ){
 						testData.remove(v);
 						return;
 					}
@@ -193,7 +194,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 				«val JSONArray testMapInput = config.getTestInput(jsonFunktion)» 
 				«FOR inputString : testMapInput »
 					«var String[] inputElements = (inputString as String).split(";")»
-					testData.offer(new Values(«inputElements.get(0)»,«inputElements.get(1)»));
+					testData.offer(new Values(«CodeGenHelper.fixInputString(inputElements.get(0))»,«CodeGenHelper.fixInputString(inputElements.get(1))»));
 				«ENDFOR»
 			}
 			

@@ -153,7 +153,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«FOR outputResource : pattern.outputResources»
 			«IF outputResource instanceof Workflow || outputResource instanceof Pattern»	
 				«needsTempOutput = true»
-			«ENDIF»«/* ist eine Resource */»			
+			«ENDIF»«/* ist eine Resource */»
 		«ENDFOR»
 		
 		«IF needsTempOutput»

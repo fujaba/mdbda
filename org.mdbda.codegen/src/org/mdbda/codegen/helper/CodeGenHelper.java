@@ -143,18 +143,25 @@ public class CodeGenHelper {
 	    gen.init();
 		gen.doGenerate(resource, fsa);
 	}
-
+	public static String fixInputString(String value) {
+		if(value == null || value.equals("null")) return value;
+		if(!value.startsWith("\"")){
+			value = "\"" + value;
+		}
+		if(!value.endsWith("\"")){
+			value = value + "\"";
+		}
+		
+		return value;
+	}
 	public static String genWriterConstructorCall(String type, String value) {
+	
 		switch (type) {
 		case "NullWritable":
 			return "NullWritable.get()";
 		case "Text":
-			if(!value.startsWith("\"")){
-				value = "\"" + value;
-			}
-			if(!value.endsWith("\"")){
-				value = value + "\"";
-			}
+			value = fixInputString(value);
+			if(value.equals("null")) return "new Text(  )";
 			return "new Text( " + value + " )";
 		default:
 			return "new " + type + "( " + value + " )";

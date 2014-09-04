@@ -70,16 +70,19 @@ class MDBDACodegenerator implements IGenerator {
 		addPatternTemplate(JoinPatternTemplateConstatns.ReduceSideJoin, new MultipleInputTemplate)
 		addPatternTemplate(JoinPatternTemplateConstatns.ReplicatedJoin, new MultipleInputTemplate)
 		
-		
-		
 	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
 		//patternTemplates.put("test",[Pattern p | '''//something funny Lambda «p.name» '''])
 			
 		for(root: input.allContents.toIterable.filter(MDBDADiagram)){
+			//MR
 			var context = new CodegenContext(fsa,root.name + 'JobConfiguration.java','')
 			genFile(root.jobConfiguration(context),context)
+			
+			//Storm
+			context = new CodegenContext(fsa,root.name + 'StormTopology.java','')
+			genFile(root.stormTopology(context),context)
 		}
 		
 		//generate MapReduce
@@ -91,8 +94,10 @@ class MDBDACodegenerator implements IGenerator {
 		}
 		//generate Storm
 		for(pattern: input.allContents.toIterable.filter(Pattern)){
-			var context = new CodegenContext(fsa,CodeGenHelper.getStormClassNameFromPattern(pattern) + '.java','')
-			genFile(pattern.genStormPatternClass(context),context)			
+			if(! (pattern instanceof Workflow)){
+				var context = new CodegenContext(fsa,CodeGenHelper.getStormClassNameFromPattern(pattern) + '.java','')
+				genFile(pattern.genStormPatternClass(context),context)
+			}
 		}
 		
 		//generate MRUnit Test
@@ -103,7 +108,25 @@ class MDBDACodegenerator implements IGenerator {
 			
 			}
 		}
-	} 
+	}
+	
+	def CharSequence stormTopology(MDBDADiagram diagram, CodegenContext context)'''
+		class «diagram.name»StormTopology{
+			/**
+			  * name    = «diagram.name»
+			  *	author  = «diagram.author»
+			  * version = «diagram.version»
+			  * @throws IOException 
+			*/			
+			«context.addImport("java.io.IOException")»
+			public static void main(String... args) throws IOException{
+					«context.addImport("org.apache.hadoop.conf.Configuration")»
+					Configuration conf = new Configuration();
+					«diagram.rootWorkflow.genWorkflowConfiguration(context)»
+					«diagram.rootWorkflow.genResources(context)»
+			}
+		}
+	'''
 	
 	
 	def genFile(CharSequence content, CodegenContext context){
@@ -232,7 +255,7 @@ class MDBDACodegenerator implements IGenerator {
 					return null;
 				«ENDIF»
 			}
-			
+		
 		«IF patternTemplates.containsKey(p.typeId)»
 			«patternTemplates.get(p.typeId).generareMapReducePattern(p, context)»
 		«ELSE»
@@ -254,10 +277,9 @@ class MDBDACodegenerator implements IGenerator {
 		«context.addImport("java.io.Serializable")»
 		public class «CodeGenHelper.getStormClassNameFromPattern(p)» implements Serializable {
 		«IF patternTemplates.containsKey(p.typeId)»
-		
 			«patternTemplates.get(p.typeId).generareStormPattern(p, context)»
 		«ELSE»
-			//keine implementierung in patternTemplates für «p.typeId» vorhanden
+			//keine implementierung in patternTemplates für "«p.typeId»" vorhanden («p.class»)
 		«ENDIF»
 		}
 	'''
