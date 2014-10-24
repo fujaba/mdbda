@@ -12,13 +12,15 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext;bundle-version="2.4.3",
  org.eclipse.xtend.lib,
  com.google.guava,
- org.eclipse.xtext.xbase.lib,
- mdbda.dependencies;bundle-version="1.0.0"
+ org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
-Export-Package: org.mdbda.codegen,
+Export-Package: org.json.simple,
+ org.json.simple.parser,
+ org.mdbda.codegen;uses:="org.osgi.framework,org.mdbda.model,org.eclipse.ui.plugin",
  org.mdbda.codegen.helper
 Bundle-ClassPath: target/classes/,
  .,
- target/test-classes/
+ target/test-classes/,
+ lib/json-simple-1.1.1.jar
 

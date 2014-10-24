@@ -28,6 +28,7 @@ import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.ui.PlatformUI;
@@ -36,14 +37,19 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.mdbda.model.Workflow;
 
 public abstract class MDBDASWTBotTestCase extends SWTBotEclipseTestCase {
 
+	static boolean DEMOMODE = true; //slowdown the test
+	
+	
 	protected static final String PACKAGE_EXPLORER = "Package Explorer";
 	protected static SWTGefBot bot = new SWTGefBot();
 	static final String PROJECT_NAME = "junit Test Project";
-	protected static final String DIAGRAM_NAME = "junitTestDiagram";
+	protected static String DIAGRAM_NAME = "junitTestDiagram";
 	protected static final String DIAGRAM_NAME2 = "junitTestDiagram2";
 	protected final int _PATTERN_WIDTH_CONST = 110;
 	static IProject project;
@@ -77,6 +83,8 @@ public abstract class MDBDASWTBotTestCase extends SWTBotEclipseTestCase {
 	
 		
 		bot.viewByTitle("Welcome").close();
+
+		if(DEMOMODE)	Thread.sleep(5 * 1000); //time to move window
 		
 		newMDBDAProject();
 		
@@ -144,9 +152,12 @@ public abstract class MDBDASWTBotTestCase extends SWTBotEclipseTestCase {
 	public MDBDASWTBotTestCase() {
 		super();
 	}
-
+	@Rule public TestName name = new TestName();
+	
 	@Before
-	public void newDiagram() {
+	public void newDiagram() throws InterruptedException {
+		DIAGRAM_NAME = name.getMethodName();
+		
 		SWTBotShell shell;
 		botSelectProject();
 		bot.menu("File").menu("New").menu("Other...").click();
@@ -161,10 +172,14 @@ public abstract class MDBDASWTBotTestCase extends SWTBotEclipseTestCase {
 		
 		bot.textWithLabel("File name:").setText(DIAGRAM_NAME);
 		bot.button("Finish").click();
+		
+		if(DEMOMODE)	SWTBotPreferences.PLAYBACK_DELAY = 100;
 	}
 
 	@After
-	public void closeDiagramAndDelete() {
+	public void closeDiagramAndDelete() throws InterruptedException {
+		if(DEMOMODE) Thread.sleep(2000); //wirken lassen :)
+		
 		bot.gefEditor(DIAGRAM_NAME).close();//  saveAndClose();
 		
 		bot.viewByTitle(PACKAGE_EXPLORER);
