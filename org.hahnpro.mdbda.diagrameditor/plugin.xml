@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="org.mdbda.diagrameditor.pattern" name="Pattern Plug-ins" schema="schema/org.mdbda.diagrameditor.pattern.exsd"/>
 
 
 <extension point="org.eclipse.ui.popupMenus"> 

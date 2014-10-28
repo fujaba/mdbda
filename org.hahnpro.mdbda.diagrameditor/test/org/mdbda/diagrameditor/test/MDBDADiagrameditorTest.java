@@ -31,7 +31,6 @@ import org.mdbda.diagrameditor.features.resources.CreateCassandraResourceFeature
 import org.mdbda.diagrameditor.features.resources.CreateGenericResourceFeature;
 import org.mdbda.diagrameditor.features.resources.CreateHDFSResourceFeature;
 import org.mdbda.diagrameditor.features.resources.CreateHazelcastResourceFeature;
-import org.mdbda.diagrameditor.features.resources.CreateNeo4jResourceFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 import org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard;
 
@@ -314,7 +313,7 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
 		
-		editor.activateTool(CreateNeo4jResourceFeature.name);
+		editor.activateTool("Neo4j Resource"); //ausgelagert in ein plugin
 		editor.drag(20 + _PATTERN_WIDTH_CONST*2, 100 , 40 + _PATTERN_WIDTH_CONST*2, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 3);

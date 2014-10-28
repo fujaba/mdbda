@@ -31,7 +31,7 @@ public abstract class AbstractCreateMDBDAFeature extends AbstractCreateFeature {
 
 	public abstract Object[] create(ICreateContext context);
 	
-	public abstract String getDefaultConfigJSONFileLocation();
+	public abstract URL getDefaultConfigJSONFileLocation();
 
 	public static long patternCounter = 0;
 	
@@ -42,8 +42,8 @@ public abstract class AbstractCreateMDBDAFeature extends AbstractCreateFeature {
 	}
 
 	public String getDefaultConfigurationString() {
-		Bundle bundle = Platform.getBundle("org.mdbda.diagrameditor");
-		URL fileURL = bundle.getEntry(getDefaultConfigJSONFileLocation());
+		//Platform.get
+		URL fileURL = getDefaultConfigJSONFileLocation();
 		try {
 		    byte[] allBytes = Files.readAllBytes( Paths.get( FileLocator.resolve(fileURL).toURI() ) );
 		    return new String(allBytes);//TODO Charset??

@@ -1,5 +1,8 @@
 package org.mdbda.diagrameditor.features.pattern.dataorganization;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -7,6 +10,7 @@ import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Pattern;
 import org.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
 import org.mdbda.model.DataOrganizationPatternTemplateConstatns;
+import org.osgi.framework.Bundle;
 
 public class CreatePartitoningFeature extends CreatePatternFeature implements
 		ICreateFeature {
@@ -38,7 +42,9 @@ public class CreatePartitoningFeature extends CreatePatternFeature implements
 	}
 	
 	@Override
-	public String getDefaultConfigJSONFileLocation() {
-		return "/target/classes/org/mdbda/diagrameditor/features/pattern/dataorganization/PartitoningConfig.json";
+	public URL getDefaultConfigJSONFileLocation() {
+		Bundle bundle = Platform.getBundle("org.mdbda.diagrameditor");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/diagrameditor/features/pattern/dataorganization/PartitoningConfig.json");
+		return fileURL;
 	}
 }

@@ -1,5 +1,8 @@
 package org.mdbda.diagrameditor.features;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,6 +18,7 @@ import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
+import org.osgi.framework.Bundle;
 
 public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 		ICreateFeature {
@@ -102,8 +106,10 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 	}
 	
 	@Override
-	public String getDefaultConfigJSONFileLocation() {
-		return "/target/classes/org/mdbda/diagrameditor/features/DefaultWorkflowConfig.json";
+	public URL getDefaultConfigJSONFileLocation() {
+		Bundle bundle = Platform.getBundle("org.mdbda.diagrameditor");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/diagrameditor/features/DefaultWorkflowConfig.json");
+		return fileURL;
 	}
 
 }

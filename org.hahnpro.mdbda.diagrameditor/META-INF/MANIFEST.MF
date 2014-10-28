@@ -33,7 +33,17 @@ Bundle-SymbolicName: org.mdbda.diagrameditor;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-Name: MDBDA Diagram Editor
 Bundle-Vendor: Marcel Hahn
-Export-Package: org.mdbda.diagrameditor.test
+Export-Package: org.mdbda.diagrameditor.features,
+ org.mdbda.diagrameditor.features.resources,
+ org.mdbda.diagrameditor.test;
+  uses:="org.eclipse.swtbot.swt.finder.widgets,
+   org.junit.rules,
+   org.eclipse.swtbot.eclipse.gef.finder.widgets,
+   org.mdbda.model,
+   org.eclipse.graphiti.ui.internal.parts,
+   org.eclipse.core.resources,
+   org.eclipse.swtbot.eclipse.finder,
+   org.eclipse.swtbot.eclipse.gef.finder"
 Bundle-ClassPath: target/classes/,
  .,
  target/test-classes/,

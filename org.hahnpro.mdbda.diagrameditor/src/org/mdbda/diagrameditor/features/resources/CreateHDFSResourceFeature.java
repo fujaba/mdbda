@@ -1,10 +1,14 @@
 package org.mdbda.diagrameditor.features.resources;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Resource;
 import org.mdbda.model.ResourcesTemplateConstatns;
+import org.osgi.framework.Bundle;
 
 public class CreateHDFSResourceFeature extends CreateResourceFeature {
 
@@ -30,7 +34,9 @@ public class CreateHDFSResourceFeature extends CreateResourceFeature {
 	}
 	
 	@Override
-	public String getDefaultConfigJSONFileLocation() {
-		return "/target/classes/org/mdbda/diagrameditor/features/resources/HDFSConfig.json";
+	public URL getDefaultConfigJSONFileLocation() {
+		Bundle bundle = Platform.getBundle("org.mdbda.diagrameditor");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/diagrameditor/features/resources/HDFSConfig.json");
+		return fileURL;
 	}
 }
