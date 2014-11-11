@@ -10,11 +10,11 @@ public class FilteringPatternTemplateConstatns {
 	public static String getDistinct() {
 		return Distinct;
 	}
-	public static String getSimpleMatcherFilter() {
-		return SimpleMatcherFilter;
-	}
+//	public static String getSimpleMatcherFilter() {
+//		return SimpleMatcherFilter;
+//	}
 	public static final String BloomFiltering  = "BloomFiltering";
 	public static final String TopTen  = "TopTen";
 	public static final String Distinct  = "Distinct";
-	public static final String SimpleMatcherFilter  = "SimpleMatcherFilter";
+	//public static final String SimpleMatcherFilter  = "SimpleMatcherFilter";
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.mdbda.codegen.plugin">
+      <ResourcePlugin
+            ResourceTemplateClass="org.mdbda.hdfs.codegen.HDFSResource"
+            typeId="HDFSResource">
+      </ResourcePlugin>
+   </extension>
+   <extension
+         point="org.mdbda.diagrameditor.pattern">
+      <GraphicalFeatures
+            addFeatureClass="org.mdbda.hdfs.AddHDFSResourceFeature"
+            createFeatureClass="org.mdbda.hdfs.CreateHDFSResourceFeature"
+            group="Resources"
+            typeId="HDFSResource">
+      </GraphicalFeatures>
+   </extension>
+
+</plugin>

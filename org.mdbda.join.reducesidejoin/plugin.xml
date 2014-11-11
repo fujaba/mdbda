@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.mdbda.diagrameditor.pattern">
+      <GraphicalFeatures
+            addFeatureClass="org.mdbda.join.reducesidejoin.AddReduceSideJoinFeature"
+            createFeatureClass="org.mdbda.join.reducesidejoin.CreateReduceSideJoinFeature"
+            group="Join"
+            typeId="ReduceSideJoin">
+      </GraphicalFeatures>
+   </extension>
+
+</plugin>

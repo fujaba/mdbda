@@ -76,6 +76,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="group" type="string" use="default" value="other">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

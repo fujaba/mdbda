@@ -34,6 +34,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Name: MDBDA Diagram Editor
 Bundle-Vendor: Marcel Hahn
 Export-Package: org.mdbda.diagrameditor.features,
+ org.mdbda.diagrameditor.features.pattern,
  org.mdbda.diagrameditor.features.resources,
  org.mdbda.diagrameditor.test;
   uses:="org.eclipse.swtbot.swt.finder.widgets,

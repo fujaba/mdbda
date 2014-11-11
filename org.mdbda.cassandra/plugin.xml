@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.mdbda.diagrameditor.pattern">
+      <GraphicalFeatures
+            addFeatureClass="org.mdbda.cassandra.AddCassandraResourceFeature"
+            createFeatureClass="org.mdbda.cassandra.CreateCassandraResourceFeature"
+            group="Resources"
+            typeId="CassandraResource">
+      </GraphicalFeatures>
+   </extension>
+   <extension
+         point="org.mdbda.codegen.plugin">
+      <ResourcePlugin
+            ResourceTemplateClass="org.mdbda.cassandra.codegen.CassandraResource"
+            typeId="CassandraResource">
+      </ResourcePlugin>
+   </extension>
+
+</plugin>

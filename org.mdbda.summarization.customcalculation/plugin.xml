@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.mdbda.diagrameditor.pattern">
+      <GraphicalFeatures
+            addFeatureClass="org.mdbda.summarization.customcalculation.AddCustomCalculationFeature"
+            createFeatureClass="org.mdbda.summarization.customcalculation.CreateCustomCalculationFeature"
+            group="Summarization"
+            typeId="CustomCalculation">
+      </GraphicalFeatures>
+   </extension>
+
+</plugin>

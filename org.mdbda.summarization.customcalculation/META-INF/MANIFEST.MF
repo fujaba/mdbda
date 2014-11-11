@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CustomCalculation
+Bundle-SymbolicName: org.mdbda.summarization.customcalculation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.graphiti;bundle-version="0.11.0",
+ org.eclipse.graphiti.ui,
+ org.mdbda.diagrameditor;bundle-version="1.0.0",
+ org.mdbda.xcore;bundle-version="1.0.0",
+ org.eclipse.osgi,
+ org.eclipse.core.runtime

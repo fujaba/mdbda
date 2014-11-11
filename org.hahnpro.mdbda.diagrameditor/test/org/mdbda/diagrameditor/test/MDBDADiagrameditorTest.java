@@ -13,26 +13,26 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+//import org.mdbda.dataorganization.binning.CreateBinningFeature;
+//import org.mdbda.dataorganization.partitioning.CreatePartitoningFeature;
+//import org.mdbda.dataorganization.shuffling.CreateShufflingFeature;
+//import org.mdbda.dataorganization.structuredtohierarchical.CreateStructuredToHierachicalFeature;
+//import org.mdbda.dataorganization.totalordersorting.CreateTotalOrderSortingFeature;
+//import org.mdbda.cassandra.CreateCassandraResourceFeature;
 import org.mdbda.diagrameditor.features.CreateWorkflowFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateBinningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreatePartitoningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateShufflingFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
-import org.mdbda.diagrameditor.features.pattern.filtering.CreateDistinctFeature;
-import org.mdbda.diagrameditor.features.pattern.filtering.CreateSimpleMatcherFeature;
-import org.mdbda.diagrameditor.features.pattern.filtering.CreateTopTenFeature;
-import org.mdbda.diagrameditor.features.pattern.join.CreateCartesianProductFeature;
-import org.mdbda.diagrameditor.features.pattern.join.CreateReduceSideJoinFeature;
-import org.mdbda.diagrameditor.features.pattern.join.CreateReplicatedJoinFeature;
-import org.mdbda.diagrameditor.features.pattern.summatization.CreateCustomCalculationFeature;
-import org.mdbda.diagrameditor.features.pattern.summatization.CreateNumericalSummarizationFeature;
-import org.mdbda.diagrameditor.features.resources.CreateCassandraResourceFeature;
+//import org.mdbda.diagrameditor.features.pattern.filtering.CreateDistinctFeature;
 import org.mdbda.diagrameditor.features.resources.CreateGenericResourceFeature;
-import org.mdbda.diagrameditor.features.resources.CreateHDFSResourceFeature;
-import org.mdbda.diagrameditor.features.resources.CreateHazelcastResourceFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 import org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard;
+//import org.mdbda.filter.simplematcher.CreateSimpleMatcherFeature;
+//import org.mdbda.filter.topten.CreateTopTenFeature;
+//import org.mdbda.hazelcast.CreateHazelcastResourceFeature;
+//import org.mdbda.hdfs.CreateHDFSResourceFeature;
+//import org.mdbda.summarization.customcalculation.CreateCustomCalculationFeature;
+//import org.mdbda.summarization.numericalsummarization.CreateNumericalSummarizationFeature;
+//import org.mdbda.join.cartesianproduct.CreateCartesianProductFeature;
+//import org.mdbda.join.reducesidejoin.CreateReduceSideJoinFeature;
+//import org.mdbda.join.replicatedjoin.CreateReplicatedJoinFeature;
 
 
 @RunWith(SWTBotJunit4ClassRunner.class)
@@ -108,13 +108,13 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateNumericalSummarizationFeature.name);
+//		editor.activateTool(CreateNumericalSummarizationFeature.name);
 		editor.drag(20, 100 , 40, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 		
 		
-		editor.activateTool(CreateCustomCalculationFeature.name);
+	//	editor.activateTool(CreateCustomCalculationFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST, 100 , 40 + _PATTERN_WIDTH_CONST, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
@@ -135,12 +135,12 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateNumericalSummarizationFeature.name);
+//		editor.activateTool(CreateNumericalSummarizationFeature.name);
 		editor.drag(20, 100 , 100, 150);		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 		final SWTBotGefEditPart numericalSummarizationEditPart = rootWorkflowEditPart.children().get(0);
 		
-		editor.activateTool(CreateCustomCalculationFeature.name);
+//		editor.activateTool(CreateCustomCalculationFeature.name);
 		editor.drag(_PATTERN_WIDTH_CONST * 4, 100 , 100 + _PATTERN_WIDTH_CONST * 4 , 150);		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
 
@@ -192,18 +192,18 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateCartesianProductFeature.name);
+//		editor.activateTool(CreateCartesianProductFeature.name);
 		editor.drag(20, 100 , 40, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 		
-
-		editor.activateTool(CreateReplicatedJoinFeature.name);
+//
+//		editor.activateTool(CreateReplicatedJoinFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST, 100 , 40 + _PATTERN_WIDTH_CONST, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
 		
-		editor.activateTool(CreateReduceSideJoinFeature.name);
+//		editor.activateTool(CreateReduceSideJoinFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*2, 100 , 40 + _PATTERN_WIDTH_CONST*2, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 3);
@@ -226,18 +226,18 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateTopTenFeature.name);
+		//editor.activateTool(CreateTopTenFeature.name);
 		editor.drag(20, 100 , 40, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 		
 		
-		editor.activateTool(CreateDistinctFeature.name);
+	//	editor.activateTool(CreateDistinctFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST, 100 , 40 + _PATTERN_WIDTH_CONST, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
 		
-		editor.activateTool(CreateSimpleMatcherFeature.name);
+	//	editor.activateTool(CreateSimpleMatcherFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*2, 100 , 40 + _PATTERN_WIDTH_CONST*2, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 3);
@@ -259,28 +259,28 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateBinningFeature.name);
+//		editor.activateTool(CreateBinningFeature.name);
 		editor.drag(20, 100 , 40, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 
 		
-		editor.activateTool(CreatePartitoningFeature.name);
+//		editor.activateTool(CreatePartitoningFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST, 100 , 40 + _PATTERN_WIDTH_CONST, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
 		
-		editor.activateTool(CreateShufflingFeature.name);
+//		editor.activateTool(CreateShufflingFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*2, 100 , 40 + _PATTERN_WIDTH_CONST*2, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 3);
 		
-		editor.activateTool(CreateStructuredToHierachicalFeature.name);
+//		editor.activateTool(CreateStructuredToHierachicalFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*3, 100 , 40 + _PATTERN_WIDTH_CONST*3, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 4);
 		
-		editor.activateTool(CreateTotalOrderSortingFeature.name);
+//		editor.activateTool(CreateTotalOrderSortingFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*4, 100 , 40 + _PATTERN_WIDTH_CONST*4, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 5);
@@ -302,13 +302,13 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 0);
 		
-		editor.activateTool(CreateCassandraResourceFeature.name);
+	//	editor.activateTool(CreateCassandraResourceFeature.name);
 		editor.drag(20, 100 , 40, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 1);
 
 		
-		editor.activateTool(CreateHDFSResourceFeature.name);
+	//	editor.activateTool(CreateHDFSResourceFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST, 100 , 40 + _PATTERN_WIDTH_CONST, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 2);
@@ -318,7 +318,7 @@ public class MDBDADiagrameditorTest extends MDBDASWTBotTestCase{
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 3);
 		
-		editor.activateTool(CreateHazelcastResourceFeature.name);
+	//	editor.activateTool(CreateHazelcastResourceFeature.name);
 		editor.drag(20 + _PATTERN_WIDTH_CONST*3, 100 , 40 + _PATTERN_WIDTH_CONST*3, 120);
 		
 		assertTrue(rootWorkflowEditPart.children().size() == 4);

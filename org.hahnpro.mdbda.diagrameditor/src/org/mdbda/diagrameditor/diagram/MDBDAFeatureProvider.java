@@ -1,12 +1,14 @@
 package org.mdbda.diagrameditor.diagram;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -15,7 +17,6 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.mm.pictograms.Connection;
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -23,23 +24,11 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.mdbda.model.Pattern;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
-import org.mdbda.diagrameditor.features.AbstractGroupConfigurator;
 import org.mdbda.diagrameditor.features.AddLinkFeature;
 import org.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.mdbda.diagrameditor.features.CreateWorkflowFeature;
 import org.mdbda.diagrameditor.features.LayoutDomainObjectFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.AddBinningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.AddPartitoningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.AddShufflingFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.AddStructuredToHierachicalFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.AddTotalOrderSortingFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateBinningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreatePartitoningFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateShufflingFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateStructuredToHierachicalFeature;
-import org.mdbda.diagrameditor.features.pattern.dataorganization.CreateTotalOrderSortingFeature;
-import org.mdbda.diagrameditor.features.updateFeatures.AbstractConnectionUpdateFeature;
 import org.mdbda.diagrameditor.features.updateFeatures.PatternUpdateFeature;
 import org.mdbda.diagrameditor.features.updateFeatures.ResourceUpdateFeature;
 import org.mdbda.diagrameditor.features.updateFeatures.UpdateConnectionDataformatDecorationFeature;
@@ -48,9 +37,11 @@ import org.mdbda.diagrameditor.utils.DiagramUtils;
 
 
 public class MDBDAFeatureProvider extends DefaultFeatureProvider {
-
-	public MDBDAFeatureProvider(IDiagramTypeProvider dtp) {
+	MDBDADiagramTypeProvider diagramTypeProvider;
+	
+	public MDBDAFeatureProvider(MDBDADiagramTypeProvider dtp) {
 		super(dtp);
+		diagramTypeProvider = dtp;
 	}
 
 	@Override
@@ -58,10 +49,27 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		ArrayList<ICreateFeature> cf = new ArrayList();
 		cf.add( new CreateWorkflowFeature(this));
 		
-		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
-			cf.addAll(conf.getCreateFeatures(this));
+		for(String groupKey : diagramTypeProvider.mapPaletteCategory2CreateFeatureClasses.keySet()){
+			
+			HashSet<Class<ICreateFeature>> cFeatureClazzes = diagramTypeProvider.mapPaletteCategory2CreateFeatureClasses.get(groupKey);
+			
+			for(Class<ICreateFeature> fClazz : cFeatureClazzes){
+				try {
+					cf.add(fClazz.getConstructor(IFeatureProvider.class).newInstance(this));
+				} catch (InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException
+						| NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		}
-		
+//		
+//		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
+//			cf.addAll(conf.getCreateFeatures(this));
+//		}
+				
 		return (ICreateFeature[]) cf.toArray(new ICreateFeature[cf.size()]) ;
 	}
 	
@@ -84,10 +92,25 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 			return new AddWorkflowFeature(this);
 		} 
 		
-		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
-			IAddFeature af = conf.getAddFeature(context, this);
-			if(af != null) return af;
+//		for(AbstractGroupConfigurator conf : AbstractGroupConfigurator.groupConfigurators){
+//			IAddFeature af = conf.getAddFeature(context, this);
+//			if(af != null) return af;
+//		}
+		
+		if(context instanceof IAddContext && context.getNewObject() instanceof Resource){
+			Resource res = (Resource) context.getNewObject();
+			Class<IAddFeature> addClazz = diagramTypeProvider.resourceTypeIdAddFreature.get(res.getTypeId());
+			
+			try {
+				return addClazz.getConstructor(IFeatureProvider.class).newInstance(this);
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 
 		return super.getAddFeature(context);
 	}

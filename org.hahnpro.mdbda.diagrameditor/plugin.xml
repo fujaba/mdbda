@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.mdbda.diagrameditor.pattern" name="Pattern Plug-ins" schema="schema/org.mdbda.diagrameditor.pattern.exsd"/>
+   <extension-point id="org.mdbda.diagrameditor.imageprovider" name="MDBDAPlugableImageProvider" schema="schema/org.mdbda.diagrameditor.imageprovider.exsd"/>
 
 
 <extension point="org.eclipse.ui.popupMenus"> 
@@ -13,7 +14,7 @@
       <action
          id="org.mdbda.diagrameditor.generatorAction" 
          label="Generate MDBDA Code"
-         icon="icon/gen_016.png"
+         icon="icon/astronaut_32.png"
          menubarPath="additions"
          class="org.mdbda.diagrameditor.action.GeneratorAction"> 
       </action>
@@ -37,6 +38,9 @@
          <diagramType
                id="org.mdbda.diagrameditor.MDBDADiagram">
          </diagramType>
+         <imageProvider
+               id="org.mdbda.diagrameditor.diagram.MDBDAPlugableImageProvider">
+         </imageProvider>
       </diagramTypeProvider>
    </extension>
    <extension
@@ -84,5 +88,12 @@
                id="graphiti.main.tab.emfclass">
               </propertySection>
           </propertySections>
+      </extension>
+      <extension
+            point="org.eclipse.graphiti.ui.imageProviders">
+         <imageProvider
+               class="org.mdbda.diagrameditor.diagram.MDBDAPlugableImageProvider"
+               id="org.mdbda.diagrameditor.diagram.MDBDAPlugableImageProvider">
+         </imageProvider>
       </extension>
 </plugin>

@@ -282,7 +282,6 @@ public class DiagramUtils {
 		IFolder diagramFolder = project.getFolder("src/diagrams/"); //$NON-NLS-1$
 		
 
-		String editorID = DiagramEditor.DIAGRAM_EDITOR_ID;
 		String diagramTypeProviderId = GraphitiUi.getExtensionManager().getDiagramTypeProviderId(MDBDA_DIAGRAM_TYPEID);
 		String namingConventionID = diagramTypeProviderId + ".editor"; //$NON-NLS-1$
 		IEditorDescriptor specificEditor = PlatformUI.getWorkbench().getEditorRegistry().findEditor(namingConventionID);
@@ -388,7 +387,7 @@ public class DiagramUtils {
 		DiagramEditorInput editorInput = new DiagramEditorInput(EcoreUtil.getURI(diagram), providerId);
 		
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, editorID);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, DiagramEditor.DIAGRAM_EDITOR_ID);
 		} catch (PartInitException e) {
 			String error = e.getLocalizedMessage();
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, error, e);

@@ -6,7 +6,6 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
-import org.mdbda.codegen.plugins.CassandraResource
 import org.mdbda.codegen.plugins.HDFSResource
 import org.mdbda.codegen.plugins.NumericalSummarizationPattern
 import org.mdbda.model.DataOrganizationPatternTemplateConstatns
@@ -18,7 +17,9 @@ import org.mdbda.model.Pattern
 import org.mdbda.model.ResourcesTemplateConstatns
 import org.mdbda.model.SummatizationPatternTemplateConstatns
 import org.mdbda.model.Workflow
-
+import org.eclipse.core.runtime.IExtensionRegistry
+import org.eclipse.core.runtime.Platform
+import org.eclipse.core.runtime.IConfigurationElement
 
 class MDBDACodegenerator implements IGenerator {
 	
@@ -46,8 +47,28 @@ class MDBDACodegenerator implements IGenerator {
 	
 	
 	public def init(){
-		addResourceTemplates(ResourcesTemplateConstatns.RESOURCETYPE_HDFS,new HDFSResource);
-		addResourceTemplates(ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA,new CassandraResource);
+		
+		val IExtensionRegistry reg = Platform.getExtensionRegistry();
+	    var IConfigurationElement[] elements = reg.getConfigurationElementsFor("org.mdbda.codegen.plugin");
+	    
+	    for(IConfigurationElement cEl : elements){
+	    	var clazzName = cEl.getAttribute("ResourceTemplateClass")
+	    	if(clazzName != null){
+		    	val clazz = Platform.getBundle(cEl.getContributor().getName()).loadClass(clazzName) as Class<IResourceTemplate>
+		    	//	addResourceTemplates(ResourcesTemplateConstatns.RESOURCETYPE_CASSANDRA,new CassandraResource);
+		    	addResourceTemplates(cEl.getAttribute("typeId"),  clazz.newInstance)
+	    	}
+	    	
+	    	clazzName = cEl.getAttribute("PatternTemplateClass")
+	    	if(clazzName != null){
+		    	val clazz = Platform.getBundle(cEl.getContributor().getName()).loadClass(clazzName) as Class<IPatternTemplate>
+		    	addPatternTemplate(cEl.getAttribute("typeId"),  clazz.newInstance)
+	    	}
+	    	
+	    }
+		
+		
+		
 		
 		addPatternTemplate(SummatizationPatternTemplateConstatns.NumericalSummarization, new NumericalSummarizationPattern)
 		addPatternTemplate(SummatizationPatternTemplateConstatns.CustomCalculation, new DefaultPatternTemplate)
@@ -61,7 +82,6 @@ class MDBDACodegenerator implements IGenerator {
 
 		addPatternTemplate(FilteringPatternTemplateConstatns.BloomFiltering, new DefaultPatternTemplate)
 		addPatternTemplate(FilteringPatternTemplateConstatns.Distinct, new DefaultPatternTemplate)
-		addPatternTemplate(FilteringPatternTemplateConstatns.SimpleMatcherFilter, new DefaultPatternTemplate)
 		addPatternTemplate(FilteringPatternTemplateConstatns.TopTen, new DefaultPatternTemplate)
 
 
@@ -196,7 +216,7 @@ class MDBDACodegenerator implements IGenerator {
 		«config.setHDFSPath(intermediateResourcePath)»
 		«val org.mdbda.model.Resource intermediateResource = ModelFactory.eINSTANCE.createResource»
 		«intermediateResource.setConfigurationString(config.writeConfigString)»
-		«intermediateResource.setTypeId(ResourcesTemplateConstatns.RESOURCETYPE_HDFS)»
+		«intermediateResource.setTypeId("HDFSResource")»«/*TODO: ResourcesTemplateConstatns.RESOURCETYPE_HDFS hdfs is now a plugin*/»
 		«intermediateResource.setName(intermediateResourceName)»
 		//in
 		«genInputResourceConfig(to,intermediateResource,context)»
