@@ -7,7 +7,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Resource;
-import org.mdbda.model.ResourcesTemplateConstatns;
 import org.osgi.framework.Bundle;
 
 public class CreateGenericResourceFeature extends CreateResourceFeature {
@@ -19,13 +18,13 @@ public class CreateGenericResourceFeature extends CreateResourceFeature {
 	public static String description = "Creates a new Generic Resource";
     
     
-
+	public static String RESOURCETYPE_GENERIC = "generic";
 
 	@Override
 	public Object[] create(ICreateContext context) {		
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
 
-		initPattern(eInst, ResourcesTemplateConstatns.RESOURCETYPE_GENERIC);
+		initPattern(eInst, RESOURCETYPE_GENERIC);
 		
 		addToTargetBO(context,eInst);
 		

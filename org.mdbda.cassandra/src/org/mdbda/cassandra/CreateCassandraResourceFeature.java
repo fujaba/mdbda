@@ -7,8 +7,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.diagrameditor.features.resources.CreateResourceFeature;
 import org.mdbda.model.ModelFactory;
-import org.mdbda.model.Resource;
-import org.mdbda.model.ResourcesTemplateConstatns;
+import org.mdbda.model.Resource; 
 import org.osgi.framework.Bundle;
 
 public class CreateCassandraResourceFeature extends CreateResourceFeature {
@@ -37,8 +36,8 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 	
 	@Override
 	public URL getDefaultConfigJSONFileLocation() {
-		Bundle bundle = Platform.getBundle("org.mdbda.diagrameditor");
-		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/diagrameditor/features/resources/CassandraConfig.json");
+		Bundle bundle = Platform.getBundle("org.mdbda.cassandra");
+		URL fileURL = bundle.getEntry("/bin/org/mdbda/cassandra/CassandraConfig.json");
 		return fileURL;
 	}
 }

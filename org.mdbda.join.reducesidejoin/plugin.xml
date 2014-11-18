@@ -10,5 +10,12 @@
             typeId="ReduceSideJoin">
       </GraphicalFeatures>
    </extension>
+   <extension
+         point="org.mdbda.codegen.plugin">
+      <PatternPlugin
+            PatternTemplateClass="org.mdbda.codegen.MultipleInputTemplate"
+            typeId="ReduceSideJoin">
+      </PatternPlugin>
+   </extension>
 
 </plugin>

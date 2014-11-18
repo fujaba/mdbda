@@ -6,16 +6,9 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
-import org.mdbda.codegen.plugins.HDFSResource
-import org.mdbda.codegen.plugins.NumericalSummarizationPattern
-import org.mdbda.model.DataOrganizationPatternTemplateConstatns
-import org.mdbda.model.FilteringPatternTemplateConstatns
-import org.mdbda.model.JoinPatternTemplateConstatns
 import org.mdbda.model.MDBDADiagram
 import org.mdbda.model.ModelFactory
 import org.mdbda.model.Pattern
-import org.mdbda.model.ResourcesTemplateConstatns
-import org.mdbda.model.SummatizationPatternTemplateConstatns
 import org.mdbda.model.Workflow
 import org.eclipse.core.runtime.IExtensionRegistry
 import org.eclipse.core.runtime.Platform
@@ -61,7 +54,12 @@ class MDBDACodegenerator implements IGenerator {
 	    	
 	    	clazzName = cEl.getAttribute("PatternTemplateClass")
 	    	if(clazzName != null){
-		    	val clazz = Platform.getBundle(cEl.getContributor().getName()).loadClass(clazzName) as Class<IPatternTemplate>
+	    		var Class<IPatternTemplate> clazz = null
+	    		try{
+		    		clazz = Platform.getBundle(cEl.getContributor().getName()).loadClass(clazzName) as Class<IPatternTemplate>
+		    	}catch(ClassNotFoundException e){
+		    		clazz = Platform.getBundle("org.mdbda.codegen").loadClass(clazzName) as Class<IPatternTemplate>
+		    	}
 		    	addPatternTemplate(cEl.getAttribute("typeId"),  clazz.newInstance)
 	    	}
 	    	
@@ -70,25 +68,24 @@ class MDBDACodegenerator implements IGenerator {
 		
 		
 		
-		addPatternTemplate(SummatizationPatternTemplateConstatns.NumericalSummarization, new NumericalSummarizationPattern)
-		addPatternTemplate(SummatizationPatternTemplateConstatns.CustomCalculation, new DefaultPatternTemplate)
-		addPatternTemplate(SummatizationPatternTemplateConstatns.InvertedIndexSummarization, new DefaultPatternTemplate)
-		
-		addPatternTemplate(DataOrganizationPatternTemplateConstatns.Binning, new DefaultPatternTemplate)
-		addPatternTemplate(DataOrganizationPatternTemplateConstatns.Partitioning, new DefaultPatternTemplate)
-		addPatternTemplate(DataOrganizationPatternTemplateConstatns.Shuffling, new DefaultPatternTemplate)
-		addPatternTemplate(DataOrganizationPatternTemplateConstatns.StructuredToHierachical, new DefaultPatternTemplate)
-		addPatternTemplate(DataOrganizationPatternTemplateConstatns.TotalOrderSorting, new DefaultPatternTemplate)
+//		addPatternTemplate(SummatizationPatternTemplateConstatns.NumericalSummarization, new NumericalSummarizationPattern)
+//		addPatternTemplate(SummatizationPatternTemplateConstatns.CustomCalculation, new DefaultPatternTemplate)
 
-		addPatternTemplate(FilteringPatternTemplateConstatns.BloomFiltering, new DefaultPatternTemplate)
-		addPatternTemplate(FilteringPatternTemplateConstatns.Distinct, new DefaultPatternTemplate)
-		addPatternTemplate(FilteringPatternTemplateConstatns.TopTen, new DefaultPatternTemplate)
+		//addPatternTemplate(DataOrganizationPatternTemplateConstatns.Binning, new DefaultPatternTemplate)
+//		addPatternTemplate(DataOrganizationPatternTemplateConstatns.Partitioning, new DefaultPatternTemplate)
+//		addPatternTemplate(DataOrganizationPatternTemplateConstatns.Shuffling, new DefaultPatternTemplate)
+//		addPatternTemplate(DataOrganizationPatternTemplateConstatns.StructuredToHierachical, new DefaultPatternTemplate)
+//		addPatternTemplate(DataOrganizationPatternTemplateConstatns.TotalOrderSorting, new DefaultPatternTemplate)
+
+//		addPatternTemplate(FilteringPatternTemplateConstatns.BloomFiltering, new DefaultPatternTemplate)
+//		addPatternTemplate(FilteringPatternTemplateConstatns.Distinct, new DefaultPatternTemplate)
+//		addPatternTemplate(FilteringPatternTemplateConstatns.TopTen, new DefaultPatternTemplate)
 
 
-		addPatternTemplate(JoinPatternTemplateConstatns.CartesianProduct, new MultipleInputTemplate)
-		addPatternTemplate(JoinPatternTemplateConstatns.CompositeJoin, new MultipleInputTemplate)
-		addPatternTemplate(JoinPatternTemplateConstatns.ReduceSideJoin, new MultipleInputTemplate)
-		addPatternTemplate(JoinPatternTemplateConstatns.ReplicatedJoin, new MultipleInputTemplate)
+//		addPatternTemplate(JoinPatternTemplateConstatns.CartesianProduct, new MultipleInputTemplate)
+//		addPatternTemplate(JoinPatternTemplateConstatns.CompositeJoin, new MultipleInputTemplate)
+//		addPatternTemplate(JoinPatternTemplateConstatns.ReduceSideJoin, new MultipleInputTemplate)
+//		addPatternTemplate(JoinPatternTemplateConstatns.ReplicatedJoin, new MultipleInputTemplate)
 		
 	}
 	

@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer; 
 import org.eclipse.gef.EditPart;
 import org.eclipse.graphiti.examples.common.FileService;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;

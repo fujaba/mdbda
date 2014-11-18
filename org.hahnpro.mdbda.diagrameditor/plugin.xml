@@ -96,4 +96,29 @@
                id="org.mdbda.diagrameditor.diagram.MDBDAPlugableImageProvider">
          </imageProvider>
       </extension>
+      <extension
+            point="org.mdbda.diagrameditor.pattern">
+         <GraphicalFeatures
+               addFeatureClass="org.mdbda.diagrameditor.features.AddWorkflowFeature"
+               createFeatureClass="org.mdbda.diagrameditor.features.CreateWorkflowFeature"
+               group="other"
+               typeId="workflow">
+         </GraphicalFeatures>
+      </extension>
+      <extension
+            point="org.mdbda.diagrameditor.pattern">
+         <GraphicalFeatures
+               addFeatureClass="org.mdbda.diagrameditor.features.resources.AddGenericResourceFeature"
+               createFeatureClass="org.mdbda.diagrameditor.features.resources.CreateGenericResourceFeature"
+               group="Resources"
+               typeId="generic">
+         </GraphicalFeatures>
+      </extension>
+      <extension
+            point="org.mdbda.codegen.plugin">
+         <PatternPlugin
+               PatternTemplateClass="org.mdbda.codegen.DefaultPatternTemplate"
+               typeId="generic">
+         </PatternPlugin>
+      </extension>
 </plugin>

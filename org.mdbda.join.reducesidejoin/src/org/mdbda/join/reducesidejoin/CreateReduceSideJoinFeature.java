@@ -8,8 +8,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.model.ModelFactory;
 import org.mdbda.model.Pattern;
-import org.mdbda.diagrameditor.features.pattern.CreatePatternFeature;
-import org.mdbda.model.JoinPatternTemplateConstatns;
+import org.mdbda.diagrameditor.features.pattern.CreatePatternFeature; 
 import org.osgi.framework.Bundle;
 
 public class CreateReduceSideJoinFeature extends CreatePatternFeature implements
