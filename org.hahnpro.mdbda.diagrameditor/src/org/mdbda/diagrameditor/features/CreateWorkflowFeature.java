@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.ModelFactory;
+import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 import org.osgi.framework.Bundle;
@@ -61,9 +62,9 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 	@Override
 	public Object[] create(ICreateContext context) {
 		
-		ContainerShape targetDiagram = context.getTargetContainer();
+		ContainerShape targetContainer = context.getTargetContainer();
 		
-		boolean isRootWorkflow = targetDiagram instanceof Diagram;
+		boolean isRootWorkflow = targetContainer instanceof Diagram;
 		
 
 		if (!isRootWorkflow) {
@@ -85,9 +86,17 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 			
 			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(refDiagram);
 
-			addGraphicalRepresentation(context, refDiagram);
 			
-			return new Object[] { mdbdaDiagram.getRootWorkflow() };
+			RemoteWorkflow rwf = ModelFactory.eINSTANCE.createRemoteWorkflow();
+					
+			rwf.setName( refDiagram.getName() );
+			Workflow wf = (Workflow) getBusinessObjectForPictogramElement(targetContainer);
+						
+			wf.getDataResources().add(rwf);
+			
+			addGraphicalRepresentation(context, rwf);
+			
+			return new Object[] { rwf };
 
 		}else{
 			

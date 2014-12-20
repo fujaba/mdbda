@@ -7,9 +7,7 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.mdbda.model.Pattern;
 import org.mdbda.model.Resource;
-import org.mdbda.model.Workflow;
 import org.mdbda.model.ModelUtils;
 
 public class CreateLinkFeature extends AbstractCreateConnectionFeature

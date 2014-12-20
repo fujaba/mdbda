@@ -8,7 +8,7 @@ import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.MDBDADiagram
 import org.mdbda.model.ModelFactory
-import org.mdbda.model.Pattern
+import org.mdbda.model.Task
 import org.mdbda.model.Workflow
 import org.eclipse.core.runtime.IExtensionRegistry
 import org.eclipse.core.runtime.Platform
@@ -103,14 +103,14 @@ class MDBDACodegenerator implements IGenerator {
 		}
 		
 		//generate MapReduce
-		for(pattern: input.allContents.toIterable.filter(Pattern)){
+		for(pattern: input.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
 				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + '.java','')
 				genFile(pattern.genMapReducePatternClass(context),context)
 			}
 		}
 		//generate Storm
-		for(pattern: input.allContents.toIterable.filter(Pattern)){
+		for(pattern: input.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
 				var context = new CodegenContext(fsa,CodeGenHelper.getStormClassNameFromPattern(pattern) + '.java','')
 				genFile(pattern.genStormPatternClass(context),context)
@@ -118,7 +118,7 @@ class MDBDACodegenerator implements IGenerator {
 		}
 		
 		//generate MRUnit Test
-		for(pattern: input.allContents.toIterable.filter(Pattern)){
+		for(pattern: input.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
 				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceTestClassNameFromPattern(pattern) + '.java','')
 				genFile(MRUnitTestCodeGenerator.genMapReducePatternTestClass(pattern,context),context)
@@ -187,12 +187,12 @@ class MDBDACodegenerator implements IGenerator {
 	'''
 	
 	def CharSequence genResources(Workflow workflow, CodegenContext context)'''
-	«FOR pattern : workflow.pattern»
+	«FOR pattern : workflow.tasks»
 		«FOR input : pattern.inputResources»
 			«IF input instanceof Workflow»
 				//Workflow input ... TODO
-			«ELSEIF input instanceof Pattern» 
-				«genIntermediateResourceConfig(pattern,input as Pattern, context)»
+			«ELSEIF input instanceof Task» 
+				«genIntermediateResourceConfig(pattern,input as Task, context)»
 			«ELSE»
 				«genInputResourceConfig(pattern,input,context)»
 			«ENDIF»
@@ -205,7 +205,7 @@ class MDBDACodegenerator implements IGenerator {
 	«/*TODO: diagram output Resources*/»
 	'''
 	
-	def genIntermediateResourceConfig(Pattern to, Pattern from, CodegenContext context) '''
+	def genIntermediateResourceConfig(Task to, Task from, CodegenContext context) '''
 		«val intermediateResourceName = "intermRes" + from.name + "2" + to.name»
 		«val intermediateResourcePath = "/temp/" + intermediateResourceName»
 		«context.addTempResource(intermediateResourcePath)»
@@ -222,7 +222,7 @@ class MDBDACodegenerator implements IGenerator {
 		
 	'''
 	
-	def CharSequence  genInputResourceConfig(Pattern pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
+	def CharSequence  genInputResourceConfig(Task pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
 		«IF resourceTemplates.containsKey(resource.typeId)»
 			«resourceTemplates.get(resource.typeId).generareMapReduceInputResouce(resource, pattern ,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)»
@@ -231,7 +231,7 @@ class MDBDACodegenerator implements IGenerator {
 		«ENDIF»
 	'''
 	
-	def CharSequence  genOutputResourceConfig(Pattern pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
+	def CharSequence  genOutputResourceConfig(Task pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
 		«IF resourceTemplates.containsKey(resource.typeId)»
 			«resourceTemplates.get(resource.typeId).generareMapReduceOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)»
@@ -242,16 +242,16 @@ class MDBDACodegenerator implements IGenerator {
 	
 	def CharSequence genWorkflowConfiguration(Workflow workflow, CodegenContext context)'''
 	//JobControl
-	«FOR pattern : workflow.pattern»
+	«FOR pattern : workflow.tasks»
 			//pattern conf: «pattern.name»
 			«context.addImport("org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob")»
 			ControlledJob «CodeGenHelper.getMapReduceControlledJobVarName(pattern)» = new ControlledJob(
 					«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)».getJobConf(conf));
 	«ENDFOR»
 	//JobHierarchie
-	«FOR pattern : workflow.pattern»
+	«FOR pattern : workflow.tasks»
 		«FOR dep : pattern.inputResources»
-			«IF dep instanceof Pattern»
+			«IF dep instanceof Task»
 				«CodeGenHelper.getMapReduceControlledJobVarName(pattern)».addDependingJob(«CodeGenHelper.getMapReduceControlledJobVarName(pattern)»);
 			«ENDIF»
 		«ENDFOR»
@@ -259,7 +259,7 @@ class MDBDACodegenerator implements IGenerator {
 	'''
 	
 	
-	def CharSequence genMapReducePatternClass(Pattern p, CodegenContext context)'''
+	def CharSequence genMapReducePatternClass(Task p, CodegenContext context)'''
 		public class «CodeGenHelper.getMapReduceClassNameFromPattern(p)» {
 			«context.addImport("org.apache.hadoop.conf.Configuration")»
 			«context.addImport("java.io.IOException")»
@@ -282,7 +282,7 @@ class MDBDACodegenerator implements IGenerator {
 		
 	'''
 	
-	def CharSequence genTempOutputs(Pattern p, CodegenContext context)'''
+	def CharSequence genTempOutputs(Task p, CodegenContext context)'''
 		«IF patternTemplates.containsKey(p.typeId)»
 			«patternTemplates.get(p.typeId).genTempOutputs(p, context)»
 		«ELSE»
@@ -290,7 +290,7 @@ class MDBDACodegenerator implements IGenerator {
 		«ENDIF»
 	'''
 	
-	def CharSequence genStormPatternClass(Pattern p, CodegenContext context)'''
+	def CharSequence genStormPatternClass(Task p, CodegenContext context)'''
 		«context.addImport("java.io.Serializable")»
 		public class «CodeGenHelper.getStormClassNameFromPattern(p)» implements Serializable {
 		«IF patternTemplates.containsKey(p.typeId)»

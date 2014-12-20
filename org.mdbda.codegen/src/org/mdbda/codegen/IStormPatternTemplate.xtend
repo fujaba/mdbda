@@ -1,7 +1,7 @@
 package org.mdbda.codegen
 
-import org.mdbda.model.Pattern 
+import org.mdbda.model.Task 
 
 interface IStormPatternTemplate {	
-	def String generareStormPattern(Pattern pattern, CodegenContext context);
+	def String generareStormPattern(Task pattern, CodegenContext context);
 }

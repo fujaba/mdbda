@@ -1,13 +1,13 @@
 package org.mdbda.codegen
 
-import org.mdbda.model.Pattern
+import org.mdbda.model.Task
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.json.simple.JSONObject
 
 class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTemplate {
 	
-	override genMapperClass(Pattern pattern, CodegenContext context)'''
+	override genMapperClass(Task pattern, CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktions = config.getMultipleMapFunction()»
 		
@@ -51,7 +51,7 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 		«ENDFOR»
 	'''
 	
-	override genJobConf(Pattern pattern, CodegenContext context) '''	
+	override genJobConf(Task pattern, CodegenContext context) '''	
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		

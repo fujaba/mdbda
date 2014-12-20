@@ -80,7 +80,7 @@ import org.mdbda.diagrameditor.wizard.NewMDBDADiagramWizard;
 public class DiagramUtils {
 
 	public static final String SELECT_DIAGRAM_TITEL = "Select Diagram";
-
+	
 	public static Collection<Diagram> getDiagrams(Diagram diagram) {
 		Collection<Diagram> result = Collections.emptyList();
 		Resource resource = diagram.eResource();

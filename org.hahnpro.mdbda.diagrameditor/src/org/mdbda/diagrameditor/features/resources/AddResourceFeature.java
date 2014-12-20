@@ -1,5 +1,6 @@
 package org.mdbda.diagrameditor.features.resources;
 
+import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -7,6 +8,7 @@ import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -20,10 +22,16 @@ import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
+import org.mdbda.diagrameditor.utils.AbstactMDBDAShapeHelper;
+import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
+import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
+import org.mdbda.diagrameditor.utils.NameShapeHelper;
+import org.mdbda.diagrameditor.utils.SampleDataShapeHelper;
+import org.mdbda.diagrameditor.utils.TestStatusShapeHelper;
+import org.mdbda.diagrameditor.utils.TypeIdShapeHelper;
 
-
-public abstract class AddResourceFeature extends AbstactMDBDAAddFeature  implements
-		IAddFeature {
+public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
+		implements IAddFeature {
 
 	public AddResourceFeature(IFeatureProvider fp) {
 		super(fp);
@@ -31,113 +39,92 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature  impleme
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		if(context.getNewObject() instanceof Resource){
-			if(getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Workflow){
+		if (context.getNewObject() instanceof Resource) {
+			if (getBusinessObjectForPictogramElement(context
+					.getTargetContainer()) instanceof Workflow) {
 				return true;
 			}
-			
-			if(getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof MDBDADiagram){
+
+			if (getBusinessObjectForPictogramElement(context
+					.getTargetContainer()) instanceof MDBDADiagram) {
 				return true;
 			}
 		}
-		
-		return  false;
+
+		return false;
 	}
-	
+	protected Color getBackgroundColor(){
+		return  manageColor(AbstractMDBDAShape.RESOURCE_BACKGROUND);
+	}
 	@Override
 	public PictogramElement add(IAddContext context) {
 
 		ContainerShape targetShape = context.getTargetContainer();
 		Resource resource = (Resource) context.getNewObject();
-		
-		int width = 80;
-        int height = 50; 
-		
+
+		int width = 100;
+		int height = 80;
+
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		IGaService gaService = Graphiti.getGaService();
 
-		ContainerShape containerShape = peCreateService.createContainerShape(targetShape, true);
+		ContainerShape rootContainerShapeForResourceElement = peCreateService
+				.createContainerShape(targetShape, true);
 		RoundedRectangle roundedRectangle;
-		
-		{
-			Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
-			gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width + 2 * AbstractMDBDAShape.INVISIBLE_RECT_SIDE, height);
-			
-		
-			
-			roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 10, 10);
-			roundedRectangle.setBackground(manageColor(AbstractMDBDAShape.RESOURCE_BACKGROUND));
-			roundedRectangle.setForeground(manageColor(AbstractMDBDAShape.RESOURCE_FOREGROUND));
-			roundedRectangle.setLineWidth(2);
-            gaService.setLocationAndSize(roundedRectangle,
-            		AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);
-        
-            
-            // if added Class has no resource we add it to the resource 
-            // of the diagram
-            // in a real scenario the business model would have its own resource
-            if (resource.eResource() == null) {
-                     getDiagram().eResource().getContents().add(resource);
-            }
-            // create link and wire it
-            link(containerShape, resource);
-		
-		}
-		
-		
-		
-		
-		
-		 // SHAPE WITH TEXT
-        {
-        	
-			Shape shape = peCreateService.createShape(containerShape, false);
-			String txtStr = typeName.trim().replace(' ', '\n');
-			Text text = gaService.createText(shape, txtStr );
-			text.setForeground(manageColor(AbstractMDBDAShape.RESOURCE_TEXT_FOREGROUND));
-			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-			gaService.setLocationAndSize(text, 0, 0, context.getWidth(), context.getHeight());
-	
-			link(containerShape, resource);
-        }
-        
-        
-        //Anchor
-        {
-        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(containerShape);
-        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(false);
-        	boxAnchor.setRelativeWidth(1.0);
-        	boxAnchor.setRelativeHeight(0.5);
-        	boxAnchor.setReferencedGraphicsAlgorithm(roundedRectangle);
-        	
-        	link(boxAnchor,resource);
-        	
-        	Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.OUTPUTPOLYGON);
-        	poly.setBackground(manageColor(AbstractMDBDAShape.RESOURCE_BACKGROUND));
-        	poly.setForeground(manageColor(AbstractMDBDAShape.RESOURCE_FOREGROUND));
-        	poly.setLineWidth(2);
-        	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
-        }
-        {
-        	BoxRelativeAnchor boxAnchor = peCreateService.createBoxRelativeAnchor(containerShape);
-        	boxAnchor.setUseAnchorLocationAsConnectionEndpoint(true);
-        	
-        	boxAnchor.setRelativeWidth(0.0);
-        	boxAnchor.setRelativeHeight(0.5);
-        	boxAnchor.setReferencedGraphicsAlgorithm(roundedRectangle);
-        	
-        	link(boxAnchor,resource);
-        	
-        	Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.INPUTPOLYGON);
-        	poly.setBackground(manageColor(AbstractMDBDAShape.RESOURCE_BACKGROUND));
-        	poly.setForeground(manageColor(AbstractMDBDAShape.RESOURCE_FOREGROUND));
-        	poly.setLineWidth(2);
-        	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
-        }
-        
 
-    	layoutPictogramElement(containerShape);
-		return containerShape;
+		{
+			Rectangle invisibleRectangle = gaService
+					.createInvisibleRectangle(rootContainerShapeForResourceElement);
+			gaService.setLocationAndSize(invisibleRectangle, context.getX(),
+					context.getY(), width + 2
+							* AbstractMDBDAShape.INVISIBLE_RECT_SIDE, height);
+
+			roundedRectangle = gaService.createRoundedRectangle(
+					invisibleRectangle, AbstractMDBDAShape.INVISIBLE_RECT_SIDE,
+					AbstractMDBDAShape.INVISIBLE_RECT_SIDE);
+			roundedRectangle
+					.setBackground(getBackgroundColor());
+			roundedRectangle
+					.setForeground(getForegroundColor());
+			roundedRectangle.setLineWidth(2);
+			Graphiti.getPeService().setPropertyValue(roundedRectangle, AbstactMDBDAShapeHelper.SHAPE_KEY , ROUNDED_RECTANGLE_ID);
+			gaService.setLocationAndSize(roundedRectangle,
+					AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);
+
+			// if added Class has no resource we add it to the resource
+			// of the diagram
+			// in a real scenario the business model would have its own resource
+			if (resource.eResource() == null) {
+				getDiagram().eResource().getContents().add(resource);
+			}
+		}
+		// create link and wire it
+		link(rootContainerShapeForResourceElement, resource);
+
+//		int typeTextHeight = addTypeIdText(resource, width, height,
+//				rootContainerShapeForResourceElement, 5).getHeight();
+//		addNameText(resource, width, height,
+	//			rootContainerShapeForResourceElement, typeTextHeight);
+		IFeatureProvider fp =  getFeatureProvider();
+		IDimension status = new TestStatusShapeHelper(resource, rootContainerShapeForResourceElement, fp).addNewShapeOnContainer(width, height);
+		new LiveStatusShapeHelper(resource, rootContainerShapeForResourceElement, fp).addNewShapeOnContainer(width, height);
+			
+		IDimension typeIdDim = new TypeIdShapeHelper(resource, rootContainerShapeForResourceElement,fp).addNewShapeOnContainer(width, height, 0, status.getHeight());
+		new NameShapeHelper(resource, rootContainerShapeForResourceElement,fp).addNewShapeOnContainer(width, height, 0, typeIdDim.getHeight()+status.getHeight());
+
+		new SampleDataShapeHelper(resource, rootContainerShapeForResourceElement, fp).addNewShapeOnContainer(width, height);
+		new DataDescriptionShapeHelper(resource, rootContainerShapeForResourceElement, fp).addNewShapeOnContainer(width, height);
+		
+
+		// Anchor
+
+		addOutputAnchor(resource, rootContainerShapeForResourceElement,
+				0.5, getDiagram(), getFeatureProvider());
+
+		addInputAnchor(resource, rootContainerShapeForResourceElement,
+				0.5, getDiagram(), getFeatureProvider());
+
+		layoutPictogramElement(rootContainerShapeForResourceElement);
+		return rootContainerShapeForResourceElement;
 	}
 }

@@ -1,6 +1,6 @@
 package org.mdbda.codegen
 
-import org.mdbda.model.Pattern
+import org.mdbda.model.Task
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import java.util.ArrayList
@@ -10,7 +10,7 @@ import org.json.simple.JSONValue
 
 class MRUnitTestCodeGenerator {
 	
-	def static CharSequence genMapReducePatternTestClass(Pattern p, CodegenContext context)'''
+	def static CharSequence genMapReducePatternTestClass(Task p, CodegenContext context)'''
 	
 	 public class «CodeGenHelper.getMapReduceTestClassNameFromPattern(p)» {
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.MapDriver")»

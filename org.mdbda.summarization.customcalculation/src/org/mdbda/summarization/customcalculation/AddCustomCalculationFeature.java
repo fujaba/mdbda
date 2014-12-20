@@ -2,10 +2,10 @@ package org.mdbda.summarization.customcalculation;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.mdbda.diagrameditor.features.pattern.AddPatternFeature;
+import org.mdbda.diagrameditor.features.task.AddTaskFeature;
 
 
-public class AddCustomCalculationFeature extends AddPatternFeature implements
+public class AddCustomCalculationFeature extends AddTaskFeature implements
 		IAddFeature {
 
 	public AddCustomCalculationFeature(IFeatureProvider fp) {

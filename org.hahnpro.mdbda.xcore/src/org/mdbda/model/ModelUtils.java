@@ -1,6 +1,6 @@
 package org.mdbda.model;
 
-import org.mdbda.model.Pattern;
+import org.mdbda.model.Task;
 import org.mdbda.model.Resource;
 
 public class ModelUtils {
@@ -9,11 +9,11 @@ public class ModelUtils {
 		boolean addsrc = false;
 		boolean addtgt = false;
 		
-		if(src != null && src instanceof Pattern){
-			addsrc = ((Pattern)src).getOutputResources().add(tgt);
+		if(src != null && src instanceof Resource){
+			addsrc = ((Resource)src).getOutputResources().add(tgt);
 		}
-		if(tgt != null && tgt instanceof Pattern){
-			addtgt = ((Pattern)tgt).getInputResources().add(src);
+		if(tgt != null && tgt instanceof Resource){
+			addtgt = ((Resource)tgt).getInputResources().add(src);
 		}
 		
 		
@@ -24,11 +24,11 @@ public class ModelUtils {
 		boolean remsrc = false;
 		boolean remtgt = false;
 		
-		if(src != null && src instanceof Pattern){
-			remsrc = ((Pattern)src).getOutputResources().remove(tgt);
+		if(src != null && src instanceof Resource){
+			remsrc = ((Resource)src).getOutputResources().remove(tgt);
 		}
-		if(tgt != null && tgt instanceof Pattern){
-			remtgt = ((Pattern)tgt).getInputResources().remove(src);
+		if(tgt != null && tgt instanceof Resource){
+			remtgt = ((Resource)tgt).getInputResources().remove(src);
 		}
 		return remsrc || remtgt;
 	}

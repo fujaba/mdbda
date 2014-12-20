@@ -4,7 +4,6 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Text;
@@ -17,9 +16,6 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.utils.DataformatUtils;
-import org.mdbda.diagrameditor.utils.DiagramUtils;
-import org.mdbda.model.Dataformat;
-import org.mdbda.model.Resource;
 
 
 public class AddLinkFeature extends AbstactMDBDAAddFeature implements

@@ -2,10 +2,10 @@ package org.mdbda.join.reducesidejoin;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.mdbda.diagrameditor.features.pattern.AddPatternFeature;
+import org.mdbda.diagrameditor.features.task.AddTaskFeature;
 
 
-public class AddReduceSideJoinFeature extends AddPatternFeature implements
+public class AddReduceSideJoinFeature extends AddTaskFeature implements
 		IAddFeature {
 
 	public AddReduceSideJoinFeature(IFeatureProvider fp) {

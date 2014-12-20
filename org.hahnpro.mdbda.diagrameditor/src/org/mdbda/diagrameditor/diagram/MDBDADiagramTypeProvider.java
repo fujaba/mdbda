@@ -69,13 +69,24 @@ public class MDBDADiagramTypeProvider extends AbstractDiagramTypeProvider {
 	}
 	
 	
+	
 	@Override
 	public boolean isAutoUpdateAtStartup() {
 		return true;
 	}
 	
 	@Override
+	public boolean isAutoUpdateAtRuntime() {
+		return true;
+	}
+	
+	@Override
 	public boolean isAutoUpdateAtRuntimeWhenEditorIsSaved() {
+		return true;
+	}
+	
+	@Override
+	public boolean isAutoUpdateAtReset() {
 		return true;
 	}
 }

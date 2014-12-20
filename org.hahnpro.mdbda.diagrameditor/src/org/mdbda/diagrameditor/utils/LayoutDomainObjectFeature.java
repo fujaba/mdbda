@@ -1,4 +1,4 @@
-package org.mdbda.diagrameditor.features;
+package org.mdbda.diagrameditor.utils;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;

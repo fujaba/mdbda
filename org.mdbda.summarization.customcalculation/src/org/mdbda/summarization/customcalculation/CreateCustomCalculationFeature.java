@@ -7,11 +7,11 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.model.ModelFactory;
-import org.mdbda.model.Pattern;
-import org.mdbda.diagrameditor.features.pattern.CreatePatternFeature; 
+import org.mdbda.model.Task;
+import org.mdbda.diagrameditor.features.task.CreateTaskFeature;
 import org.osgi.framework.Bundle;
 
-public class CreateCustomCalculationFeature extends CreatePatternFeature implements
+public class CreateCustomCalculationFeature extends CreateTaskFeature implements
 		ICreateFeature {
 	public static String name = "Custom Calculation";
 	public static String description = "Creates a new Custom Calculation pattern";
@@ -28,7 +28,7 @@ public class CreateCustomCalculationFeature extends CreatePatternFeature impleme
 		// TODO: create the domain object here
 		//Object newDomainObject = null;
 
-		Pattern eInst = ModelFactory.eINSTANCE.createPattern();
+		Task eInst = ModelFactory.eINSTANCE.createTask();
 		initPattern(eInst,"CustomCalculation");
 
 		addToWorkflow(getWorkflow(context), eInst);

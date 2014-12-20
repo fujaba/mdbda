@@ -15,17 +15,9 @@ public abstract class AbstractMDBDAShape extends ContainerShapeImpl {
 	public static final IColorConstant PATTERN_BACKGROUND = new ColorConstant(237, 218, 247);
 	public static final IColorConstant WORKFLOW_TEXT_FOREGROUND = IColorConstant.BLACK;
 
-	public static final IColorConstant ROOTWORKFLOW_FOREGROUND = new ColorConstant(
-			98, 131, 167);
+	public static final IColorConstant WORKFLOW_FOREGROUND = IColorConstant.LIGHT_GRAY;//new ColorConstant(80, 222, 99);
 
-	public static final IColorConstant ROOTWORKFLOW_BACKGROUND = new ColorConstant(
-			187, 218, 247);
-
-	public static final IColorConstant WORKFLOW_FOREGROUND = new ColorConstant(
-			80, 222, 99);
-
-	public static final IColorConstant WORKFLOW_BACKGROUND = new ColorConstant(
-			83, 230, 100);
+	public static final IColorConstant WORKFLOW_BACKGROUND = IColorConstant.LIGHT_LIGHT_GRAY;// new ColorConstant(	83, 230, 100);
 
 
 	public static final IColorConstant RESOURCE_TEXT_FOREGROUND =

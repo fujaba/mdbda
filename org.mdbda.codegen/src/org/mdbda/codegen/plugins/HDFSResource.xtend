@@ -5,12 +5,12 @@ import org.mdbda.model.Resource
 import org.mdbda.codegen.helper.ConfigurationReader
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.helper.MDBDAConfiguration
-import org.mdbda.model.Pattern
+import org.mdbda.model.Task
 import org.mdbda.codegen.helper.CodeGenHelper
 
 class HDFSResource implements IResourceTemplate{
 	 
-	override generareMapReduceInputResouce(Resource res, Pattern pattern, CharSequence controledJobName , CodegenContext context ) '''
+	override generareMapReduceInputResouce(Resource res, Task pattern, CharSequence controledJobName , CodegenContext context ) '''
 		{
 			«context.addImport("org.apache.hadoop.fs.Path")»
 			Path inputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");

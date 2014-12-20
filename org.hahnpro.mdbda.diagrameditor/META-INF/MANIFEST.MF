@@ -19,8 +19,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-Name: MDBDA Diagram Editor
 Bundle-Vendor: Marcel Hahn
 Export-Package: org.mdbda.diagrameditor.features,
- org.mdbda.diagrameditor.features.pattern,
  org.mdbda.diagrameditor.features.resources,
+ org.mdbda.diagrameditor.features.task,
  org.mdbda.diagrameditor.utils,
  org.mdbda.diagrameditor.wizard
 Bundle-ClassPath: target/classes/,

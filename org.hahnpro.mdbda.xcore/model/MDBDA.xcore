@@ -5,12 +5,11 @@ package org.mdbda.model
  * http://www.vogella.com/articles/EclipseEMF/article.html#inheritance
  * http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html
  */
-import org.eclipse.emf.common.util.EList
 import java.util.HashSet
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class MDBDADiagram{
 	contains Workflow rootWorkflow opposite diagram
-	contains Dataformat[] dataformates opposite diagram 
 	
 	contains Resource[] resources
 	
@@ -19,16 +18,15 @@ class MDBDADiagram{
 	String author
 	String version
 	String name
-}  
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
-class Workflow extends Pattern{
-	contains Pattern[] pattern opposite workflow 
+class Workflow extends Task{
+	contains Task[] tasks opposite workflow 
 	container MDBDADiagram diagram opposite rootWorkflow
 	 
 	contains Resource[] dataResources
 	
-	refers Pattern startPattern
-	refers Workflow externalWorkflow
+	refers Task startTask
 	op Resource[] getInputDataResources()
 	{
 		//input data resources are dataResources with no inputResources
@@ -53,12 +51,19 @@ class Workflow extends Pattern{
 		
 		return outputDataResources.toEList
 	}
+}
+
+class RemoteWorkflow extends Resource{
+}
+ 
+class Task extends Resource{
+	container Workflow workflow opposite tasks
+	refers Task[] dependsOn
+	int maxInputCount
+	int maxOutputCount
+	
 } 
 
-class Pattern extends Resource{
-	container Workflow workflow opposite pattern
-	refers Pattern[] dependsOn
-} 
 
 class Resource{	
 	refers Resource[] inputResources
@@ -67,16 +72,12 @@ class Resource{
 	String configurationString
 	String typeId
 	String name
-	refers Dataformat outputFormat
-	refers Dataformat inputFormat
-}
-
-class Dataformat{
-	container MDBDADiagram diagram opposite dataformates
-	String formatClass
-	String name
-	String keyTypeClass
-	String valueTypeClass
-	String testDataGeneratorClass
+	
+	op boolean equals(Object obj) {
+		if (obj instanceof Resource) {
+			return EcoreUtil.equals(this, obj)
+ 		} 
+		return false
+	}
 }
 

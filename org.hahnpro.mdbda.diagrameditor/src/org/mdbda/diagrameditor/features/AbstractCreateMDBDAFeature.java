@@ -7,13 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
-import org.mdbda.model.Pattern;
 import org.mdbda.model.Resource;
-import org.osgi.framework.Bundle;
 
 public abstract class AbstractCreateMDBDAFeature extends AbstractCreateFeature {
 

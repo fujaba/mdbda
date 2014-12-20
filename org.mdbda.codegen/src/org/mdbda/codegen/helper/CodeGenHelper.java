@@ -11,7 +11,7 @@ import org.eclipse.xtext.parser.IEncodingProvider;
 import org.eclipse.xtext.service.AbstractGenericModule;
 import org.mdbda.codegen.MDBDACodegenerator;
 import org.mdbda.model.ModelPackage;
-import org.mdbda.model.Pattern;
+import org.mdbda.model.Task;
 
 import com.google.inject.Guice;
 

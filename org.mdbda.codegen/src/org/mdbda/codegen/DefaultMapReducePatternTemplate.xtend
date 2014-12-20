@@ -1,7 +1,7 @@
 package org.mdbda.codegen
 
 import org.mdbda.codegen.IMapReducePatternTemplate
-import org.mdbda.model.Pattern
+import org.mdbda.model.Task
 import static extension org.mdbda.codegen.helper.ConfigurationReader.*;
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
@@ -12,7 +12,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	
 	
 	
-	override generareMapReducePattern(Pattern pattern, CodegenContext context) '''
+	override generareMapReducePattern(Task pattern, CodegenContext context) '''
 			«context.addImport("org.apache.hadoop.mapreduce.Mapper")»
 			«context.addImport("org.apache.hadoop.io.*")»
 			«context.addImport("java.io.IOException")»
@@ -23,7 +23,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			«genPartitonerClass(pattern,context)»
 			
 	'''
-	def genPartitonerClass(Pattern pattern, CodegenContext context)'''
+	def genPartitonerClass(Task pattern, CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.partitioner»
 		«IF funktion != null»
@@ -42,7 +42,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«ENDIF»
 	'''
 	
-	def genReducerClass(Pattern pattern, CodegenContext context)'''
+	def genReducerClass(Task pattern, CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.reduceFunction»
 		«IF funktion != null»
@@ -83,7 +83,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«ENDIF»
 	'''
 	
-	def genMapperClass(Pattern pattern, CodegenContext context)'''
+	def genMapperClass(Task pattern, CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.mapFunction»
 		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
@@ -120,7 +120,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		}
 	'''
 	
-	override genJobConf(Pattern pattern, CodegenContext context) '''	
+	override genJobConf(Task pattern, CodegenContext context) '''	
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
@@ -146,12 +146,12 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	'''
 	
 	
-	override genTempOutputs(Pattern pattern, CodegenContext context)'''
+	override genTempOutputs(Task pattern, CodegenContext context)'''
 	
 		«val diagramConfig = MDBDAConfiguration.readConfigString(pattern.workflow.diagram.configurationString)»
 		«var needsTempOutput = false»
 		«FOR outputResource : pattern.outputResources»
-			«IF outputResource instanceof Workflow || outputResource instanceof Pattern»	
+			«IF outputResource instanceof Workflow || outputResource instanceof Task»	
 				«needsTempOutput = true»
 			«ENDIF»«/* ist eine Resource */»
 		«ENDFOR»
