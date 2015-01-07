@@ -18,6 +18,23 @@ class MDBDADiagram{
 	String author
 	String version
 	String name
+	
+	op boolean equals(Object other) {
+		if (other instanceof MDBDADiagram) {
+			if( ((this.name == null && other.name == null) || 
+					(this.name != null && this.name.equals(other.name))) &&
+				((this.author == null && other.author == null) ||
+					(this.author != null && this.author.equals(other.author))) &&
+				((this.version == null && other.version == null) ||
+					(this.version != null && this.version.equals(other.version))) &&
+				((this.configurationString == null && other.configurationString == null) ||
+					(this.configurationString != null && this.configurationString.equals(other.configurationString)))
+				){
+				return true;
+			}
+		}			
+		return false;
+	}
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 class Workflow extends Task{
@@ -41,15 +58,29 @@ class Workflow extends Task{
 	}
 	
 	op Resource[] getOutputDataResources(){
-		//output data resources are dataResources with no inputResources
+		//output data resources are dataResources with no outputResources
 		var HashSet<Resource> outputDataResources = new HashSet<Resource>()
 		for( Resource res : dataResources){
-			if( res.inputResources.empty ){
+			if( res.outputResources.empty ){
 				outputDataResources.add(res)
 			}
 		}
 		
 		return outputDataResources.toEList
+	}
+	
+	op boolean equals(Object other) {
+		if (other instanceof Workflow) {
+			if(super.equals(other) &&
+				((this.tasks == null && other.tasks == null) || 
+					(this.tasks != null && this.tasks.equals(other.tasks)))&&				
+				((this.startTask == null && other.startTask == null) || 
+					(this.startTask != null && this.startTask.equals(other.startTask)))
+			){
+				return true;
+			}
+		}
+		return false		
 	}
 }
 
@@ -62,6 +93,17 @@ class Task extends Resource{
 	int maxInputCount
 	int maxOutputCount
 	
+	op boolean equals(Object other) {
+		if (other instanceof Task) {
+			if(super.equals(other) &&
+				(this.maxInputCount == other.maxInputCount) &&
+				(this.maxOutputCount == other.maxOutputCount)
+			){
+				return true;
+			}
+		}
+		return false		
+	}
 } 
 
 
@@ -73,10 +115,18 @@ class Resource{
 	String typeId
 	String name
 	
-	op boolean equals(Object obj) {
-		if (obj instanceof Resource) {
-			return EcoreUtil.equals(this, obj)
- 		} 
+	op boolean equals(Object other) {
+		if (other instanceof Resource) {
+			if( ((this.name == null && other.name == null) || 
+					(this.name != null && this.name.equals(other.name))) &&
+				((this.typeId == null && other.typeId == null) ||
+					(this.typeId != null && this.typeId.equals(other.typeId))) &&
+				((this.configurationString == null && other.configurationString == null) ||
+					(this.configurationString != null && this.configurationString.equals(other.configurationString)))
+			){
+				return true;
+			}			
+ 		}
 		return false
 	}
 }

@@ -1,12 +1,12 @@
 package org.mdbda.diagrameditor.features;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -14,16 +14,16 @@ import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.services.Graphiti;
 import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
-import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Resource;
-import org.mdbda.model.Task;
 import org.mdbda.model.Workflow;
 
 public class UpdateWorkflowFeature extends AbstractUpdateFeature {
@@ -44,10 +44,17 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 //		if(diaList.size() > 1 ){
 //			throw new RuntimeException("Ups remote diagram name (" + name + ") is ambiguous");
 //		}else 
-			if(diaList.size() == 0 ){
+		if(diaList.size() == 0 ){
 			throw new RuntimeException("Ups remote diagram with name '" + name + "' was not found " );
-		}else{
+		}else if(diaList.size() == 1){
 			return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
+		}else{
+			// there is often a copy at the bin folder
+//			if(diaList.size() == 2){
+//				diaList.get(0).eResource().getURI().				
+//			}
+			
+			throw new RuntimeException("Ups remote diagram with name '" + name + "' was not found multiple " );
 		}
 	}
 	
@@ -122,11 +129,12 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 			for(Anchor a : rootContainerShape.getAnchors()){
 				if(a instanceof BoxRelativeAnchor){
 					BoxRelativeAnchor ba = (BoxRelativeAnchor) a;
-					Resource anchorResource = (Resource) getBusinessObjectForPictogramElement(ba);
+					EObject anchorResource = (EObject) getBusinessObjectForPictogramElement(ba);
 					if(ba.isUseAnchorLocationAsConnectionEndpoint()){
 						//input
 						if( ! remoteInputs.contains(anchorResource) ) {
 							anchorsToRemove.add(ba);
+							somethingchanged = true;
 							//rootContainerShape.getAnchors().remove(ba);
 						}else{
 							//remove resources that are okay
@@ -136,6 +144,7 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 						//output
 						if( ! remoteOutputs.contains(anchorResource) ) {
 							anchorsToRemove.add(ba);
+							somethingchanged = true;
 							//rootContainerShape.getAnchors().remove(ba);
 						}else{
 							//remove resources that are okay
@@ -144,10 +153,28 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 					}
 				} 				
 			}
-			rootContainerShape.getAnchors().removeAll(anchorsToRemove);
+
+			for(Anchor atr : anchorsToRemove){
+				Iterator<Connection> iter = atr.getIncomingConnections().iterator();
+				while(iter.hasNext() ){
+					Connection ctr = iter.next();
+					iter.remove();
+					Graphiti.getPeService().deletePictogramElement(ctr);	
+				}
+				iter = atr.getOutgoingConnections().iterator();
+				while(iter.hasNext() ){
+					Connection ctr = iter.next();
+					iter.remove();
+					Graphiti.getPeService().deletePictogramElement(ctr);	
+				}
+				
+				Graphiti.getPeService().deletePictogramElement(atr);	
+		//		rootContainerShape.getAnchors().remove(atr);
+			}
+			
 			
 			//add new anchors
-			for(Resource rr : remoteInputs){
+			for(Resource rr : remoteInputs){				
 				AbstactMDBDAAddFeature.addInputAnchor(rr, rootContainerShape, 1, getDiagram(), getFeatureProvider());
 			}
 			for(Resource rr : remoteOutputs){
@@ -188,11 +215,15 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 	}
 
 	private List<Resource> filterOutputs(EList<Resource> remoteResources) {
-		return remoteResources.stream().filter(rr -> rr.getOutputResources().size() == 0 && rr.getInputResources().size() != 0).collect(Collectors.toList());
+		return remoteResources.stream().filter(
+				rr -> rr.getOutputResources().size() == 0 &&
+				rr.getInputResources().size() != 0).collect(Collectors.toList());
 	}
 
 	private List<Resource> filterInputs(EList<Resource> remoteResources) {
-		return remoteResources.stream().filter(rr -> rr.getInputResources().size() == 0 && rr.getOutputResources().size() != 0).collect(Collectors.toList());
+		return remoteResources.stream().filter(
+				rr -> rr.getInputResources().size() == 0 && 
+				rr.getOutputResources().size() != 0).collect(Collectors.toList());
 	}
 
 }

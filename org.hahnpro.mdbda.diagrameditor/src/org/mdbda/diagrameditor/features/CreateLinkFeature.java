@@ -7,6 +7,7 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Resource;
 import org.mdbda.model.ModelUtils;
 
@@ -57,7 +58,13 @@ public class CreateLinkFeature extends AbstractCreateConnectionFeature
 		newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
 
 		Resource src = (Resource) getBusinessObjectForPictogramElement(context.getSourcePictogramElement());
+		if(getBusinessObjectForPictogramElement(context.getSourceAnchor().getParent()) instanceof RemoteWorkflow){
+			src = null;
+		}
 		Resource tgt = (Resource) getBusinessObjectForPictogramElement(context.getTargetPictogramElement());
+		if(getBusinessObjectForPictogramElement(context.getTargetAnchor().getParent()) instanceof RemoteWorkflow){
+			tgt = null;
+		}
 		
 		ModelUtils.createLink(src,tgt);
 		

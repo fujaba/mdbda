@@ -117,6 +117,10 @@ public class DiagramUtils {
 			final IResource[] members = folder.members();
 			for (final IResource resource : members) {
 				if (resource instanceof IContainer) {
+					//((IContainer) resource).
+					 IContainer con = ( IContainer) resource;
+					 if(con.getName().startsWith(".")) continue;
+					 if("bin".equals( con.getName() )) continue;
 					ret.addAll(getDiagramFiles((IContainer) resource));
 				} else if (resource instanceof IFile) {
 					final IFile file = (IFile) resource;
@@ -132,14 +136,16 @@ public class DiagramUtils {
 	}
 
 	private static Diagram getDiagramFromFile(IFile file,
-			ResourceSet resourceSet) {
+			ResourceSet resourceSet)  {
 		// Get the URI of the model file.
 		final URI resourceURI = getFileURI(file, resourceSet);
 		// Demand load the resource for this file.
 		Resource resource;
 		try {
-			resource = resourceSet.getResource(resourceURI, true);
+			resource = resourceSet.getResource(resourceURI,true);	
 			if (resource != null) {
+				resource.load(null);
+				EcoreUtil.resolveAll(resourceSet);
 				// does resource contain a diagram as root object?
 				final EList<EObject> contents = resource.getContents();
 				for (final EObject object : contents) {
@@ -148,7 +154,7 @@ public class DiagramUtils {
 					}
 				}
 			}
-		} catch (final WrappedException e) {
+		} catch (final WrappedException|IOException e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -9,10 +9,13 @@ public class ModelUtils {
 		boolean addsrc = false;
 		boolean addtgt = false;
 		
-		if(src != null && src instanceof Resource){
+		if(src == null || tgt == null)
+			return true;
+		
+		if(src instanceof Resource){
 			addsrc = ((Resource)src).getOutputResources().add(tgt);
 		}
-		if(tgt != null && tgt instanceof Resource){
+		if(tgt instanceof Resource){
 			addtgt = ((Resource)tgt).getInputResources().add(src);
 		}
 		
@@ -24,10 +27,13 @@ public class ModelUtils {
 		boolean remsrc = false;
 		boolean remtgt = false;
 		
-		if(src != null && src instanceof Resource){
+		if(src == null || tgt == null)
+			return true;
+		
+		if(src instanceof Resource){
 			remsrc = ((Resource)src).getOutputResources().remove(tgt);
 		}
-		if(tgt != null && tgt instanceof Resource){
+		if(tgt instanceof Resource){
 			remtgt = ((Resource)tgt).getInputResources().remove(src);
 		}
 		return remsrc || remtgt;
