@@ -1,2 +1,3 @@
-# mdbda
-MDBDA Tool Suit - Model-driven Big Data Analytics
+# MDBDA Tool Suite
+Model-driven Big Data Analytics
+
