@@ -10,7 +10,7 @@ public class DataformatUtils {
 	public static String getConnectionTextDecoration(Connection conn, PublicGetBusinessObjectForPictogramElementInterface context) {
 		String textDecoration = "";
 		
-		Resource resource = (Resource) context.getBusinessObjectForPictogramElement(  conn.getStart().getParent() );
+	//	Resource resource = (Resource) context.getBusinessObjectForPictogramElement(  conn.getStart().getParent() );
 //		Dataformat dataFormat = resource.getOutputFormat();
 //		if(dataFormat == null){
 //			textDecoration = "Dataformat is not set";

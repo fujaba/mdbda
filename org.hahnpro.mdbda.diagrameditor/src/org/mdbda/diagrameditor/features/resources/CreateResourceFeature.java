@@ -33,7 +33,7 @@ public abstract class CreateResourceFeature extends AbstractCreateMDBDAFeature {
 		Object bo =  getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
 		if(bo instanceof Workflow){
-			((Workflow) bo).getDataResources().add(eInst);
+			((Workflow) bo).getInternalDataResources().add(eInst);
 		}
 		if(bo instanceof MDBDADiagram){
 			((MDBDADiagram) bo).getResources().add(eInst);

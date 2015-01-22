@@ -11,6 +11,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -84,17 +85,27 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 				refDiagram = DiagramUtils.openDiagramDialog(getDiagram());
 			}
 			
+			if(refDiagram == null) return null;
+			
 			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(refDiagram);
 
 			
 			RemoteWorkflow rwf = ModelFactory.eINSTANCE.createRemoteWorkflow();
 					
 			rwf.setName( refDiagram.getName() );
+			
+			rwf.setRemoteDiagramURI(
+					refDiagram.eResource().getURI().toPlatformString(true));
+			
 			Workflow wf = (Workflow) getBusinessObjectForPictogramElement(targetContainer);
 						
-			wf.getDataResources().add(rwf);
+			wf.getInternalDataResources().add(rwf);
 			
-			addGraphicalRepresentation(context, rwf);
+			
+			
+			PictogramElement pe = addGraphicalRepresentation(context, rwf);
+			
+//			link(pe, refDiagram);
 			
 			return new Object[] { rwf };
 

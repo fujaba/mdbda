@@ -97,9 +97,9 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 							return Reason.createTrueReason();
 						}
 					}
-				} 				
+				}
 			}
-		}			
+		}
 		
 		
 		return Reason.createFalseReason();

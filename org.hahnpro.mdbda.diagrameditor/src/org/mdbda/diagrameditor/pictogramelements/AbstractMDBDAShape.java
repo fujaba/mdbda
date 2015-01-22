@@ -11,8 +11,8 @@ public abstract class AbstractMDBDAShape extends ContainerShapeImpl {
 	public static final int[] INPUTPOLYGON = new int[] {1,1,  20,1,  20,10,  1,10,  10,5,  1,1};
 	public static final int INVISIBLE_RECT_SIDE = 10;
 	public static final IColorConstant PATTERN_TEXT_FOREGROUND = IColorConstant.BLACK;
-	public static final IColorConstant PATTERN_FOREGROUND = new ColorConstant(148, 131, 167);
-	public static final IColorConstant PATTERN_BACKGROUND = new ColorConstant(237, 218, 247);
+//	public static final IColorConstant PATTERN_FOREGROUND = 
+//	public static final IColorConstant PATTERN_BACKGROUND = ;
 	public static final IColorConstant WORKFLOW_TEXT_FOREGROUND = IColorConstant.BLACK;
 
 	public static final IColorConstant WORKFLOW_FOREGROUND = IColorConstant.LIGHT_GRAY;//new ColorConstant(80, 222, 99);
@@ -23,10 +23,10 @@ public abstract class AbstractMDBDAShape extends ContainerShapeImpl {
 	public static final IColorConstant RESOURCE_TEXT_FOREGROUND =
             IColorConstant.BLACK;
      
-	public static final IColorConstant RESOURCE_FOREGROUND = IColorConstant.BLUE; 
+//	public static final IColorConstant RESOURCE_FOREGROUND = ; 
 //            new ColorConstant(148, 131, 167);
 
-	public static final IColorConstant  RESOURCE_BACKGROUND = IColorConstant.LIGHT_BLUE;
+//	public static final IColorConstant  RESOURCE_BACKGROUND = 
 //            new ColorConstant(237, 218, 247);
 	
 //	public AbstractMDBDAShape(IAddContext context, AddWorkflowFeature feature){

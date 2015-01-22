@@ -32,8 +32,8 @@ public class ResizeWorkflowFeature extends DefaultResizeShapeFeature {
 		Resource res = (Resource) getBusinessObjectForPictogramElement( context.getPictogramElement() );
 		
 		if(AddWorkflowFeature.isRootWorkflow(res, context.getShape().getContainer())){
-			minWidth = 600;
-			minHeight = 400;
+			minWidth = 200;
+			minHeight = 100;
 		}
 		
 		

@@ -22,6 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.internal.PublicGetBusinessObjectForPictogramElementInterface;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
@@ -92,12 +93,12 @@ public abstract class AbstactMDBDAAddFeature extends AbstractAddFeature implemen
 		return null;
 	}
 
-	protected Color getBackgroundColor(){
-		return  manageColor(AbstractMDBDAShape.PATTERN_BACKGROUND);
+	protected ColorConstant getBackgroundColor(){
+		return new ColorConstant("B0DCF7");// manageColor(new ColorConstant(176, 220, 247));//B0DCF7
 	}
 	
-	protected Color getForegroundColor(){
-		return  manageColor(AbstractMDBDAShape.PATTERN_FOREGROUND);
+	protected ColorConstant getForegroundColor(){
+		return new ColorConstant("083755");// manageColor(new ColorConstant(8, 55, 85));//083755
 	}
 	
 	public static void addOutputAnchor(Resource resource,
@@ -129,8 +130,8 @@ public abstract class AbstactMDBDAAddFeature extends AbstractAddFeature implemen
     	Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.OUTPUTPOLYGON);
 
 
-		poly.setBackground(gaService.manageColor(dia, IColorConstant.ORANGE));
-		poly.setForeground(gaService.manageColor(dia, IColorConstant.DARK_ORANGE));
+		poly.setBackground(gaService.manageColor(dia, new ColorConstant("FFEEEE")));
+		poly.setForeground(gaService.manageColor(dia, new ColorConstant("880000")));//IColorConstant.DARK_ORANGE));
 		
     	poly.setLineWidth(2);
     	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
@@ -163,9 +164,9 @@ public abstract class AbstactMDBDAAddFeature extends AbstractAddFeature implemen
 		
 		Polygon poly = gaService.createPolygon(boxAnchor, AbstractMDBDAShape.INPUTPOLYGON);
 		
-		
-		poly.setBackground(gaService.manageColor(dia, IColorConstant.ORANGE));
-		poly.setForeground(gaService.manageColor(dia, IColorConstant.DARK_ORANGE));
+
+		poly.setBackground(gaService.manageColor(dia, new ColorConstant("FFEEEE")));
+		poly.setForeground(gaService.manageColor(dia, new ColorConstant("880000")));
 		poly.setLineWidth(2);
 		gaService.setLocationAndSize(poly, -12, -6, 12, 12);
 	}

@@ -1,12 +1,6 @@
 package org.mdbda.codegen.helper;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
 
-import org.mdbda.runtime.annotations.Matcher;
 
 public class PatternConfiguratorHelper {
 	

@@ -1,10 +1,10 @@
 Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Manifest-Version: 1.0
 Bundle-Activator: org.mdbda.diagrameditor.Activator
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
- org.mdbda.xcore,
+ org.mdbda.xcore;bundle-version="1.0.0",
  org.eclipse.graphiti.examples.common,
  org.mdbda.codegen,
  org.eclipse.core.runtime,
@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.gef;bundle-version="3.9.0",
  org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0"
 Eclipse-RegisterBuddy: org.eclipse.draw2d
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0
 Bundle-SymbolicName: org.mdbda.diagrameditor;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-Name: MDBDA Diagram Editor

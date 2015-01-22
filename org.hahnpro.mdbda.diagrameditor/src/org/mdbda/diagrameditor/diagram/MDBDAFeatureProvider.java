@@ -16,11 +16,13 @@ import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -34,10 +36,12 @@ import org.mdbda.diagrameditor.features.AddLinkFeature;
 import org.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.mdbda.diagrameditor.features.CreateWorkflowFeature;
+import org.mdbda.diagrameditor.features.RemoteWorkflowDrillDownFeature;
 import org.mdbda.diagrameditor.features.ResizeWorkflowFeature;
 import org.mdbda.diagrameditor.features.UpdateWorkflowFeature;
 import org.mdbda.diagrameditor.features.resources.DirectEditingResourceFeature;
 import org.mdbda.diagrameditor.features.resources.ResizeResourceFeature;
+import org.mdbda.diagrameditor.features.resources.ResourceDataDSLDrillDownFeature;
 import org.mdbda.diagrameditor.features.resources.UpdateResourceFeature;
 import org.mdbda.diagrameditor.features.task.DirectEditingTaskFeature;
 import org.mdbda.diagrameditor.features.task.ResizeTaskFeature;
@@ -181,6 +185,12 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		return super.getDirectEditingFeature(context);
 	}
 	
+	
+	
+	@Override
+	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+		return new ICustomFeature[]{new RemoteWorkflowDrillDownFeature(this), new ResourceDataDSLDrillDownFeature(this)	};
+	}
 	
 	
 }

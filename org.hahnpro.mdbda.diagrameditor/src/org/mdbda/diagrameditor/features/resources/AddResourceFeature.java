@@ -17,6 +17,8 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
@@ -53,8 +55,14 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
 
 		return false;
 	}
-	protected Color getBackgroundColor(){
-		return  manageColor(AbstractMDBDAShape.RESOURCE_BACKGROUND);
+	protected ColorConstant getBackgroundColor(){
+	//	return  manageColor(new ColorConstant(127, 254, 165));//7FFEA5 (IColorConstant.LIGHT_BLUE);
+		return new ColorConstant("99FFB7");//  manageColor(new ColorConstant(153, 255, 183));//99FFB7
+	}
+	
+	@Override
+	protected ColorConstant getForegroundColor() {
+		return new ColorConstant("00661E");// manageColor(new ColorConstant(0,102,30));//(IColorConstant.BLUE);
 	}
 	@Override
 	public PictogramElement add(IAddContext context) {
@@ -83,10 +91,12 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
 					invisibleRectangle, AbstractMDBDAShape.INVISIBLE_RECT_SIDE,
 					AbstractMDBDAShape.INVISIBLE_RECT_SIDE);
 			roundedRectangle
-					.setBackground(getBackgroundColor());
+					.setBackground(manageColor(getBackgroundColor()));
 			roundedRectangle
-					.setForeground(getForegroundColor());
+					.setForeground(manageColor(getForegroundColor()));
+			roundedRectangle.setTransparency(0.2);
 			roundedRectangle.setLineWidth(2);
+			
 			Graphiti.getPeService().setPropertyValue(roundedRectangle, AbstactMDBDAShapeHelper.SHAPE_KEY , ROUNDED_RECTANGLE_ID);
 			gaService.setLocationAndSize(roundedRectangle,
 					AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);

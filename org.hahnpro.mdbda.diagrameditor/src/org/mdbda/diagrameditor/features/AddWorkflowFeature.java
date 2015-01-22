@@ -103,7 +103,6 @@ public class AddWorkflowFeature extends AbstactMDBDAAddFeature implements
 		
 		link(rootContainerShape, rwf);
 		
-		
 		NameShapeHelper nameHelper = new NameShapeHelper(rwf, rootContainerShape, getFeatureProvider());
 		nameHelper.addNewShapeOnContainer(width, height);
 		

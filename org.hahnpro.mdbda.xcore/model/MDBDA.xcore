@@ -6,7 +6,6 @@ package org.mdbda.model
  * http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html
  */
 import java.util.HashSet
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 class MDBDADiagram{
 	contains Workflow rootWorkflow opposite diagram
@@ -41,14 +40,14 @@ class Workflow extends Task{
 	contains Task[] tasks opposite workflow 
 	container MDBDADiagram diagram opposite rootWorkflow
 	 
-	contains Resource[] dataResources
+	contains Resource[] internalDataResources
 	
 	refers Task startTask
 	op Resource[] getInputDataResources()
 	{
 		//input data resources are dataResources with no inputResources
 		var HashSet<Resource> inputDataResources = new HashSet<Resource>()
-		for( Resource res : dataResources){
+		for( Resource res : internalDataResources){
 			if( res.inputResources.empty ){
 				inputDataResources.add(res)
 			}
@@ -60,7 +59,7 @@ class Workflow extends Task{
 	op Resource[] getOutputDataResources(){
 		//output data resources are dataResources with no outputResources
 		var HashSet<Resource> outputDataResources = new HashSet<Resource>()
-		for( Resource res : dataResources){
+		for( Resource res : internalDataResources){
 			if( res.outputResources.empty ){
 				outputDataResources.add(res)
 			}
@@ -73,18 +72,19 @@ class Workflow extends Task{
 		if (other instanceof Workflow) {
 			if(super.equals(other) &&
 				((this.tasks == null && other.tasks == null) || 
-					(this.tasks != null && this.tasks.equals(other.tasks)))&&				
+					(this.tasks != null && this.tasks.equals(other.tasks)))&&
 				((this.startTask == null && other.startTask == null) || 
 					(this.startTask != null && this.startTask.equals(other.startTask)))
 			){
 				return true;
 			}
 		}
-		return false		
+		return false
 	}
 }
 
 class RemoteWorkflow extends Resource{
+	String remoteDiagramURI
 }
  
 class Task extends Resource{
@@ -92,6 +92,7 @@ class Task extends Resource{
 	refers Task[] dependsOn
 	int maxInputCount
 	int maxOutputCount
+	
 	
 	op boolean equals(Object other) {
 		if (other instanceof Task) {
@@ -114,6 +115,10 @@ class Resource{
 	String configurationString
 	String typeId
 	String name
+	
+	String dataDSLDesciptionURI
+	
+	
 	
 	op boolean equals(Object other) {
 		if (other instanceof Resource) {

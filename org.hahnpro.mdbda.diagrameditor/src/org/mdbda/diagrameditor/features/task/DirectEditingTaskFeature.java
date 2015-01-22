@@ -24,6 +24,7 @@ public class DirectEditingTaskFeature extends AbstractDirectEditingFeature {
 		Task task = (Task) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		return task.getName();
 	}
+		
 	
 	@Override
 	public void setValue(String value, IDirectEditingContext context) {

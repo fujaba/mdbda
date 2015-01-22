@@ -61,8 +61,9 @@ public abstract class AddTaskFeature extends AbstactMDBDAAddFeature implements
 			gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width + 2 * AbstractMDBDAShape.INVISIBLE_RECT_SIDE, height);
 		
 			roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 10, 10);
-			roundedRectangle.setBackground(getBackgroundColor());
-			roundedRectangle.setForeground(getForegroundColor());
+			roundedRectangle.setBackground(manageColor(getBackgroundColor()));
+			roundedRectangle.setForeground(manageColor(getForegroundColor()));
+			roundedRectangle.setTransparency(0.2);
 			roundedRectangle.setLineWidth(2);
 			Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstactMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
             gaService.setLocationAndSize(roundedRectangle,
