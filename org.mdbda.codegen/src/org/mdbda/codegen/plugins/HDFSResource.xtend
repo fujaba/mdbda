@@ -12,31 +12,31 @@ class HDFSResource implements IResourceTemplate{
 	 
 	override generareMapReduceInputResouce(Resource res, Task pattern, CharSequence controledJobName , CodegenContext context ) '''
 		{
-			«context.addImport("org.apache.hadoop.fs.Path")»
-			Path inputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
-			«IF  pattern.inputResources.size > 1»
+			Â«context.addImport("org.apache.hadoop.fs.Path")Â»
+			Path inputPath = new Path("Â«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()Â»");
+			Â«IF  pattern.inputResources.size > 1Â»
 				//MULTI INPUT
-				«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")»
-				«context.addImport("org.apache.hadoop.mapreduce.lib.input.MultipleInputs")»
-				«var fooCount = context.getCounter("MULTIINPUT"+pattern.toString)»
-				«context.setCounter("MULTIINPUT"+pattern.toString, fooCount + 1)»
-				«val mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + "." + CodeGenHelper.getMapperInnderClassName(pattern) + fooCount» 
-				MultipleInputs.addInputPath(«controledJobName».getJob(),inputPath,TextInputFormat.class,«mapperClass».class);
-			«ELSE»
-				«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")»
-				«controledJobName».getJob().setInputFormatClass(TextInputFormat.class);
-				TextInputFormat.setInputPaths(«controledJobName».getJob(), inputPath);
-			«ENDIF»
+				Â«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")Â»
+				Â«context.addImport("org.apache.hadoop.mapreduce.lib.input.MultipleInputs")Â»
+				Â«var fooCount = context.getCounter("MULTIINPUT"+pattern.toString)Â»
+				Â«context.setCounter("MULTIINPUT"+pattern.toString, fooCount + 1)Â»
+				Â«val mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + "." + CodeGenHelper.getMapperInnderClassName(pattern) + fooCountÂ» 
+				MultipleInputs.addInputPath(Â«controledJobNameÂ».getJob(),inputPath,TextInputFormat.class,Â«mapperClassÂ».class);
+			Â«ELSEÂ»
+				Â«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")Â»
+				Â«controledJobNameÂ».getJob().setInputFormatClass(TextInputFormat.class);
+				TextInputFormat.setInputPaths(Â«controledJobNameÂ».getJob(), inputPath);
+			Â«ENDIFÂ»
 		}
 	'''
 	
 	override generareMapReduceOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
 		{
-			«context.addImport("org.apache.hadoop.fs.Path")»
-			Path outputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
-			«context.addImport("org.apache.hadoop.mapreduce.lib.output.TextOutputFormat")»
-			«controledJobName».getJob().setOutputFormatClass(TextOutputFormat.class);
-			TextOutputFormat.setOutputPath(«controledJobName».getJob(), outputPath);
+			Â«context.addImport("org.apache.hadoop.fs.Path")Â»
+			Path outputPath = new Path("Â«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()Â»");
+			Â«context.addImport("org.apache.hadoop.mapreduce.lib.output.TextOutputFormat")Â»
+			Â«controledJobNameÂ».getJob().setOutputFormatClass(TextOutputFormat.class);
+			TextOutputFormat.setOutputPath(Â«controledJobNameÂ».getJob(), outputPath);
 		}
 	'''
 	

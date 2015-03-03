@@ -14,3 +14,15 @@ org.hahnpro.mdbda.xcore/icons/
 mdbda/MDBDA.synctex.gz
 *.toc
 mdbda/tmp/
+org.mdbda.join.replicatedjoin/.settings/
+org.mdbda.join.reducesidejoin/.settings/
+org.mdbda.join.cartesianproduct/.settings/
+org.mdbda.runtime/.settings/
+org.mdbda.swtbottests/screenshots/
+org.hahnpro.mdbda.xcore/.settings/
+org.mdbda.filter.distinct/.settings/
+org.mdbda.filter.topten/.settings/
+org.mdbda.filter.simplematcher/.settings/
+org.mdbda.Neo4jPlugin/.settings/
+org.mdbda.cassandra/.settings/
+org.mdbda.hdfs/.settings/

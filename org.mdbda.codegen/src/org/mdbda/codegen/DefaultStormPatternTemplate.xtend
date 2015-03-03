@@ -10,53 +10,54 @@ import org.mdbda.codegen.helper.CodeGenHelper
 class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	
 	override generareStormPattern(Task pattern, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
-		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
-		«context.addImport("backtype.storm.topology.base.BaseBasicBolt")»
-		«context.addImport("backtype.storm.tuple.Tuple")»
+	
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«context.addImport("backtype.storm.topology.BasicOutputCollector")Â»
+		Â«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")Â»
+		Â«context.addImport("backtype.storm.topology.base.BaseBasicBolt")Â»
+		Â«context.addImport("backtype.storm.tuple.Tuple")Â»
 
-		«genMapBolt(pattern, context)»
-		«genReduceBolt(pattern, context)»
-		«genTestDataValidationBolt(pattern, context)»
+		Â«genMapBolt(pattern, context)Â»
+		Â«genReduceBolt(pattern, context)Â»
+		Â«genTestDataValidationBolt(pattern, context)Â»
 		
-		«genTestDataBolt(pattern, context)»
+		Â«genTestDataBolt(pattern, context)Â»
 		
 		//############## junit test  ###########
-		«genJUnitTest(pattern, context)»
+		Â«genJUnitTest(pattern, context)Â»
 	'''
 	
 	def genJUnitTest(Task pattern,CodegenContext context)'''
-		«context.addImport("org.junit.Test")»
+		Â«context.addImport("org.junit.Test")Â»
 		@Test
 		public void test() {
 
 				// build the test topology
-		«context.addImport("backtype.storm.topology.TopologyBuilder")»
+		Â«context.addImport("backtype.storm.topology.TopologyBuilder")Â»
 				TopologyBuilder builder = new TopologyBuilder();
-		«context.addImport("backtype.storm.tuple.Fields")»
-		«context.addImport("backtype.storm.testing.FeederSpout")»
-				builder.setSpout("testInput", new «TestDataSpoutClass»());
+		Â«context.addImport("backtype.storm.tuple.Fields")Â»
+		Â«context.addImport("backtype.storm.testing.FeederSpout")Â»
+				builder.setSpout("testInput", new Â«TestDataSpoutClassÂ»());
 		
-				builder.setBolt("mapBolt", new «MapBoltClass»()).fieldsGrouping("testInput",new Fields("key"));
-				builder.setBolt("reduceBolt", new «ReduceBoltBoltClass»()).fieldsGrouping("mapBolt",new Fields("key"));
-				builder.setBolt("validationBolt", new «TestDataValidationBoltClass»()).globalGrouping("reduceBolt");
+				builder.setBolt("mapBolt", new Â«MapBoltClassÂ»()).fieldsGrouping("testInput",new Fields("key"));
+				builder.setBolt("reduceBolt", new Â«ReduceBoltBoltClassÂ»()).fieldsGrouping("mapBolt",new Fields("key"));
+				builder.setBolt("validationBolt", new Â«TestDataValidationBoltClassÂ»()).globalGrouping("reduceBolt");
 				
 				
-		«context.addImport("backtype.storm.generated.StormTopology")»
+		Â«context.addImport("backtype.storm.generated.StormTopology")Â»
 				StormTopology topology = builder.createTopology();
 		
 				// complete the topology
 		
 				// prepare the config
-		«context.addImport("backtype.storm.Config")»
+		Â«context.addImport("backtype.storm.Config")Â»
 				Config conf = new Config();
 				conf.setNumWorkers(2);
-		«context.addImport("backtype.storm.LocalCluster")»
+		Â«context.addImport("backtype.storm.LocalCluster")Â»
 				LocalCluster cluster = new LocalCluster();
 		
 				cluster.submitTopology("test", conf, builder.createTopology());
-		«context.addImport("backtype.storm.utils.Utils")»
+		Â«context.addImport("backtype.storm.utils.Utils")Â»
 				Utils.sleep(5000);
 				cluster.shutdown();
 		
@@ -69,19 +70,19 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	
 	protected val ReduceBoltBoltClass = "ReduceBolt"
 	def genReduceBolt(Task pattern, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		public static class «ReduceBoltBoltClass» extends BaseBasicBolt{
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		public static class Â«ReduceBoltBoltClassÂ» extends BaseBasicBolt{
 			
-			«config.getFields(config.reduceFunction)»
+			Â«config.getFields(config.reduceFunction)Â»
 			
-			«context.addImport("java.util.Queue")»
-			«context.addImport("java.util.LinkedList")»
+			Â«context.addImport("java.util.Queue")Â»
+			Â«context.addImport("java.util.LinkedList")Â»
 			Queue<Tuple> collectedTupels = new LinkedList<>();
-		«context.addImport("backtype.storm.Constants")»
+		Â«context.addImport("backtype.storm.Constants")Â»
 			@Override
 			public void execute(Tuple input, BasicOutputCollector collector) {
 				if(input.getSourceComponent().equals(Constants.SYSTEM_COMPONENT_ID) && input.getSourceStreamId().equals(Constants.SYSTEM_TICK_STREAM_ID) ){
-					«config.getStormExecuteFunction(config.reduceFunction)»
+					Â«config.getStormExecuteFunction(config.reduceFunction)Â»
 				}else{
 					collectTuple(input);
 				}
@@ -100,7 +101,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 			
 			@Override
 			public Map<String, Object> getComponentConfiguration() {
-				«context.addImport("java.util.HashMap")»
+				Â«context.addImport("java.util.HashMap")Â»
 				Map<String, Object> conf = new HashMap<String, Object>();
 				conf.put(Config.TOPOLOGY_TICK_TUPLE_FREQ_SECS, 1);//collect data 1 sec
 				return conf;
@@ -109,12 +110,12 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	'''
 	protected val MapBoltClass = "MapBolt"
 	def genMapBolt(Task pattern, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		public static class «MapBoltClass» extends BaseBasicBolt{
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		public static class Â«MapBoltClassÂ» extends BaseBasicBolt{
 
 			@Override
 			public void execute(Tuple input, BasicOutputCollector collector) {
-				«config.getStormExecuteFunction(config.mapFunction)»
+				Â«config.getStormExecuteFunction(config.mapFunction)Â»
 			}
 		
 			@Override
@@ -127,18 +128,18 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	protected val TestDataValidationBoltClass = "TestDataValidationBolt"
 	
 	def genTestDataValidationBolt(Task pattern, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		public static class «TestDataValidationBoltClass» extends BaseBasicBolt{
-			«context.addImport("java.util.Queue")»
-			«context.addImport("java.util.LinkedList")»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		public static class Â«TestDataValidationBoltClassÂ» extends BaseBasicBolt{
+			Â«context.addImport("java.util.Queue")Â»
+			Â«context.addImport("java.util.LinkedList")Â»
 			Queue<Values> testData = new LinkedList<>();
 			
-			public «TestDataValidationBoltClass»(){
-				«val JSONArray testReduceOutput = config.getTestOutput(config.reduceFunction)»
-				«FOR inputString : testReduceOutput »
-					«var String[] inputElements = (inputString as String).split(";")»
-					testData.offer(new Values(«CodeGenHelper.fixInputString(inputElements.get(0))»,«CodeGenHelper.fixInputString(inputElements.get(1))»));
-				«ENDFOR»
+			public Â«TestDataValidationBoltClassÂ»(){
+				Â«val JSONArray testReduceOutput = config.getTestOutput(config.reduceFunction)Â»
+				Â«FOR inputString : testReduceOutput Â»
+					Â«var String[] inputElements = (inputString as String).split(";")Â»
+					testData.offer(new Values(Â«CodeGenHelper.fixInputString(inputElements.get(0))Â»,Â«CodeGenHelper.fixInputString(inputElements.get(1))Â»));
+				Â«ENDFORÂ»
 			}
 			
 			@Override
@@ -153,7 +154,7 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 				System.err.println("Fond no match for: " + input);
 				System.err.println("\t in list: " + testData);
 			}
-		«context.addImport("static org.junit.Assert.assertTrue")»
+		Â«context.addImport("static org.junit.Assert.assertTrue")Â»
 			@Override
 			public void cleanup() {
 				assertTrue( "Not all data was processed" , testData.isEmpty() );
@@ -170,32 +171,32 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 	protected val TestDataSpoutClass = "TestDataSpout"
 	
 	def genTestDataBolt(Task pattern, CodegenContext context, JSONObject jsonFunktion, String suffix) '''
-		«context.addImport("backtype.storm.spout.SpoutOutputCollector")»
-		«context.addImport("backtype.storm.task.TopologyContext")»
-		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
-		«context.addImport("backtype.storm.topology.base.BaseRichSpout")»
-		«context.addImport("backtype.storm.tuple.Fields")»
-		«context.addImport("backtype.storm.tuple.Values")»
-		«context.addImport("backtype.storm.utils.Utils")»
-		«context.addImport("java.util.EmptyStackException")»
-		«context.addImport("java.util.Map")»
-		«context.addImport("java.util.Stack")»
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		Â«context.addImport("backtype.storm.spout.SpoutOutputCollector")Â»
+		Â«context.addImport("backtype.storm.task.TopologyContext")Â»
+		Â«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")Â»
+		Â«context.addImport("backtype.storm.topology.base.BaseRichSpout")Â»
+		Â«context.addImport("backtype.storm.tuple.Fields")Â»
+		Â«context.addImport("backtype.storm.tuple.Values")Â»
+		Â«context.addImport("backtype.storm.utils.Utils")Â»
+		Â«context.addImport("java.util.EmptyStackException")Â»
+		Â«context.addImport("java.util.Map")Â»
+		Â«context.addImport("java.util.Stack")Â»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
 		
-		public static class «TestDataSpoutClass»«suffix» extends BaseRichSpout {
+		public static class Â«TestDataSpoutClassÂ»Â«suffixÂ» extends BaseRichSpout {
 			SpoutOutputCollector _collector;
-			«context.addImport("java.util.Queue")»
-			«context.addImport("java.util.LinkedList")»
+			Â«context.addImport("java.util.Queue")Â»
+			Â«context.addImport("java.util.LinkedList")Â»
 			Queue<Values> testData = new LinkedList<>();
 			
 			@Override
 			public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
 				_collector = collector;
-				«val JSONArray testMapInput = config.getTestInput(jsonFunktion)» 
-				«FOR inputString : testMapInput »
-					«var String[] inputElements = (inputString as String).split(";")»
-					testData.offer(new Values(«CodeGenHelper.fixInputString(inputElements.get(0))»,«CodeGenHelper.fixInputString(inputElements.get(1))»));
-				«ENDFOR»
+				Â«val JSONArray testMapInput = config.getTestInput(jsonFunktion)Â» 
+				Â«FOR inputString : testMapInput Â»
+					Â«var String[] inputElements = (inputString as String).split(";")Â»
+					testData.offer(new Values(Â«CodeGenHelper.fixInputString(inputElements.get(0))Â»,Â«CodeGenHelper.fixInputString(inputElements.get(1))Â»));
+				Â«ENDFORÂ»
 			}
 			
 			@Override

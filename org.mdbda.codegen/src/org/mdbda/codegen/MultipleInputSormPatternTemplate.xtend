@@ -7,32 +7,32 @@ import org.json.simple.JSONObject
 import org.mdbda.codegen.helper.CodeGenHelper
 
 class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
-	
-	
+
 	val InputMapperBoltClass = "InputMapperBolt"
+
 	override genMapBolt(Task resource, CodegenContext context) '''
-	
-		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
-		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
-		«context.addImport("backtype.storm.topology.base.BaseBasicBolt")»
-		«context.addImport("backtype.storm.tuple.Tuple")»
-		«val config = MDBDAConfiguration.readConfigString(resource.configurationString)»
-		«val funktions = config.getMultipleMapFunction»
 		
-		«var int fooCount = 0»
-		«FOR foo : funktions»
-			«val JSONObject funktion = foo as JSONObject»
-			public class «InputMapperBoltClass»«fooCount» extends BaseBasicBolt{
+		Â«context.addImport("backtype.storm.topology.BasicOutputCollector")Â»
+		Â«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")Â»
+		Â«context.addImport("backtype.storm.topology.base.BaseBasicBolt")Â»
+		Â«context.addImport("backtype.storm.tuple.Tuple")Â»
+		Â«val config = MDBDAConfiguration.readConfigString(resource.configurationString)Â»
+		Â«val funktions = config.getMultipleMapFunctionÂ»
+		
+		Â«var int fooCount = 0Â»
+		Â«FOR foo : funktionsÂ»
+			Â«val JSONObject funktion = foo as JSONObjectÂ»
+			public class Â«InputMapperBoltClassÂ»Â«fooCountÂ» extends BaseBasicBolt{
 			
 				@Override
 				public void execute(Tuple input, BasicOutputCollector collector) {
-					String _streamId = "«fooCount»";
-					«val stormExec = config.getStormExecuteFunction(funktion)»
-					«IF stormExec == null || stormExec.empty»
+					String _streamId = "Â«fooCountÂ»";
+					Â«val stormExec = config.getStormExecuteFunction(funktion)Â»
+					Â«IF stormExec == null || stormExec.emptyÂ»
 						//stormExecute is not configured
-					«ELSE»
-						«CodeGenHelper.beautifyJava(stormExec,0)»
-					«ENDIF»
+					Â«ELSEÂ»
+						Â«CodeGenHelper.beautifyJava(stormExec,0)Â»
+					Â«ENDIFÂ»
 				}
 			
 				@Override
@@ -41,67 +41,65 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 				}
 			
 			}
-			«{fooCount = fooCount + 1 ; ""}»
-		«ENDFOR»
+			Â«{fooCount = fooCount + 1 ; ""}Â»
+		Â«ENDFORÂ»
 	'''
-	
-	override genTestDataBolt(Task pattern,CodegenContext context){
+
+	override genTestDataBolt(Task pattern, CodegenContext context) {
 		val config = MDBDAConfiguration.readConfigString(pattern.configurationString)
 		val StringBuilder sb = new StringBuilder();
 		var int counter = 0
-		for(foo : config.getMultipleMapFunction()){			
-			sb.append(genTestDataBolt(pattern,context, foo as JSONObject , counter + ""));
+		for (foo : config.getMultipleMapFunction()) {
+			sb.append(genTestDataBolt(pattern, context, foo as JSONObject, counter + ""));
 			counter = counter + 1;
 			sb.append("\n")
 		}
-		
-		return sb.toString
-	
 
-	
+		return sb.toString
+
 	}
-	
-	override genJUnitTest(Task pattern,CodegenContext context)'''
-		«context.addImport("org.junit.Test")»
+
+	override genJUnitTest(Task pattern, CodegenContext context) '''
+		Â«context.addImport("org.junit.Test")Â»
 		@Test
 		public void test() {
-
+		
 				// build the test topology
-		«context.addImport("backtype.storm.topology.TopologyBuilder")»
+		Â«context.addImport("backtype.storm.topology.TopologyBuilder")Â»
 				TopologyBuilder builder = new TopologyBuilder();
-		«context.addImport("backtype.storm.tuple.Fields")»
-		«context.addImport("backtype.storm.testing.FeederSpout")»
+		Â«context.addImport("backtype.storm.tuple.Fields")Â»
+		Â«context.addImport("backtype.storm.testing.FeederSpout")Â»
 		
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val numberOfMultipleMapFunction = config.getMultipleMapFunction().size»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«val numberOfMultipleMapFunction = config.getMultipleMapFunction().sizeÂ»
 		
-		«FOR n : (0..numberOfMultipleMapFunction-1)»
-			builder.setSpout("testInput«n»", new «TestDataSpoutClass»«n»());
-			builder.setBolt("mapBolt«n»", new «InputMapperBoltClass»«n»()).fieldsGrouping("testInput«n»",new Fields("key"));
-		«ENDFOR»
+		Â«FOR n : (0..numberOfMultipleMapFunction-1)Â»
+			builder.setSpout("testInputÂ«nÂ»", new Â«TestDataSpoutClassÂ»Â«nÂ»());
+			builder.setBolt("mapBoltÂ«nÂ»", new Â«InputMapperBoltClassÂ»Â«nÂ»()).fieldsGrouping("testInputÂ«nÂ»",new Fields("key"));
+		Â«ENDFORÂ»
 			
-		builder.setBolt("reduceBolt", new «ReduceBoltBoltClass»())
-		«FOR n : (0..numberOfMultipleMapFunction-1)»
-			.fieldsGrouping("mapBolt«n»", new Fields("key"))
-		«ENDFOR»
+		builder.setBolt("reduceBolt", new Â«ReduceBoltBoltClassÂ»())
+		Â«FOR n : (0..numberOfMultipleMapFunction-1)Â»
+			.fieldsGrouping("mapBoltÂ«nÂ»", new Fields("key"))
+		Â«ENDFORÂ»
 		;
-			builder.setBolt("validationBolt", new «TestDataValidationBoltClass»()).globalGrouping("reduceBolt");
+			builder.setBolt("validationBolt", new Â«TestDataValidationBoltClassÂ»()).globalGrouping("reduceBolt");
 				
 				
-		«context.addImport("backtype.storm.generated.StormTopology")»
+		Â«context.addImport("backtype.storm.generated.StormTopology")Â»
 				StormTopology topology = builder.createTopology();
 		
 				// complete the topology
 		
 				// prepare the config
-		«context.addImport("backtype.storm.Config")»
+		Â«context.addImport("backtype.storm.Config")Â»
 				Config conf = new Config();
 				conf.setNumWorkers(2);
-		«context.addImport("backtype.storm.LocalCluster")»
+		Â«context.addImport("backtype.storm.LocalCluster")Â»
 				LocalCluster cluster = new LocalCluster();
 		
 				cluster.submitTopology("test", conf, builder.createTopology());
-		«context.addImport("backtype.storm.utils.Utils")»
+		Â«context.addImport("backtype.storm.utils.Utils")Â»
 				Utils.sleep(5000);
 				cluster.shutdown();
 		

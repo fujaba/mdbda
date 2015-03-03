@@ -8,71 +8,71 @@ import org.json.simple.JSONObject
 class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTemplate {
 	
 	override genMapperClass(Task pattern, CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val funktions = config.getMultipleMapFunction()»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«val funktions = config.getMultipleMapFunction()Â»
 		
-		«var int fooCount = 0»
-		«FOR foo : funktions»
-			«val JSONObject funktion = foo as JSONObject»
-			«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
+		Â«var int fooCount = 0Â»
+		Â«FOR foo : funktionsÂ»
+			Â«val JSONObject funktion = foo as JSONObjectÂ»
+			Â«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"Â»
 			
-			public static class «CodeGenHelper.getMapperInnderClassName(pattern)»«fooCount» extends «Mapper» {
+			public static class Â«CodeGenHelper.getMapperInnderClassName(pattern)Â»Â«fooCountÂ» extends Â«MapperÂ» {
 				
-				«val fields = config.getFields(funktion)»
-				«IF fields != null»
-					«CodeGenHelper.beautifyJava(fields,0)»
+				Â«val fields = config.getFields(funktion)Â»
+				Â«IF fields != nullÂ»
+					Â«CodeGenHelper.beautifyJava(fields,0)Â»
 					
-				«ENDIF»
-				«val setup = config.getSetup(funktion)»
-				«IF setup != null»
+				Â«ENDIFÂ»
+				Â«val setup = config.getSetup(funktion)Â»
+				Â«IF setup != nullÂ»
 					@Override
 					protected void setup(org.apache.hadoop.mapreduce.Mapper.Context context)
 						throws IOException, InterruptedException {
-						«CodeGenHelper.beautifyJava(setup,0)»
+						Â«CodeGenHelper.beautifyJava(setup,0)Â»
 					}
 					
-				«ENDIF»
+				Â«ENDIFÂ»
 				@Override
-				public void map(«config.getKEYIN(funktion)» key, «config.getVALUEIN(funktion)» value, «Mapper».Context context) throws IOException, InterruptedException{
-					//in: «config.getTestInput(funktion)»
-					«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)»
-					//out: «config.getTestOutput(funktion)»
+				public void map(Â«config.getKEYIN(funktion)Â» key, Â«config.getVALUEIN(funktion)Â» value, Â«MapperÂ».Context context) throws IOException, InterruptedException{
+					//in: Â«config.getTestInput(funktion)Â»
+					Â«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)Â»
+					//out: Â«config.getTestOutput(funktion)Â»
 				}
-				«val cleanup = config.getCleanup(funktion)»
-				«IF cleanup != null»
+				Â«val cleanup = config.getCleanup(funktion)Â»
+				Â«IF cleanup != nullÂ»
 					@Override
 					protected void cleanup(org.apache.hadoop.mapreduce.Mapper.Context context)
 						throws IOException, InterruptedException {
-						«CodeGenHelper.beautifyJava(cleanup,0)»
+						Â«CodeGenHelper.beautifyJava(cleanup,0)Â»
 					}
-				«ENDIF»
+				Â«ENDIFÂ»
 			}
-			«{fooCount = fooCount + 1 ; ""}»
-		«ENDFOR»
+			Â«{fooCount = fooCount + 1 ; ""}Â»
+		Â«ENDFORÂ»
 	'''
 	
 	override genJobConf(Task pattern, CodegenContext context) '''	
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
-		«context.addImport("org.apache.hadoop.mapreduce.Job")»
-		Job job = Job.getInstance(conf, "«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)» awesome MDBDA Job");
+		Â«context.addImport("org.apache.hadoop.mapreduce.Job")Â»
+		Job job = Job.getInstance(conf, "Â«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)Â» awesome MDBDA Job");
 		
-		«IF config.partitioner != null»
-			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnderClassName(pattern)».class);
-		«ENDIF»
-		«IF config.reduceFunction != null»
-			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(pattern)».class);
-		«ENDIF»
-		«IF config.getMultipleMapFunction() != null»
+		Â«IF config.partitioner != nullÂ»
+			job.setPartitionerClass(Â«CodeGenHelper.getPartitonerInnderClassName(pattern)Â».class);
+		Â«ENDIFÂ»
+		Â«IF config.reduceFunction != nullÂ»
+			job.setReducerClass(Â«CodeGenHelper.getReducerInnderClassName(pattern)Â».class);
+		Â«ENDIFÂ»
+		Â«IF config.getMultipleMapFunction() != nullÂ»
 			//job.setMapperClass(<CodeGenHelper.getMapperInnderClassName(pattern)>.class);
 			
-		«ENDIF»
+		Â«ENDIFÂ»
 		
-		«val jobConfig = config.jobConfig» 
-		«IF jobConfig != null»
-			«CodeGenHelper.beautifyJava(jobConfig,0)»
-		«ENDIF»
+		Â«val jobConfig = config.jobConfigÂ»
+		Â«IF jobConfig != nullÂ»
+			Â«CodeGenHelper.beautifyJava(jobConfig,0)Â»
+		Â«ENDIFÂ»
 		
 		return job.getConfiguration();
 	'''

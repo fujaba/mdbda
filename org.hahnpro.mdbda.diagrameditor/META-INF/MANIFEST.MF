@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.gef;bundle-version="3.9.0",
  org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0"
 Eclipse-RegisterBuddy: org.eclipse.draw2d
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.mdbda.diagrameditor;singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-Name: MDBDA Diagram Editor

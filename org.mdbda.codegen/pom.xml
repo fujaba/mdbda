@@ -10,7 +10,7 @@
 		<version>1.0.0</version>
 		<relativePath>../org.mdbda.MDBDAToolSuite</relativePath>
 	</parent>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>org.mdbda</groupId>
 			<artifactId>org.mdbda.runtime</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

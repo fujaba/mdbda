@@ -21,6 +21,7 @@ public class UpdateConnectionDataformatDecorationFeature extends
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		Connection conn = (Connection)  context.getPictogramElement();
+	
 		
 //		Resource startResource = (Resource) getBusinessObjectForPictogramElement( conn.getStart().getParent() );
 		

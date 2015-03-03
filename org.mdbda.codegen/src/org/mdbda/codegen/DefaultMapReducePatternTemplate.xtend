@@ -13,134 +13,134 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	
 	
 	override generareMapReducePattern(Task pattern, CodegenContext context) '''
-			«context.addImport("org.apache.hadoop.mapreduce.Mapper")»
-			«context.addImport("org.apache.hadoop.io.*")»
-			«context.addImport("java.io.IOException")»
+			Â«context.addImport("org.apache.hadoop.mapreduce.Mapper")Â»
+			Â«context.addImport("org.apache.hadoop.io.*")Â»
+			Â«context.addImport("java.io.IOException")Â»
 			
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
-			«genMapperClass(pattern,context)»
-			«genReducerClass(pattern,context)»
-			«genPartitonerClass(pattern,context)»
+			Â«genMapperClass(pattern,context)Â»
+			Â«genReducerClass(pattern,context)Â»
+			Â«genPartitonerClass(pattern,context)Â»
 			
 	'''
 	def genPartitonerClass(Task pattern, CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val funktion = config.partitioner»
-		«IF funktion != null»
-			«context.addImport("org.apache.hadoop.mapreduce.Partitioner")»
-			public static class «CodeGenHelper.getPartitonerInnderClassName(pattern)» extends Partitioner<«config.getPartitionerKEY(funktion)»,«config.getPartitionerVALUE(funktion)»>{
-				«val fields = config.getFields(funktion)»
-				«IF fields != null»
-					«CodeGenHelper.beautifyJava(fields,0)»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«val funktion = config.partitionerÂ»
+		Â«IF funktion != nullÂ»
+			Â«context.addImport("org.apache.hadoop.mapreduce.Partitioner")Â»
+			public static class Â«CodeGenHelper.getPartitonerInnderClassName(pattern)Â» extends Partitioner<Â«config.getPartitionerKEY(funktion)Â»,Â«config.getPartitionerVALUE(funktion)Â»>{
+				Â«val fields = config.getFields(funktion)Â»
+				Â«IF fields != nullÂ»
+					Â«CodeGenHelper.beautifyJava(fields,0)Â»
 					
-				«ENDIF»
+				Â«ENDIFÂ»
 				@Override
-				public int getPartition(«config.getPartitionerKEY(funktion)» key, «config.getPartitionerVALUE(funktion)» value, int numPartitions) {
-					«CodeGenHelper.beautifyJava(config.getPartitionFunction(funktion),0)»
+				public int getPartition(Â«config.getPartitionerKEY(funktion)Â» key, Â«config.getPartitionerVALUE(funktion)Â» value, int numPartitions) {
+					Â«CodeGenHelper.beautifyJava(config.getPartitionFunction(funktion),0)Â»
 				}
 			}
-		«ENDIF»
+		Â«ENDIFÂ»
 	'''
 	
 	def genReducerClass(Task pattern, CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val funktion = config.reduceFunction»
-		«IF funktion != null»
-			«context.addImport("org.apache.hadoop.mapreduce.Reducer")»
-			«val Reducer = "Reducer<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-			public static class «CodeGenHelper.getReducerInnderClassName(pattern)» extends «Reducer»{
-				«val fields = config.getFields(funktion)»
-				«IF fields != null»
-					«CodeGenHelper.beautifyJava(fields,0)»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«val funktion = config.reduceFunctionÂ»
+		Â«IF funktion != nullÂ»
+			Â«context.addImport("org.apache.hadoop.mapreduce.Reducer")Â»
+			Â«val Reducer = "Reducer<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"Â»
+			public static class Â«CodeGenHelper.getReducerInnderClassName(pattern)Â» extends Â«ReducerÂ»{
+				Â«val fields = config.getFields(funktion)Â»
+				Â«IF fields != nullÂ»
+					Â«CodeGenHelper.beautifyJava(fields,0)Â»
 					
-				«ENDIF»
-				«val setup = config.getSetup(funktion)»
-				«IF setup != null»
+				Â«ENDIFÂ»
+				Â«val setup = config.getSetup(funktion)Â»
+				Â«IF setup != nullÂ»
 					@Override
 					protected void setup(org.apache.hadoop.mapreduce.Mapper.Context context)
 						throws IOException, InterruptedException {
-						«CodeGenHelper.beautifyJava(setup,0)»
+						Â«CodeGenHelper.beautifyJava(setup,0)Â»
 					}
 					
-				«ENDIF»
-				«val cleanup = config.getCleanup(funktion)»
-				«IF cleanup != null»
+				Â«ENDIFÂ»
+				Â«val cleanup = config.getCleanup(funktion)Â»
+				Â«IF cleanup != nullÂ»
 					@Override
 					protected void cleanup(org.apache.hadoop.mapreduce.Mapper.Context context)
 						throws IOException, InterruptedException {
-						«CodeGenHelper.beautifyJava(cleanup,0)»
+						Â«CodeGenHelper.beautifyJava(cleanup,0)Â»
 					}
 					
-				«ENDIF»
+				Â«ENDIFÂ»
 				@Override
-				protected void reduce(«config.getKEYIN(funktion)» key, Iterable<«config.getVALUEIN(funktion)»> values, «Reducer».Context context)
+				protected void reduce(Â«config.getKEYIN(funktion)Â» key, Iterable<Â«config.getVALUEIN(funktion)Â»> values, Â«ReducerÂ».Context context)
 						throws IOException, InterruptedException {
-					//in: «config.getTestInput(funktion)»
-					«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)»
-					//out: «config.getTestOutput(funktion)»
+					//in: Â«config.getTestInput(funktion)Â»
+					Â«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)Â»
+					//out: Â«config.getTestOutput(funktion)Â»
 				}
 			}
-		«ENDIF»
+		Â«ENDIFÂ»
 	'''
 	
 	def genMapperClass(Task pattern, CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
-		«val funktion = config.mapFunction»
-		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-		public static class «CodeGenHelper.getMapperInnderClassName(pattern)» extends «Mapper» {
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
+		Â«val funktion = config.mapFunctionÂ»
+		Â«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"Â»
+		public static class Â«CodeGenHelper.getMapperInnderClassName(pattern)Â» extends Â«MapperÂ» {
 
-			«val fields = config.getFields(funktion)»
-			«IF fields != null»
-				«CodeGenHelper.beautifyJava(fields,0)»
+			Â«val fields = config.getFields(funktion)Â»
+			Â«IF fields != nullÂ»
+				Â«CodeGenHelper.beautifyJava(fields,0)Â»
 				
-			«ENDIF»
-			«val setup = config.getSetup(funktion)»
-			«IF setup != null»
+			Â«ENDIFÂ»
+			Â«val setup = config.getSetup(funktion)Â»
+			Â«IF setup != nullÂ»
 				@Override
 				protected void setup(org.apache.hadoop.mapreduce.Mapper.Context context)
 					throws IOException, InterruptedException {
-					«CodeGenHelper.beautifyJava(setup,0)»
+					Â«CodeGenHelper.beautifyJava(setup,0)Â»
 				}
 				
-			«ENDIF»
+			Â«ENDIFÂ»
 			@Override
-			public void map(«config.getKEYIN(funktion)» key, «config.getVALUEIN(funktion)» value, «Mapper».Context context) throws IOException, InterruptedException{
-				//in: «config.getTestInput(funktion)»
-				«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)»
-				//out: «config.getTestOutput(funktion)»
+			public void map(Â«config.getKEYIN(funktion)Â» key, Â«config.getVALUEIN(funktion)Â» value, Â«MapperÂ».Context context) throws IOException, InterruptedException{
+				//in: Â«config.getTestInput(funktion)Â»
+				Â«CodeGenHelper.beautifyJava(config.getFunction(funktion),0)Â»
+				//out: Â«config.getTestOutput(funktion)Â»
 			}
-			«val cleanup = config.getCleanup(funktion)»
-			«IF cleanup != null»
+			Â«val cleanup = config.getCleanup(funktion)Â»
+			Â«IF cleanup != nullÂ»
 				@Override
 				protected void cleanup(org.apache.hadoop.mapreduce.Mapper.Context context)
 					throws IOException, InterruptedException {
-					«CodeGenHelper.beautifyJava(cleanup,0)»
+					Â«CodeGenHelper.beautifyJava(cleanup,0)Â»
 				}
-			«ENDIF»
+			Â«ENDIFÂ»
 		}
 	'''
 	
 	override genJobConf(Task pattern, CodegenContext context) '''	
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		Â«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)Â»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
-		«context.addImport("org.apache.hadoop.mapreduce.Job")»
-		Job job = Job.getInstance(conf, "«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)» awesome MDBDA Job");
+		Â«context.addImport("org.apache.hadoop.mapreduce.Job")Â»
+		Job job = Job.getInstance(conf, "Â«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)Â» awesome MDBDA Job");
 		
-		«IF config.partitioner != null»
-			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnderClassName(pattern)».class);
-		«ENDIF»
-		«IF config.reduceFunction != null»
-			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(pattern)».class);
-		«ENDIF»
-		«IF config.mapFunction != null»
-			job.setMapperClass(«CodeGenHelper.getMapperInnderClassName(pattern)».class);
-		«ENDIF»
+		Â«IF config.partitioner != nullÂ»
+			job.setPartitionerClass(Â«CodeGenHelper.getPartitonerInnderClassName(pattern)Â».class);
+		Â«ENDIFÂ»
+		Â«IF config.reduceFunction != nullÂ»
+			job.setReducerClass(Â«CodeGenHelper.getReducerInnderClassName(pattern)Â».class);
+		Â«ENDIFÂ»
+		Â«IF config.mapFunction != nullÂ»
+			job.setMapperClass(Â«CodeGenHelper.getMapperInnderClassName(pattern)Â».class);
+		Â«ENDIFÂ»
 		
-		«val jobConfig = config.jobConfig» 
-		«IF jobConfig != null»
-			«CodeGenHelper.beautifyJava(jobConfig,0)»
-		«ENDIF»
+		Â«val jobConfig = config.jobConfigÂ»
+		Â«IF jobConfig != nullÂ»
+			Â«CodeGenHelper.beautifyJava(jobConfig,0)Â»
+		Â«ENDIFÂ»
 		
 		return job.getConfiguration();
 	'''
@@ -148,20 +148,20 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	
 	override genTempOutputs(Task pattern, CodegenContext context)'''
 	
-		«val diagramConfig = MDBDAConfiguration.readConfigString(pattern.workflow.diagram.configurationString)»
-		«var needsTempOutput = false»
-		«FOR outputResource : pattern.outputResources»
-			«IF outputResource instanceof Workflow || outputResource instanceof Task»	
-				«needsTempOutput = true»
-			«ENDIF»«/* ist eine Resource */»
-		«ENDFOR»
+		Â«val diagramConfig = MDBDAConfiguration.readConfigString(pattern.workflow.diagram.configurationString)Â»
+		Â«var needsTempOutput = falseÂ»
+		Â«FOR outputResource : pattern.outputResourcesÂ»
+			Â«IF outputResource instanceof Workflow || outputResource instanceof TaskÂ»
+				Â«needsTempOutput = trueÂ»
+			Â«ENDIFÂ»Â«/* ist eine Resource */Â»
+		Â«ENDFORÂ»
 		
-		«IF needsTempOutput»
-			«context.addImport("org.apache.hadoop.fs.Path")»
-			«val tmpPathName = "tempRessourceFor" + pattern.name»
+		Â«IF needsTempOutputÂ»
+			Â«context.addImport("org.apache.hadoop.fs.Path")Â»
+			Â«val tmpPathName = "tempRessourceFor" + pattern.nameÂ»
 			
-			Path «tmpPathName» = new Path("«diagramConfig.HDFSPath»");
-		«ENDIF»	
+			Path Â«tmpPathNameÂ» = new Path("Â«diagramConfig.HDFSPathÂ»");
+		Â«ENDIFÂ»
 	'''
 
 	

@@ -90,7 +90,7 @@ class MDBDACodegenerator implements IGenerator {
 	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
-		//patternTemplates.put("test",[Pattern p | '''//something funny Lambda «p.name» '''])
+		//patternTemplates.put("test",[Pattern p | '''//something funny Lambda Â«p.nameÂ» '''])
 			
 		for(root: input.allContents.toIterable.filter(MDBDADiagram)){
 			//MR
@@ -128,19 +128,19 @@ class MDBDACodegenerator implements IGenerator {
 	}
 	
 	def CharSequence stormTopology(MDBDADiagram diagram, CodegenContext context)'''
-		class «diagram.name»StormTopology{
+		class Â«diagram.nameÂ»StormTopology{
 			/**
-			  * name    = «diagram.name»
-			  *	author  = «diagram.author»
-			  * version = «diagram.version»
+			  * name    = Â«diagram.nameÂ»
+			  *	author  = Â«diagram.authorÂ»
+			  * version = Â«diagram.versionÂ»
 			  * @throws IOException 
 			*/			
-			«context.addImport("java.io.IOException")»
+			Â«context.addImport("java.io.IOException")Â»
 			public static void main(String... args) throws IOException{
-					«context.addImport("org.apache.hadoop.conf.Configuration")»
+					Â«context.addImport("org.apache.hadoop.conf.Configuration")Â»
 					Configuration conf = new Configuration();
-					«diagram.rootWorkflow.genWorkflowConfiguration(context)»
-					«diagram.rootWorkflow.genResources(context)»
+					Â«diagram.rootWorkflow.genWorkflowConfiguration(context)Â»
+					Â«diagram.rootWorkflow.genResources(context)Â»
 			}
 		}
 	'''
@@ -169,135 +169,135 @@ class MDBDACodegenerator implements IGenerator {
 	}
 	
 	def CharSequence jobConfiguration(MDBDADiagram diagram, CodegenContext context)'''
-		class «diagram.name»JobConfiguration{
+		class Â«diagram.nameÂ»JobConfiguration{
 			/**
-			  * name    = «diagram.name»
-			  *	author  = «diagram.author»
-			  * version = «diagram.version»
+			  * name    = Â«diagram.nameÂ»
+			  *	author  = Â«diagram.authorÂ»
+			  * version = Â«diagram.versionÂ»
 			  * @throws IOException 
 			*/			
-			«context.addImport("java.io.IOException")»
+			Â«context.addImport("java.io.IOException")Â»
 			public static void main(String... args) throws IOException{
-					«context.addImport("org.apache.hadoop.conf.Configuration")»
+					Â«context.addImport("org.apache.hadoop.conf.Configuration")Â»
 					Configuration conf = new Configuration();
-					«diagram.rootWorkflow.genWorkflowConfiguration(context)»
-					«diagram.rootWorkflow.genResources(context)»
+					Â«diagram.rootWorkflow.genWorkflowConfiguration(context)Â»
+					Â«diagram.rootWorkflow.genResources(context)Â»
 			}
 		}
 	'''
 	
 	def CharSequence genResources(Workflow workflow, CodegenContext context)'''
-	«FOR pattern : workflow.tasks»
-		«FOR input : pattern.inputResources»
-			«IF input instanceof Workflow»
+	Â«FOR pattern : workflow.tasksÂ»
+		Â«FOR input : pattern.inputResourcesÂ»
+			Â«IF input instanceof WorkflowÂ»
 				//Workflow input ... TODO
-			«ELSEIF input instanceof Task» 
-				«genIntermediateResourceConfig(pattern,input as Task, context)»
-			«ELSE»
-				«genInputResourceConfig(pattern,input,context)»
-			«ENDIF»
-		«ENDFOR»
+			Â«ELSEIF input instanceof TaskÂ»
+				Â«genIntermediateResourceConfig(pattern,input as Task, context)Â»
+			Â«ELSEÂ»
+				Â«genInputResourceConfig(pattern,input,context)Â»
+			Â«ENDIFÂ»
+		Â«ENDFORÂ»
 		
-		«FOR output : pattern.outputResources.filter[outputResources.empty]»
-			«genOutputResourceConfig(pattern,output,context)»
-		«ENDFOR»
-	«ENDFOR»
-	«/*TODO: diagram output Resources*/»
+		Â«FOR output : pattern.outputResources.filter[outputResources.empty]Â»
+			Â«genOutputResourceConfig(pattern,output,context)Â»
+		Â«ENDFORÂ»
+	Â«ENDFORÂ»
+	Â«/*TODO: diagram output Resources*/Â»
 	'''
 	
 	def genIntermediateResourceConfig(Task to, Task from, CodegenContext context) '''
-		«val intermediateResourceName = "intermRes" + from.name + "2" + to.name»
-		«val intermediateResourcePath = "/temp/" + intermediateResourceName»
-		«context.addTempResource(intermediateResourcePath)»
-		«val MDBDAConfiguration config = new MDBDAConfiguration()»
-		«config.setHDFSPath(intermediateResourcePath)»
-		«val org.mdbda.model.Resource intermediateResource = ModelFactory.eINSTANCE.createResource»
-		«intermediateResource.setConfigurationString(config.writeConfigString)»
-		«intermediateResource.setTypeId("HDFSResource")»«/*TODO: ResourcesTemplateConstatns.RESOURCETYPE_HDFS hdfs is now a plugin*/»
-		«intermediateResource.setName(intermediateResourceName)»
+		Â«val intermediateResourceName = "intermRes" + from.name + "2" + to.nameÂ»
+		Â«val intermediateResourcePath = "/temp/" + intermediateResourceNameÂ»
+		Â«context.addTempResource(intermediateResourcePath)Â»
+		Â«val MDBDAConfiguration config = new MDBDAConfiguration()Â»
+		Â«config.setHDFSPath(intermediateResourcePath)Â»
+		Â«val org.mdbda.model.Resource intermediateResource = ModelFactory.eINSTANCE.createResourceÂ»
+		Â«intermediateResource.setConfigurationString(config.writeConfigString)Â»
+		Â«intermediateResource.setTypeId("HDFSResource")Â»Â«/*TODO: ResourcesTemplateConstatns.RESOURCETYPE_HDFS hdfs is now a plugin*/Â»
+		Â«intermediateResource.setName(intermediateResourceName)Â»
 		//in
-		«genInputResourceConfig(to,intermediateResource,context)»
+		Â«genInputResourceConfig(to,intermediateResource,context)Â»
 		//out
-		«genOutputResourceConfig(from,intermediateResource,context)»
+		Â«genOutputResourceConfig(from,intermediateResource,context)Â»
 		
 	'''
 	
 	def CharSequence  genInputResourceConfig(Task pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
-		//«resource.name»
-		«IF resourceTemplates.containsKey(resource.typeId)»
-			«resourceTemplates.get(resource.typeId).generareMapReduceInputResouce(resource, pattern ,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)»
-		«ELSE»
-			//NOT IMPLEMENTED «resource.typeId» 
-		«ENDIF»
+		//Â«resource.nameÂ»
+		Â«IF resourceTemplates.containsKey(resource.typeId)Â»
+			Â«resourceTemplates.get(resource.typeId).generareMapReduceInputResouce(resource, pattern ,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)Â»
+		Â«ELSEÂ»
+			//NOT IMPLEMENTED Â«resource.typeIdÂ»
+		Â«ENDIFÂ»
 	'''
 	
 	def CharSequence  genOutputResourceConfig(Task pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
-		//«resource.name»
-		«IF resourceTemplates.containsKey(resource.typeId)»
-			«resourceTemplates.get(resource.typeId).generareMapReduceOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)»
-		«ELSE»
-			//NOT IMPLEMENTED «resource.typeId» 
-		«ENDIF»
+		//Â«resource.nameÂ»
+		Â«IF resourceTemplates.containsKey(resource.typeId)Â»
+			Â«resourceTemplates.get(resource.typeId).generareMapReduceOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)Â»
+		Â«ELSEÂ»
+			//NOT IMPLEMENTED Â«resource.typeIdÂ»
+		Â«ENDIFÂ»
 	'''
 	
 	def CharSequence genWorkflowConfiguration(Workflow workflow, CodegenContext context)'''
 	//JobControl
-	«FOR pattern : workflow.tasks»
-			//pattern conf: «pattern.name»
-			«context.addImport("org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob")»
-			ControlledJob «CodeGenHelper.getMapReduceControlledJobVarName(pattern)» = new ControlledJob(
-					«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)».getJobConf(conf));
-	«ENDFOR»
+	Â«FOR pattern : workflow.tasksÂ»
+			//pattern conf: Â«pattern.nameÂ»
+			Â«context.addImport("org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob")Â»
+			ControlledJob Â«CodeGenHelper.getMapReduceControlledJobVarName(pattern)Â» = new ControlledJob(
+					Â«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)Â».getJobConf(conf));
+	Â«ENDFORÂ»
 	//JobHierarchie
-	«FOR pattern : workflow.tasks»
-		«FOR dep : pattern.inputResources»
-			«IF dep instanceof Task»
-				«CodeGenHelper.getMapReduceControlledJobVarName(pattern)».addDependingJob(«CodeGenHelper.getMapReduceControlledJobVarName(pattern)»);
-			«ENDIF»
-		«ENDFOR»
-	«ENDFOR»
+	Â«FOR pattern : workflow.tasksÂ»
+		Â«FOR dep : pattern.inputResourcesÂ»
+			Â«IF dep instanceof TaskÂ»
+				Â«CodeGenHelper.getMapReduceControlledJobVarName(pattern)Â».addDependingJob(Â«CodeGenHelper.getMapReduceControlledJobVarName(pattern)Â»);
+			Â«ENDIFÂ»
+		Â«ENDFORÂ»
+	Â«ENDFORÂ»
 	'''
 	
 	
 	def CharSequence genMapReducePatternClass(Task p, CodegenContext context)'''
-		public class «CodeGenHelper.getMapReduceClassNameFromPattern(p)» {
-			«context.addImport("org.apache.hadoop.conf.Configuration")»
-			«context.addImport("java.io.IOException")»
+		public class Â«CodeGenHelper.getMapReduceClassNameFromPattern(p)Â» {
+			Â«context.addImport("org.apache.hadoop.conf.Configuration")Â»
+			Â«context.addImport("java.io.IOException")Â»
 			
 			public static Configuration getJobConf(Configuration conf)  throws IOException{		
-				«IF patternTemplates.containsKey(p.typeId)»
-					«patternTemplates.get(p.typeId).genJobConf(p, context)»
-				«ELSE»
-					//keine implementierung in patternTemplates für «p.typeId» vorhanden
+				Â«IF patternTemplates.containsKey(p.typeId)Â»
+					Â«patternTemplates.get(p.typeId).genJobConf(p, context)Â»
+				Â«ELSEÂ»
+					//keine implementierung in patternTemplates fuer Â«p.typeIdÂ» vorhanden
 					return null;
-				«ENDIF»
+				Â«ENDIFÂ»
 			}
 		
-		«IF patternTemplates.containsKey(p.typeId)»
-			«patternTemplates.get(p.typeId).generareMapReducePattern(p, context)»
-		«ELSE»
-			//keine implementierung in patternTemplates für «p.typeId» vorhanden
-		«ENDIF»
+		Â«IF patternTemplates.containsKey(p.typeId)Â»
+			Â«patternTemplates.get(p.typeId).generareMapReducePattern(p, context)Â»
+		Â«ELSEÂ»
+			//keine implementierung in patternTemplates fuer Â«p.typeIdÂ» vorhanden
+		Â«ENDIFÂ»
 		}
 		
 	'''
 	
 	def CharSequence genTempOutputs(Task p, CodegenContext context)'''
-		«IF patternTemplates.containsKey(p.typeId)»
-			«patternTemplates.get(p.typeId).genTempOutputs(p, context)»
-		«ELSE»
-			//keine implementierung in patternTemplates für «p.typeId» vorhanden
-		«ENDIF»
+		Â«IF patternTemplates.containsKey(p.typeId)Â»
+			Â«patternTemplates.get(p.typeId).genTempOutputs(p, context)Â»
+		Â«ELSEÂ»
+			//keine implementierung in patternTemplates fuer Â«p.typeIdÂ» vorhanden
+		Â«ENDIFÂ»
 	'''
 	
 	def CharSequence genStormPatternClass(Task p, CodegenContext context)'''
-		«context.addImport("java.io.Serializable")»
-		public class «CodeGenHelper.getStormClassNameFromPattern(p)» implements Serializable {
-		«IF patternTemplates.containsKey(p.typeId)»
-			«patternTemplates.get(p.typeId).generareStormPattern(p, context)»
-		«ELSE»
-			//keine implementierung in patternTemplates für "«p.typeId»" vorhanden («p.class»)
-		«ENDIF»
+		Â«context.addImport("java.io.Serializable")Â»
+		public class Â«CodeGenHelper.getStormClassNameFromPattern(p)Â» implements Serializable {
+		Â«IF patternTemplates.containsKey(p.typeId)Â»
+			Â«patternTemplates.get(p.typeId).generareStormPattern(p, context)Â»
+		Â«ELSEÂ»
+			//keine implementierung in patternTemplates fuer "Â«p.typeIdÂ»" vorhanden (Â«p.classÂ»)
+		Â«ENDIFÂ»
 		}
 	'''
 }
