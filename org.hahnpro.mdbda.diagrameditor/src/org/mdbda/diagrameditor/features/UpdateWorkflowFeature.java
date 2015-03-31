@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -39,7 +40,11 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 	}
 
 	private MDBDADiagram getRemoteMDBDADiagram(String name){
-		List<Diagram> diaList = DiagramUtils.getDiagrams(getDiagram()).stream().filter(rd -> rd.getName().equals(name)).collect(Collectors.toList()) ;
+		List<Diagram> diaList = DiagramUtils.getDiagrams(
+				getDiagram()).stream()
+				.filter(
+						rd -> rd.getName().equals(name))
+						.collect(Collectors.toList()) ;
 		
 //		if(diaList.size() > 1 ){
 //			throw new RuntimeException("Ups remote diagram name (" + name + ") is ambiguous");
@@ -50,11 +55,30 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 			return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
 		}else{
 			// there is often a copy at the bin folder
-//			if(diaList.size() == 2){
-//				diaList.get(0).eResource().getURI().				
-//			}
+			if(diaList.size() == 2){
+				MDBDADiagram dia0 = (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
+				MDBDADiagram dia1 = (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(1) );
+
+				String uri0 = dia0.eResource().getURI().toPlatformString(false);
+				String uri1 = dia1.eResource().getURI().toPlatformString(false);
+				
+				for(int i =  1; i < uri0.length() && i < uri1.length() ; i++){//gleichen teile von hinten abschneiden
+					if(! uri0.endsWith(uri1.substring(uri1.length() - i , uri1.length() ))){
+						String substr = uri0.substring(0,uri0.length() - i + 1);
+						if(substr.endsWith("/bin") || substr.endsWith("/target/classes")) {//uri0 is 
+							return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(1) );
+						}
+
+						substr = uri1.substring(0,uri1.length() - i +1);
+						if(substr.endsWith("/bin") || substr.endsWith("/target/classes")) {//uri1 is 
+							return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
+						}
+					}
+				}
+			}
+						
 			
-			throw new RuntimeException("Ups remote diagram with name '" + name + "' was not found multiple " );
+			throw new RuntimeException("Ups remote diagram with name '" + name + "' was found multiple: " + diaList );
 		}
 	}
 	

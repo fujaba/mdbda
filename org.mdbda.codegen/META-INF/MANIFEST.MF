@@ -11,15 +11,22 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext;bundle-version="2.4.3",
  org.eclipse.xtend.lib,
  com.google.guava,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.observable,
+ org.eclipse.core.databinding.property,
+ org.eclipse.jface.databinding,
+ com.ibm.icu
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.json.simple,
  org.json.simple.parser,
  org.mdbda.codegen;uses:="org.osgi.framework,org.mdbda.model,org.eclipse.ui.plugin",
- org.mdbda.codegen.helper
+ org.mdbda.codegen.helper 
 Bundle-ClassPath: target/classes/,
  .,
  target/test-classes/,
- lib/json-simple-1.1.1.jar
+ lib/json-simple-1.1.1.jar,
+ swing2swt.jar
 

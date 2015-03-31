@@ -1,6 +1,5 @@
-package org.mdbda.codegen
+package org.mdbda.codegen.styles.storm
 
-import org.mdbda.codegen.DefaultStormPatternTemplate
 import org.mdbda.model.Task
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.json.simple.JSONObject
@@ -10,7 +9,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 
 	val InputMapperBoltClass = "InputMapperBolt"
 
-	override genMapBolt(Task resource, CodegenContext context) '''
+	override genMapBolt(Task resource, org.mdbda.codegen.CodegenContext context) '''
 		
 		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
 		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
@@ -45,7 +44,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 		«ENDFOR»
 	'''
 
-	override genTestDataBolt(Task pattern, CodegenContext context) {
+	override genTestDataBolt(Task pattern, org.mdbda.codegen.CodegenContext context) {
 		val config = MDBDAConfiguration.readConfigString(pattern.configurationString)
 		val StringBuilder sb = new StringBuilder();
 		var int counter = 0
@@ -59,7 +58,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 
 	}
 
-	override genJUnitTest(Task pattern, CodegenContext context) '''
+	override genJUnitTest(Task pattern, org.mdbda.codegen.CodegenContext context) '''
 		«context.addImport("org.junit.Test")»
 		@Test
 		public void test() {

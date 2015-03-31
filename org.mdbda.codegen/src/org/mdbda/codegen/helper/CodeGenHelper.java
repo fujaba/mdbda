@@ -112,7 +112,7 @@ public class CodeGenHelper {
 		return fixClassName(p.getName()) + "Storm";		
 	}
 	
-	public static void doGenerate(String modelUri, String targetUri){
+	public static void doGenerate(String modelUri, String targetUri, String codeStyle){
 		MDBDACodegenerator gen = new MDBDACodegenerator();
 		ModelPackage.eINSTANCE.eClass();//init
 				
@@ -141,7 +141,7 @@ public class CodeGenHelper {
 		}).injectMembers(fsa);
 	    
 	    gen.init();
-		gen.doGenerate(resource, fsa);
+		gen.doGenerate(resource, fsa, codeStyle);
 	}
 	public static String fixInputString(String value) {
 		if(value == null || value.equals("null")) return value;

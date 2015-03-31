@@ -1,18 +1,19 @@
-package org.mdbda.codegen
+package org.mdbda.codegen.styles.hadoop
 
 import org.mdbda.codegen.IMapReducePatternTemplate
 import org.mdbda.model.Task
-import static extension org.mdbda.codegen.helper.ConfigurationReader.*;
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.Workflow
-import org.mdbda.codegen.helper.ConfigurationReader
+import org.mdbda.codegen.styles.hadoop.HadoopCodeGen
 
 class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	
+	override getCodeStyle() {
+		HadoopCodeGen.codeStyle
+	}
 	
-	
-	override generareMapReducePattern(Task pattern, CodegenContext context) '''
+	override generarePattern(Task pattern, org.mdbda.codegen.CodegenContext context) '''
 			«context.addImport("org.apache.hadoop.mapreduce.Mapper")»
 			«context.addImport("org.apache.hadoop.io.*")»
 			«context.addImport("java.io.IOException")»
@@ -23,7 +24,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			«genPartitonerClass(pattern,context)»
 			
 	'''
-	def genPartitonerClass(Task pattern, CodegenContext context)'''
+	def genPartitonerClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.partitioner»
 		«IF funktion != null»
@@ -42,7 +43,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«ENDIF»
 	'''
 	
-	def genReducerClass(Task pattern, CodegenContext context)'''
+	def genReducerClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.reduceFunction»
 		«IF funktion != null»
@@ -83,7 +84,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«ENDIF»
 	'''
 	
-	def genMapperClass(Task pattern, CodegenContext context)'''
+	def genMapperClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.mapFunction»
 		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
@@ -120,7 +121,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		}
 	'''
 	
-	override genJobConf(Task pattern, CodegenContext context) '''	
+	override genJobConf(Task pattern, org.mdbda.codegen.CodegenContext context) '''	
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
@@ -146,7 +147,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	'''
 	
 	
-	override genTempOutputs(Task pattern, CodegenContext context)'''
+	override genTempOutputs(Task pattern, org.mdbda.codegen.CodegenContext context)'''
 	
 		«val diagramConfig = MDBDAConfiguration.readConfigString(pattern.workflow.diagram.configurationString)»
 		«var needsTempOutput = false»
@@ -160,7 +161,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			«context.addImport("org.apache.hadoop.fs.Path")»
 			«val tmpPathName = "tempRessourceFor" + pattern.name»
 			
-			Path «tmpPathName» = new Path("«diagramConfig.HDFSPath»");
+			Path «tmpPathName» = new Path("«diagramConfig.getHDFSPath»");
 		«ENDIF»
 	'''
 

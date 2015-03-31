@@ -27,16 +27,17 @@ public class AddLinkFeature extends AbstactMDBDAAddFeature implements
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		// TODO: check for right domain object instance below
-		return context instanceof IAddConnectionContext && ((IAddConnectionContext)context).getSourceAnchor() instanceof BoxRelativeAnchor && ((IAddConnectionContext)context).getTargetAnchor() instanceof BoxRelativeAnchor ;// && context.getNewObject() instanceof Pattern ;
+		return context instanceof IAddConnectionContext 
+				&& ((IAddConnectionContext)context).getSourceAnchor() instanceof BoxRelativeAnchor 
+				&& ((IAddConnectionContext)context).getTargetAnchor() instanceof BoxRelativeAnchor ;// && context.getNewObject() instanceof Pattern ;
 	}
 	
 	private Polyline createArrow(GraphicsAlgorithmContainer gaContainer) {
 	    IGaService gaService = Graphiti.getGaService();
 	    Polyline polyline =
-	        gaService.createPolyline(gaContainer, new int[] { -10, 5, 0, 0, -10, -5 });
+	        gaService.createPolyline(gaContainer, new int[] { -8,3, 1,0, -8,-3 });
 	    polyline.setForeground(manageColor(IColorConstant.BLACK));
-	    polyline.setLineWidth(2);
+	    polyline.setLineWidth(1);
 	    return polyline;
 	} 
 

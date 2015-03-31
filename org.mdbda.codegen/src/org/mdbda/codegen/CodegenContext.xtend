@@ -5,61 +5,64 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import java.util.HashMap
 
 class CodegenContext {
-	
-		var imports = new HashSet<String>()
-		String packageName = ""
-		IFileSystemAccess fsa
-		String filename
-		
-		var tempResources = new HashSet<String>()
-		
-	new( IFileSystemAccess fsa , String filename, String packageName) {
-		 this.fsa = fsa
-		 this.filename = filename
-		 this.packageName = packageName
+	var imports = new HashSet<String>()
+	String packageName = ""
+	IFileSystemAccess fsa
+	String filename
+
+	var tempResources = new HashSet<String>()
+	var String codeStyle;
+
+	new(IFileSystemAccess fsa, String filename, String packageName, String codeStyle) {
+		this.fsa = fsa
+		this.filename = filename
+		this.packageName = packageName
+		this.codeStyle = codeStyle
 	}
-	
-	
-	public def void addImport(String imp){
+
+	public def void addImport(String imp) {
 		imports.add(imp)
 	}
-	
-	public def getImports(){
+
+	public def getImports() {
 		return imports
 	}
-	
-	public def void addTempResource(String path){
+
+	public def void addTempResource(String path) {
 		tempResources.add(path)
 	}
-	
-	public def getTempResources(){
+
+	public def getTempResources() {
 		return tempResources
 	}
-	
-	public def getFileSystemAccess(){
+
+	public def getFileSystemAccess() {
 		return fsa
 	}
-	
-	public def getFileName(){
+
+	public def getFileName() {
 		return filename
 	}
-	
-	public def getPackageName(){
+
+	public def getPackageName() {
 		return packageName
 	}
-	
-	var counter = new HashMap<String,Long>()
-	
+
+	var counter = new HashMap<String, Long>()
+
 	def getCounter(String key) {
 		var c = counter.get(key)
-		if(c == null){
+		if (c == null) {
 			c = new Long(0)
 		}
 		return c
 	}
-	
+
 	def void setCounter(String key, Long value) {
-		 counter.put(key,value)
+		counter.put(key, value)
 	}
 	
+	public def getCodeStyle(){
+		return codeStyle
+	}
 }

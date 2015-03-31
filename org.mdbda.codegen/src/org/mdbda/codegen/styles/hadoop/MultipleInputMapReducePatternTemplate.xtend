@@ -1,4 +1,4 @@
-package org.mdbda.codegen
+package org.mdbda.codegen.styles.hadoop
 
 import org.mdbda.model.Task
 import org.mdbda.codegen.helper.MDBDAConfiguration
@@ -7,7 +7,7 @@ import org.json.simple.JSONObject
 
 class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTemplate {
 	
-	override genMapperClass(Task pattern, CodegenContext context)'''
+	override genMapperClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktions = config.getMultipleMapFunction()»
 		
@@ -51,7 +51,7 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 		«ENDFOR»
 	'''
 	
-	override genJobConf(Task pattern, CodegenContext context) '''	
+	override genJobConf(Task pattern, org.mdbda.codegen.CodegenContext context) '''	
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		

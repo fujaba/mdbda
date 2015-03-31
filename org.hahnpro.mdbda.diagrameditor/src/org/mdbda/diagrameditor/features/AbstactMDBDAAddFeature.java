@@ -133,8 +133,8 @@ public abstract class AbstactMDBDAAddFeature extends AbstractAddFeature implemen
 		poly.setBackground(gaService.manageColor(dia, new ColorConstant("FFEEEE")));
 		poly.setForeground(gaService.manageColor(dia, new ColorConstant("880000")));//IColorConstant.DARK_ORANGE));
 		
-    	poly.setLineWidth(2);
-    	gaService.setLocationAndSize(poly, -12, -6, 12, 12);
+    	poly.setLineWidth(1);
+    	gaService.setLocationAndSize(poly, -4, -5, 12, 12);
 	}
 	
 	public static void addInputAnchor(Resource resource,
@@ -167,8 +167,8 @@ public abstract class AbstactMDBDAAddFeature extends AbstractAddFeature implemen
 
 		poly.setBackground(gaService.manageColor(dia, new ColorConstant("FFEEEE")));
 		poly.setForeground(gaService.manageColor(dia, new ColorConstant("880000")));
-		poly.setLineWidth(2);
-		gaService.setLocationAndSize(poly, -12, -6, 12, 12);
+		poly.setLineWidth(1);
+		gaService.setLocationAndSize(poly, -10, -5, 12, 12);
 	}
 
 

@@ -5,6 +5,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.mdbda.model.RemoteWorkflow;
@@ -27,30 +29,32 @@ public class CreateLinkFeature extends AbstractCreateConnectionFeature
 //			// not the root workflow
 //			return ((Workflow)  getBusinessObjectForPictogramElement(context.getSourcePictogramElement())).getWorkflow() != null;
 //		}
-		return getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Resource;
+		return getBusinessObjectForPictogramElement(context.getSourcePictogramElement()) instanceof Resource 
+				&& context.getSourceAnchor() instanceof BoxRelativeAnchor
+				&& !((BoxRelativeAnchor)context.getSourceAnchor()).isUseAnchorLocationAsConnectionEndpoint();
 	}
 
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
 		PictogramElement sourcePictogramElement = context.getSourcePictogramElement();
 		PictogramElement targetPictogramElement = context.getTargetPictogramElement();
+		Anchor targetAnchor = context.getTargetAnchor();
+		Anchor sourceAnchor = context.getSourceAnchor();
+		if(sourcePictogramElement != null && targetPictogramElement != null && targetAnchor != null && sourceAnchor != null){
+			BoxRelativeAnchor sa = (BoxRelativeAnchor) sourceAnchor;
+			BoxRelativeAnchor ta = (BoxRelativeAnchor) targetAnchor;
+			
+			return !sa.isUseAnchorLocationAsConnectionEndpoint() && ta.isUseAnchorLocationAsConnectionEndpoint() ;
+			
+		}
 
-		// TODO: check for right domain object instance below
-		// if (getBusinessObjectForPictogramElement(sourcePictogramElement) instanceof <DomainObject> && getBusinessObjectForPictogramElement(targetPictogramElement) instanceof <DomainObject>) {
-		//  	return true;
-		// }
-		
-		
-		
-		
-		return sourcePictogramElement != null && targetPictogramElement != null;
+		return false;
 	}
 
 	@Override
 	public Connection create(ICreateConnectionContext context) {
 		Connection newConnection = null;
 
-		// TODO: create the domain object connection here
 		Object newDomainObjectConnetion = null;
 
 		AddConnectionContext addContext = new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
@@ -62,7 +66,9 @@ public class CreateLinkFeature extends AbstractCreateConnectionFeature
 			src = null;
 		}
 		Resource tgt = (Resource) getBusinessObjectForPictogramElement(context.getTargetPictogramElement());
-		if(getBusinessObjectForPictogramElement(context.getTargetAnchor().getParent()) instanceof RemoteWorkflow){
+		if(getBusinessObjectForPictogramElement(
+				context.getTargetAnchor()
+						.getParent()) instanceof RemoteWorkflow){ //TODO: java.lang.NullPointerException ??
 			tgt = null;
 		}
 		

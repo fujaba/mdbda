@@ -1,16 +1,19 @@
-package org.mdbda.codegen.plugins
+package org.mdbda.hdfs.codegen
 
 import org.mdbda.codegen.IResourceTemplate
 import org.mdbda.model.Resource 
-import org.mdbda.codegen.helper.ConfigurationReader
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.Task
 import org.mdbda.codegen.helper.CodeGenHelper
 
-class HDFSResource implements IResourceTemplate{
+class HDFSResourceHadoop implements IResourceTemplate{
 	 
-	override generareMapReduceInputResouce(Resource res, Task pattern, CharSequence controledJobName , CodegenContext context ) '''
+		override getCodeStyle() {
+			"Hadoop"
+		}
+		
+	override generareInputResouce(Resource res, Task pattern, CharSequence controledJobName , CodegenContext context ) '''
 		{
 			«context.addImport("org.apache.hadoop.fs.Path")»
 			Path inputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
@@ -30,7 +33,7 @@ class HDFSResource implements IResourceTemplate{
 		}
 	'''
 	
-	override generareMapReduceOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
+	override generareOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
 		{
 			«context.addImport("org.apache.hadoop.fs.Path")»
 			Path outputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
@@ -39,13 +42,5 @@ class HDFSResource implements IResourceTemplate{
 			TextOutputFormat.setOutputPath(«controledJobName».getJob(), outputPath);
 		}
 	'''
-	
-	override generareStormInputResouce(Resource res, CodegenContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	} 
-	
-	override generareStormOutputResouce(Resource res, CodegenContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 	
 }

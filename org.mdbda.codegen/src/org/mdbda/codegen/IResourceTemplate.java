@@ -3,11 +3,7 @@ package org.mdbda.codegen;
 import org.mdbda.model.Task;
 import org.mdbda.model.Resource;
 
-public interface IResourceTemplate {
-	public CharSequence generareMapReduceInputResouce(Resource res, Task pattern, CharSequence controledJobName, CodegenContext context);
-	public CharSequence generareMapReduceOutputResouce(Resource res, CharSequence controledJobName, CodegenContext context);
-	
-
-	public CharSequence generareStormInputResouce(Resource res, CodegenContext context);
-	public CharSequence generareStormOutputResouce(Resource res, CodegenContext context);
+public interface IResourceTemplate extends ITemplate{
+	public CharSequence generareInputResouce(Resource res, Task pattern, CharSequence controledJobName, CodegenContext context);
+	public CharSequence generareOutputResouce(Resource res, CharSequence controledJobName, CodegenContext context);
 }

@@ -2,11 +2,17 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         id="HDFSResource"
          point="org.mdbda.codegen.plugin">
       <ResourcePlugin
-            ResourceTemplateClass="org.mdbda.hdfs.codegen.HDFSResource"
+            CodeStyle="Hadoop"
+            ResourceTemplateClass="org.mdbda.hdfs.codegen.HDFSResourceHadoop"
             typeId="HDFSResource">
       </ResourcePlugin>
+      <ResourceCodeStylePlugin
+            CodeStyle="Hadoop"
+            ResourceTemplateClass="org.mdbda.hdfs.codegen.HDFSResourceHadoop">
+      </ResourceCodeStylePlugin>
    </extension>
    <extension
          point="org.mdbda.diagrameditor.pattern">

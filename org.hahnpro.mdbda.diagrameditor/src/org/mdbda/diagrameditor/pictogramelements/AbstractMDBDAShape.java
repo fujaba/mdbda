@@ -7,8 +7,8 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.features.AddWorkflowFeature;
 
 public abstract class AbstractMDBDAShape extends ContainerShapeImpl {
-	public static final int[] OUTPUTPOLYGON = new int[] {1,1,  10,1,  20,5,  10,10,  1,10, 1,1};
-	public static final int[] INPUTPOLYGON = new int[] {1,1,  20,1,  20,10,  1,10,  10,5,  1,1};
+	public static final int[] OUTPUTPOLYGON = new int[] {0,0,  4,0,  14,5,  4,10,  0,10, 1,5, 0,0};
+	public static final int[] INPUTPOLYGON = new int[] {1,0,  15,0, 16,5,  15,10,  1,10, 0,9, 10,5,  0,1, 1,0};
 	public static final int INVISIBLE_RECT_SIDE = 10;
 	public static final IColorConstant PATTERN_TEXT_FOREGROUND = IColorConstant.BLACK;
 //	public static final IColorConstant PATTERN_FOREGROUND = 

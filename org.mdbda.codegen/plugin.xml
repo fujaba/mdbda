@@ -2,5 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.mdbda.codegen.plugin" name="Cogen Plugin" schema="schema/org.mdbda.codegen.plugin.exsd"/>
-
+<extension point="org.eclipse.ui.popupMenus"> 
+    <objectContribution
+      adaptable="true"
+      id="org.mdbda.diagrameditor.popup"
+      nameFilter="*.mdbdamodel"
+      objectClass="org.eclipse.core.resources.IFile">
+      <action
+         id="org.mdbda.diagrameditor.generatorAction" 
+         label="Generate MDBDA Code"
+         icon="icon/astronaut_32.png"
+         menubarPath="additions"
+         class="org.mdbda.codegen.action.GeneratorAction"> 
+      </action>
+    </objectContribution>
+</extension>
 </plugin>

@@ -26,3 +26,4 @@ org.mdbda.filter.simplematcher/.settings/
 org.mdbda.Neo4jPlugin/.settings/
 org.mdbda.cassandra/.settings/
 org.mdbda.hdfs/.settings/
+*.xtendbin
