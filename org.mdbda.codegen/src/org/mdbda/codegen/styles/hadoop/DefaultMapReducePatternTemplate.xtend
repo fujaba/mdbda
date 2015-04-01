@@ -6,8 +6,25 @@ import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.Workflow
 import org.mdbda.codegen.styles.hadoop.HadoopCodeGen
+import org.mdbda.codegen.CodegenContext
+import org.mdbda.model.Resource
 
 class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
+	
+	override doCodagenTemplateTask(String Task, CodegenContext context, Resource... mdbdaElements) {
+		
+		switch(Task){
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_INPUT: {}
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_JOB_CONFIG:{}
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_OUTPUT:{}
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_TEMPOUTPUTS:{}
+			case HadoopCodeGen.TEMPLATETASK_MDBDA_RESOURCE:{}
+			default: throw new UnsupportedOperationException("The codegeneration task " + Task + " is not supported for MapReduce")
+		}
+		
+	}
+
+	
 	
 	override getCodeStyle() {
 		HadoopCodeGen.codeStyle
@@ -164,6 +181,5 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			Path «tmpPathName» = new Path("«diagramConfig.getHDFSPath»");
 		«ENDIF»
 	'''
-
 	
 }

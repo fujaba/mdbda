@@ -20,6 +20,9 @@ class HadoopCodeGen implements ICodeGen{
 	
 	public static val TEMPLATETASK_HADOOP_JOB_CONFIG  = "TEMPLATETASK_HADOOP_JOB_CONFIG";
 	public static val TEMPLATETASK_HADOOP_TEMPOUTPUTS = "TEMPLATETASK_HADOOP_TEMPOUTPUTS";
+	public static val TEMPLATETASK_HADOOP_INPUT		  = "TEMPLATETASK_HADOOP_INPUT";
+	public static val TEMPLATETASK_HADOOP_OUTPUT	  = "TEMPLATETASK_HADOOP_OUTPUT";
+	
 	val	codeGenReg = CodeGeneratorRegistry.get
 	
 	override doGenerate(Resource emfInputResource, IFileSystemAccess fsa, String codeGenStyle, MDBDACodegenerator codegen) {
@@ -52,7 +55,6 @@ class HadoopCodeGen implements ICodeGen{
 		}
 	}
 	
-	
 	def CharSequence genMapReduceTaskClass(Task task, CodegenContext context)'''
 		public class «CodeGenHelper.getMapReduceClassNameFromPattern(task)» {
 			«context.addImport("org.apache.hadoop.conf.Configuration")»
@@ -60,7 +62,7 @@ class HadoopCodeGen implements ICodeGen{
 			
 			public static Configuration getJobConf(Configuration conf)  throws IOException{
 				«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-					« codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_JOB_CONFIG, task, context)»
+					« codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_JOB_CONFIG, context, task)»
 				«ELSE»
 					//keine implementierung in CodeGeneratorRegistry fuer «task.typeId» vorhanden
 					return null;
@@ -68,7 +70,7 @@ class HadoopCodeGen implements ICodeGen{
 			}
 		
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_MDBDA_RESOURCE, task, context)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_MDBDA_RESOURCE, context, task)»
 		«ELSE»
 			//keine implementierung in CodeGeneratorRegistry fuer «task.typeId» vorhanden
 		«ENDIF»
@@ -79,7 +81,7 @@ class HadoopCodeGen implements ICodeGen{
 		
 	def CharSequence genTempOutputs(Task task, CodegenContext context)'''
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_TEMPOUTPUTS, task, context)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_TEMPOUTPUTS, context, task)»
 		«ELSE»
 			//keine implementierung in CodeGeneratorRegistry fuer «task.typeId» vorhanden
 		«ENDIF»
@@ -137,28 +139,29 @@ class HadoopCodeGen implements ICodeGen{
 		//out
 		«genOutputResourceConfig(from,intermediateResource,context)»
 		
-	'''
+	''' 
 	
 	def CharSequence  genInputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT)»
-			«resourceTemplates.get(resource.typeId).generareInputResouce(resource, task ,CodeGenHelper.getMapReduceControlledJobVarName(task), context)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT,context,task)»
+			«/*resourceTemplates.get(resource.typeId).generareInputResouce(resource, task ,CodeGenHelper.getMapReduceControlledJobVarName(task), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»
 		«ENDIF»
 	'''
 	
-	def CharSequence  genOutputResourceConfig(Task pattern, org.mdbda.model.Resource resource, CodegenContext context) '''
+	def CharSequence  genOutputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
-		«IF resourceTemplates.containsKey(resource.typeId)»
-			«resourceTemplates.get(resource.typeId).generareOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)»
+		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_OUTPUT,context,task)»
+			«/*resourceTemplates.get(resource.typeId).generareOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»
 		«ENDIF»
 	'''
 	
-		
+		 
 	def CharSequence genWorkflowConfiguration(Workflow workflow, CodegenContext context)'''
 	//JobControl
 	«FOR pattern : workflow.tasks»
