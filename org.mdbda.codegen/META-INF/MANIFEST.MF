@@ -23,10 +23,16 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.json.simple,
  org.json.simple.parser,
  org.mdbda.codegen;uses:="org.osgi.framework,org.mdbda.model,org.eclipse.ui.plugin",
- org.mdbda.codegen.helper 
+ org.mdbda.codegen.action,
+ org.mdbda.codegen.dialog,
+ org.mdbda.codegen.helper,
+ org.mdbda.codegen.styles,
+ org.mdbda.codegen.styles.hadoop,
+ org.mdbda.codegen.styles.storm
 Bundle-ClassPath: target/classes/,
  .,
  target/test-classes/,
  lib/json-simple-1.1.1.jar,
- swing2swt.jar
+ swing2swt.jar,
+ icon/
 

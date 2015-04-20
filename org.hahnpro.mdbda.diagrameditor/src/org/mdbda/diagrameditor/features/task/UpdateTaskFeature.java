@@ -6,7 +6,7 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.model.Resource;
@@ -28,7 +28,7 @@ public class UpdateTaskFeature extends AbstractUpdateFeature {
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		Resource resource = (Resource) getBusinessObjectForPictogramElement( context.getPictogramElement() );
-		ContainerShape rootContainerShape = AbstactMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
+		ContainerShape rootContainerShape = AbstactIOMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
 		
 		NameShapeHelper nameHelper = new NameShapeHelper(resource,rootContainerShape,getFeatureProvider());
 		if( nameHelper.hasChanged()){
@@ -41,7 +41,7 @@ public class UpdateTaskFeature extends AbstractUpdateFeature {
 	@Override
 	public boolean update(IUpdateContext context) {
 		Resource resource = (Resource) getBusinessObjectForPictogramElement( context.getPictogramElement() );
-		ContainerShape rootContainerShape = AbstactMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
+		ContainerShape rootContainerShape = AbstactIOMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
 		
 		boolean somethingchanged = false;
 		NameShapeHelper nameHelper = new NameShapeHelper(resource,rootContainerShape,getFeatureProvider());

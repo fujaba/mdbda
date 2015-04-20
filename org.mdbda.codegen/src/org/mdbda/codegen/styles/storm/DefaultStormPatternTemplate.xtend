@@ -1,19 +1,48 @@
 package org.mdbda.codegen.styles.storm
 
-import org.mdbda.codegen.IStormPatternTemplate
 import org.mdbda.model.Task
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.mdbda.codegen.helper.CodeGenHelper
+import org.mdbda.codegen.ITemplate
+import org.mdbda.codegen.CodegenContext
+import org.mdbda.model.Resource
 
-class DefaultStormPatternTemplate implements IStormPatternTemplate {
+class DefaultStormPatternTemplate implements ITemplate {
 	
 	override getCodeStyle() {
 		StormCodeGen.codeStyle
 	}
 	
-	override generarePattern(Task pattern, org.mdbda.codegen.CodegenContext context) '''
+		override doCodagenTemplateTask(String Task, CodegenContext context, Resource... mdbdaElements) {
+		if (context == null) {
+			throw new IllegalArgumentException("The argument context can not be null")
+		}
+
+		switch (Task) {
+			case StormCodeGen.TEMPLATETASK_MDBDA_TASK:{ 
+				if (helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(mdbdaElements)) {
+					generareTask(mdbdaElements.get(0) as Task, context)
+				}
+			}
+			default:
+				throw new UnsupportedOperationException("The codegeneration task " + Task +
+					" is not supported for MapReduce")
+		}
+
+	}
+
+	def private boolean helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(Resource... mdbdaElements) {
+		if (mdbdaElements.size == 1 && mdbdaElements.get(0) instanceof Task) {
+			return true
+		} else {
+			throw new IllegalArgumentException(
+				"The argument mdbdaElements has to have only one element of type org.mdbda.model.Task")
+		}
+	}
+	
+	def generareTask(Task pattern, org.mdbda.codegen.CodegenContext context) '''
 	
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
@@ -231,5 +260,6 @@ class DefaultStormPatternTemplate implements IStormPatternTemplate {
 			}
 		}
 	'''
+	
 	
 }

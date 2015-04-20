@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -19,10 +18,10 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
-import org.mdbda.model.MDBDADiagram;
+import org.mdbda.model.MDBDAModelRoot;
 import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
@@ -39,7 +38,7 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 		return bo instanceof  Workflow || bo instanceof  RemoteWorkflow;
 	}
 
-	private MDBDADiagram getRemoteMDBDADiagram(String name){
+	private MDBDAModelRoot getRemoteMDBDAModelRoot(String name){
 		List<Diagram> diaList = DiagramUtils.getDiagrams(
 				getDiagram()).stream()
 				.filter(
@@ -52,26 +51,26 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 		if(diaList.size() == 0 ){
 			throw new RuntimeException("Ups remote diagram with name '" + name + "' was not found " );
 		}else if(diaList.size() == 1){
-			return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
+			return (MDBDAModelRoot) getBusinessObjectForPictogramElement( diaList.get(0) );
 		}else{
 			// there is often a copy at the bin folder
 			if(diaList.size() == 2){
-				MDBDADiagram dia0 = (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
-				MDBDADiagram dia1 = (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(1) );
+				MDBDAModelRoot mr0 = (MDBDAModelRoot) getBusinessObjectForPictogramElement( diaList.get(0) );
+				MDBDAModelRoot mr1 = (MDBDAModelRoot) getBusinessObjectForPictogramElement( diaList.get(1) );
 
-				String uri0 = dia0.eResource().getURI().toPlatformString(false);
-				String uri1 = dia1.eResource().getURI().toPlatformString(false);
+				String uri0 = mr0.eResource().getURI().toPlatformString(false);
+				String uri1 = mr1.eResource().getURI().toPlatformString(false);
 				
 				for(int i =  1; i < uri0.length() && i < uri1.length() ; i++){//gleichen teile von hinten abschneiden
 					if(! uri0.endsWith(uri1.substring(uri1.length() - i , uri1.length() ))){
 						String substr = uri0.substring(0,uri0.length() - i + 1);
 						if(substr.endsWith("/bin") || substr.endsWith("/target/classes")) {//uri0 is 
-							return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(1) );
+							return (MDBDAModelRoot) getBusinessObjectForPictogramElement( diaList.get(1) );
 						}
 
 						substr = uri1.substring(0,uri1.length() - i +1);
 						if(substr.endsWith("/bin") || substr.endsWith("/target/classes")) {//uri1 is 
-							return (MDBDADiagram) getBusinessObjectForPictogramElement( diaList.get(0) );
+							return (MDBDAModelRoot) getBusinessObjectForPictogramElement( diaList.get(0) );
 						}
 					}
 				}
@@ -98,8 +97,8 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 			RemoteWorkflow rwf = (RemoteWorkflow) bo;
 			
 			//size == 1
-			MDBDADiagram remoteDiagram = getRemoteMDBDADiagram(rwf.getName());		
-			EList<Resource> remoteResources = remoteDiagram.getResources();
+			MDBDAModelRoot remoteModelRoot = getRemoteMDBDAModelRoot(rwf.getName());		
+			EList<Resource> remoteResources = remoteModelRoot.getResources();
 			if(remoteResources.size() != rootContainerShape.getAnchors().size()){
 				return Reason.createTrueReason();
 			}
@@ -143,9 +142,9 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 		if(bo instanceof RemoteWorkflow){
 
 			RemoteWorkflow rwf = (RemoteWorkflow) bo;
-			MDBDADiagram remoteDiagram = getRemoteMDBDADiagram(rwf.getName());
+			MDBDAModelRoot remoteModelRoot = getRemoteMDBDAModelRoot(rwf.getName());
 
-			EList<Resource> remoteResources = remoteDiagram.getResources();
+			EList<Resource> remoteResources = remoteModelRoot.getResources();
 			List<Resource> remoteInputs     = filterInputs(remoteResources);
 			List<Resource> remoteOutputs    = filterOutputs(remoteResources);
 			
@@ -199,10 +198,10 @@ public class UpdateWorkflowFeature extends AbstractUpdateFeature {
 			
 			//add new anchors
 			for(Resource rr : remoteInputs){				
-				AbstactMDBDAAddFeature.addInputAnchor(rr, rootContainerShape, 1, getDiagram(), getFeatureProvider());
+				AbstactIOMDBDAAddFeature.addInputAnchor(rr, rootContainerShape, 1, getDiagram(), getFeatureProvider());
 			}
 			for(Resource rr : remoteOutputs){
-				AbstactMDBDAAddFeature.addOutputAnchor(rr, rootContainerShape, 1, getDiagram(), getFeatureProvider());
+				AbstactIOMDBDAAddFeature.addOutputAnchor(rr, rootContainerShape, 1, getDiagram(), getFeatureProvider());
 			}
 			//relayout anchors
 			

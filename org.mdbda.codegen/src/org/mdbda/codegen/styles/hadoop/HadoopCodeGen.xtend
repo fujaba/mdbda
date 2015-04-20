@@ -1,7 +1,7 @@
 package org.mdbda.codegen.styles.hadoop
 
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.mdbda.model.MDBDADiagram
+import org.mdbda.model.MDBDAModelRoot
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.MDBDACodegenerator
 import org.eclipse.emf.ecore.resource.Resource
@@ -11,7 +11,6 @@ import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.ModelFactory
 import org.mdbda.codegen.helper.CodeGenHelper
 import org.mdbda.codegen.CodeGeneratorRegistry
-import org.mdbda.codegen.ITemplate
 import org.mdbda.codegen.styles.ICodeGen
 
 class HadoopCodeGen implements ICodeGen{
@@ -31,7 +30,7 @@ class HadoopCodeGen implements ICodeGen{
 		}
 		//patternTemplates.put("test",[Pattern p | '''//something funny Lambda «p.name» '''])
 			
-		for(root: emfInputResource.allContents.toIterable.filter(MDBDADiagram)){
+		for(root: emfInputResource.allContents.toIterable.filter(MDBDAModelRoot)){
 			//MR
 			var context = new CodegenContext(fsa,root.name + 'JobConfiguration.java','',codeStyle)
 			codegen.genFile(root.jobConfiguration(context),context)
@@ -70,7 +69,7 @@ class HadoopCodeGen implements ICodeGen{
 			}
 		
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_MDBDA_RESOURCE, context, task)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(ICodeGen.TEMPLATETASK_MDBDA_TASK, context, task)»
 		«ELSE»
 			//keine implementierung in CodeGeneratorRegistry fuer «task.typeId» vorhanden
 		«ENDIF»
@@ -87,20 +86,20 @@ class HadoopCodeGen implements ICodeGen{
 		«ENDIF»
 	'''
 		
-	def CharSequence jobConfiguration(MDBDADiagram diagram, CodegenContext context)'''
-		class «diagram.name»JobConfiguration{
+	def CharSequence jobConfiguration(MDBDAModelRoot modelRoot, CodegenContext context)'''
+		class «modelRoot.name»JobConfiguration{
 			/**
-			  * name    = «diagram.name»
-			  *	author  = «diagram.author»
-			  * version = «diagram.version»
+			  * name    = «modelRoot.name»
+			  *	author  = «modelRoot.author»
+			  * version = «modelRoot.version»
 			  * @throws IOException 
 			*/			
 			«context.addImport("java.io.IOException")»
 			public static void main(String... args) throws IOException{
 					«context.addImport("org.apache.hadoop.conf.Configuration")»
 					Configuration conf = new Configuration();
-					«diagram.rootWorkflow.genWorkflowConfiguration(context)»
-					«diagram.rootWorkflow.genResources(context)»
+					«modelRoot.rootWorkflow.genWorkflowConfiguration(context)»
+					«modelRoot.rootWorkflow.genResources(context)»
 			}
 		}
 	'''
@@ -144,7 +143,7 @@ class HadoopCodeGen implements ICodeGen{
 	def CharSequence  genInputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT,context,task)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT,context,task, resource)»
 			«/*resourceTemplates.get(resource.typeId).generareInputResouce(resource, task ,CodeGenHelper.getMapReduceControlledJobVarName(task), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»
@@ -154,7 +153,7 @@ class HadoopCodeGen implements ICodeGen{
 	def CharSequence  genOutputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//«resource.name»
 		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_OUTPUT,context,task)»
+			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_OUTPUT,context,task, resource)»
 			«/*resourceTemplates.get(resource.typeId).generareOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»

@@ -13,6 +13,7 @@ class CodeGeneratorRegistry {
 		if(instance == null){
 			instance = new CodeGeneratorRegistry()
 		}
+		return instance
 	}
 	
 	
@@ -38,6 +39,9 @@ class CodeGeneratorRegistry {
 		templateStore.containsKey(typeId) && templateStore.get(typeId).containsKey(codeStyle)
 	}
 	
+	def getCodeStyles(){
+		codeStyles
+	}
 	def getGenerator(String codeStyle, String typeId){
 		if(templateStore.containsKey(typeId)){
 			return templateStore.get(typeId).get(codeStyle)
@@ -59,11 +63,12 @@ class CodeGeneratorRegistry {
 	}
 	
 	def double getCompatibilityScore(String style, Set<String> typeIds){
-		val incompatibleSize = getIncompatibilityList(style,typeIds).size
-		if((typeIds.size - incompatibleSize ) == 0 ){
+		val double incompatibleSize = getIncompatibilityList(style,typeIds).size
+		val double typeIdsSize = typeIds.size
+		if((typeIdsSize - incompatibleSize ) == 0 ){
 			return 0.0		
 		}
-		return typeIds.size / (typeIds.size - incompatibleSize )
+		return (typeIdsSize - incompatibleSize ) / typeIdsSize
 	
 	}
 }

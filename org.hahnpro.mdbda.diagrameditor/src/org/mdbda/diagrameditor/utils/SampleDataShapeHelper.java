@@ -16,10 +16,13 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
 import org.mdbda.model.Resource;
 
-public class SampleDataShapeHelper  extends AbstactMDBDAShapeHelper {
-	static final String SHAPE_ID = "ExampleData";
-	static final IColorConstant FOREGROUND_COLOR = IColorConstant.DARK_BLUE;
+public class SampleDataShapeHelper  extends AbstactMDBDAResourceShapeHelper {
 
+	static final IColorConstant FOREGROUND_COLOR = IColorConstant.DARK_BLUE;
+	@Override
+	protected String getShapeId() {
+		return "ExampleData";
+	}
 	public SampleDataShapeHelper(Resource resource,
 			ContainerShape rootContainerShapeForResourceElement,
 			IFeatureProvider fp) {
@@ -30,13 +33,8 @@ public class SampleDataShapeHelper  extends AbstactMDBDAShapeHelper {
 	@Override
 	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {
-		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		Shape shape = createNewShapeOnRootContainer();
 		IGaService gaService = Graphiti.getGaService();
-
-		Shape shape = peCreateService.createShape(
-				rootContainerShapeForResourceElement, false);
-		Graphiti.getPeService().setPropertyValue(shape, SHAPE_KEY,
-				SHAPE_ID);
 
 		Text text = gaService.createText(shape, "Sample Data");
 		// IDimension calculateSize = gaService.calculateSize(text);
@@ -60,17 +58,7 @@ public class SampleDataShapeHelper  extends AbstactMDBDAShapeHelper {
 		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset);
 	}
 
-	@Override
-	public Shape getShape() {
-		if(rootContainerShapeForResourceElement == null) return null;
-		for(Shape child : rootContainerShapeForResourceElement.getChildren()){
-			if(SHAPE_ID.equals( Graphiti.getPeService()
-	           .getPropertyValue(child, SHAPE_KEY))){
-				return child;
-			}
-		}
-		return null;
-	}
+
 
 	@Override
 	public int calculateX(int parentWidth, int parentHeight, int leftOffset,

@@ -15,7 +15,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.mdbda.model.MDBDADiagram;
 import org.mdbda.model.ModelFactory;
 import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Workflow;
@@ -87,7 +86,7 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 			
 			if(refDiagram == null) return null;
 			
-			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(refDiagram);
+//			MDBDAModelRoot modelRoot = DiagramUtils.getMDBDAModelRoot(refDiagram);
 
 			
 			RemoteWorkflow rwf = ModelFactory.eINSTANCE.createRemoteWorkflow();
@@ -111,7 +110,7 @@ public class CreateWorkflowFeature extends AbstractCreateMDBDAFeature implements
 
 		}else{
 			
-			MDBDADiagram mdbdaDiagram = DiagramUtils.getMDBDADiagram(getDiagram());
+//			MDBDAModelRoot modelRoot = DiagramUtils.getMDBDAModelRoot(getDiagram());
 			Resource resource = context.getTargetContainer().eResource();//TODO get model resource
 			
 			Workflow workflow = ModelFactory.eINSTANCE.createWorkflow();

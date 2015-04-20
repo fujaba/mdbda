@@ -19,12 +19,12 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
-import org.mdbda.model.MDBDADiagram;
+import org.mdbda.model.MDBDAModelRoot;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
-import org.mdbda.diagrameditor.utils.AbstactMDBDAShapeHelper;
+import org.mdbda.diagrameditor.utils.AbstractSimpleMDBDAShapeHelper;
 import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
 import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
@@ -32,7 +32,7 @@ import org.mdbda.diagrameditor.utils.SampleDataShapeHelper;
 import org.mdbda.diagrameditor.utils.TestStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.TypeIdShapeHelper;
 
-public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
+public abstract class AddResourceFeature extends AbstactIOMDBDAAddFeature
 		implements IAddFeature {
 
 	public AddResourceFeature(IFeatureProvider fp) {
@@ -48,7 +48,7 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
 			}
 
 			if (getBusinessObjectForPictogramElement(context
-					.getTargetContainer()) instanceof MDBDADiagram) {
+					.getTargetContainer()) instanceof MDBDAModelRoot) {
 				return true;
 			}
 		}
@@ -97,7 +97,7 @@ public abstract class AddResourceFeature extends AbstactMDBDAAddFeature
 			roundedRectangle.setTransparency(0.2);
 			roundedRectangle.setLineWidth(2);
 			
-			Graphiti.getPeService().setPropertyValue(roundedRectangle, AbstactMDBDAShapeHelper.SHAPE_KEY , ROUNDED_RECTANGLE_ID);
+			Graphiti.getPeService().setPropertyValue(roundedRectangle, AbstractSimpleMDBDAShapeHelper.SHAPE_KEY , ROUNDED_RECTANGLE_ID);
 			gaService.setLocationAndSize(roundedRectangle,
 					AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);
 

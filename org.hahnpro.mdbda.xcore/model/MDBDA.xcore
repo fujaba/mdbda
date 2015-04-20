@@ -7,10 +7,12 @@ package org.mdbda.model
  */
 import java.util.HashSet
 
-class MDBDADiagram{
+class MDBDAModelRoot{
 	contains Workflow rootWorkflow opposite diagram
 	
 	contains Resource[] resources
+	contains DataType dataTypes
+	
 	
 	String configurationString
 
@@ -19,7 +21,7 @@ class MDBDADiagram{
 	String name
 	
 	op boolean equals(Object other) {
-		if (other instanceof MDBDADiagram) {
+		if (other instanceof MDBDAModelRoot) {
 			if( ((this.name == null && other.name == null) || 
 					(this.name != null && this.name.equals(other.name))) &&
 				((this.author == null && other.author == null) ||
@@ -38,7 +40,7 @@ class MDBDADiagram{
 
 class Workflow extends Task{
 	contains Task[] tasks opposite workflow 
-	container MDBDADiagram diagram opposite rootWorkflow
+	container MDBDAModelRoot diagram opposite rootWorkflow
 	 
 	contains Resource[] internalDataResources
 	
@@ -93,6 +95,13 @@ class Task extends Resource{
 	int maxInputCount
 	int maxOutputCount
 	
+	String dataTransformationDiagramURI
+		
+	contains DataObject[] dataObjects opposite containerTask
+	
+	String inputMapping
+	String outputMapping
+	
 	
 	op boolean equals(Object other) {
 		if (other instanceof Task) {
@@ -107,6 +116,41 @@ class Task extends Resource{
 	}
 } 
 
+class DataType{
+	String typeName
+	String packageName
+}
+
+class DataObject{
+	contains DataAttribute[] attributes opposite dataObject
+	container Task containerTask opposite dataObjects
+	String name
+	refers DataType dataType
+}
+
+class DataReference extends DataObject{
+	refers DataObject source
+	refers DataObject target
+		
+}
+
+class DataAttribute{
+	container DataObject dataObject opposite attributes
+	String name
+	String value
+	DataCondition condition
+}
+
+enum DataCondition{
+	Exist as "exist"
+	LessThan as "<"
+	LessOrEquals as "<="
+	GeaterThan as ">"
+	GeaterOrEquals as ">="
+	Equals as "=="
+	NotEquals as "!="
+	RegEx as "regEx"
+}
 
 class Resource{	
 	refers Resource[] inputResources
@@ -117,8 +161,6 @@ class Resource{
 	String name
 	
 	String dataDSLDesciptionURI
-	
-	
 	
 	op boolean equals(Object other) {
 		if (other instanceof Resource) {

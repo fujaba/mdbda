@@ -103,7 +103,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 		// TODO: check for right domain object instances below
 		if (context instanceof IAddConnectionContext /* && context.getNewObject() instanceof <DomainObject> */) {
 			return new AddLinkFeature(this);
-		} else if (context instanceof IAddContext  && (context.getNewObject() instanceof Workflow || context.getNewObject() instanceof RemoteWorkflow || (context.getNewObject() instanceof Diagram && DiagramUtils.getMDBDADiagram((Diagram) context.getNewObject()).getRootWorkflow() != null ) )) {
+		} else if (context instanceof IAddContext  && (context.getNewObject() instanceof Workflow || context.getNewObject() instanceof RemoteWorkflow || (context.getNewObject() instanceof Diagram && DiagramUtils.getMDBDAModelRoot((Diagram) context.getNewObject()).getRootWorkflow() != null ) )) {
 			return new AddWorkflowFeature(this);
 		} 
 		

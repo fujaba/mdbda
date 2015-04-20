@@ -1,25 +1,25 @@
 package org.mdbda.cassandra.codegen
 
-import org.mdbda.codegen.IResourceTemplate
 import org.mdbda.model.Resource
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.helper.MDBDAConfiguration
-import org.mdbda.codegen.codesyle.HadoopStyle
 import org.mdbda.model.Task
+import org.mdbda.codegen.AbstractResourceTemplate
+import org.mdbda.codegen.styles.hadoop.HadoopCodeGen
 
-class CassandraResourceHadoop implements IResourceTemplate {
+class CassandraResourceHadoop extends AbstractResourceTemplate {
 	
 	override generareInputResouce(Resource res , Task pattern, CharSequence controledJobName,  CodegenContext context) '''
 	{
-		«val conf = MDBDAConfiguration.readConfigString(res.configurationString)»	
+		«val conf = MDBDAConfiguration.readConfigString(res.configurationString)»
 		 «context.addImport("org.apache.cassandra.hadoop.ColumnFamilyInputFormat")»
-		 «controledJobName».getJob().setInputFormatClass(ColumnFamilyInputFormat.class);		
+		 «controledJobName».getJob().setInputFormatClass(ColumnFamilyInputFormat.class);
 		 «context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»
 		ConfigHelper.setInputColumnFamily(«controledJobName».getJob().getConfiguration(), "«conf.getCassandraResourceKeyspace»", "«conf.getCassandraResourceColumnFamily»");		
 		 «context.addImport("org.apache.cassandra.thrift.SlicePredicate")»
 		SlicePredicate predicate = new SlicePredicate();
 		 «context.addImport("java.nio.ByteBuffer")»
-		predicate.addToColumn_names(ByteBuffer.wrap("«conf.getCassandraColumnName»".getBytes()));		
+		predicate.addToColumn_names(ByteBuffer.wrap("«conf.getCassandraColumnName»".getBytes()));
 		ConfigHelper.setInputSlicePredicate(«controledJobName».getJob().getConfiguration(), predicate);
 	}
 	'''
@@ -37,7 +37,7 @@ class CassandraResourceHadoop implements IResourceTemplate {
 	'''
 	
 	override getCodeStyle() {
-		HadoopStyle.getInstance()
+		HadoopCodeGen.codeStyle
 	}
-	
+
 }

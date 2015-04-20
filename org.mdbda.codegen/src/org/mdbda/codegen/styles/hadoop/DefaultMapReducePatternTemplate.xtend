@@ -10,38 +10,62 @@ import org.mdbda.codegen.CodegenContext
 import org.mdbda.model.Resource
 
 class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
-	
+
 	override doCodagenTemplateTask(String Task, CodegenContext context, Resource... mdbdaElements) {
-		
-		switch(Task){
-			case HadoopCodeGen.TEMPLATETASK_HADOOP_INPUT: {}
-			case HadoopCodeGen.TEMPLATETASK_HADOOP_JOB_CONFIG:{}
-			case HadoopCodeGen.TEMPLATETASK_HADOOP_OUTPUT:{}
-			case HadoopCodeGen.TEMPLATETASK_HADOOP_TEMPOUTPUTS:{}
-			case HadoopCodeGen.TEMPLATETASK_MDBDA_RESOURCE:{}
-			default: throw new UnsupportedOperationException("The codegeneration task " + Task + " is not supported for MapReduce")
+		if (context == null) {
+			throw new IllegalArgumentException("The argument context can not be null")
 		}
-		
+
+		switch (Task) {
+			
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_JOB_CONFIG: {
+				if (helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(mdbdaElements)) {
+						genJobConf(mdbdaElements.get(0) as Task, context)
+				}
+			}
+			case HadoopCodeGen.TEMPLATETASK_HADOOP_TEMPOUTPUTS: {
+				if (helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(mdbdaElements)) {
+						genTempOutputs(mdbdaElements.get(0) as Task, context)
+				}
+			}
+			case HadoopCodeGen.TEMPLATETASK_MDBDA_TASK: {
+				if (helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(mdbdaElements)) {
+					genTask(mdbdaElements.get(0) as Task, context)
+				}
+			}
+			default:
+				throw new UnsupportedOperationException("The codegeneration task " + Task +
+					" is not supported for MapReduce")
+		}
+
 	}
 
-	
-	
+	def private boolean helper_doCodagenTemplateTask_argument_mdbdaElements_has_only_one_task_element(Resource... mdbdaElements) {
+		if (mdbdaElements.size == 1 && mdbdaElements.get(0) instanceof Task) {
+			return true
+		} else {
+			throw new IllegalArgumentException(
+				"The argument mdbdaElements has to have only one element of type org.mdbda.model.Task")
+		}
+	}
+
 	override getCodeStyle() {
 		HadoopCodeGen.codeStyle
 	}
-	
-	override generarePattern(Task pattern, org.mdbda.codegen.CodegenContext context) '''
+
+	def genTask(Task task, CodegenContext context) '''
 			«context.addImport("org.apache.hadoop.mapreduce.Mapper")»
 			«context.addImport("org.apache.hadoop.io.*")»
 			«context.addImport("java.io.IOException")»
 			
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
-			«genMapperClass(pattern,context)»
-			«genReducerClass(pattern,context)»
-			«genPartitonerClass(pattern,context)»
+			«genMapperClass(task,context)»
+			«genReducerClass(task,context)»
+			«genPartitonerClass(task,context)»
 			
 	'''
-	def genPartitonerClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
+
+	def genPartitonerClass(Task pattern, CodegenContext context) '''
 		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
 		«val funktion = config.partitioner»
 		«IF funktion != null»
@@ -59,14 +83,14 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			}
 		«ENDIF»
 	'''
-	
-	def genReducerClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+
+	def genReducerClass(Task task, CodegenContext context) '''
+		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
 		«val funktion = config.reduceFunction»
 		«IF funktion != null»
 			«context.addImport("org.apache.hadoop.mapreduce.Reducer")»
 			«val Reducer = "Reducer<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-			public static class «CodeGenHelper.getReducerInnderClassName(pattern)» extends «Reducer»{
+			public static class «CodeGenHelper.getReducerInnderClassName(task)» extends «Reducer»{
 				«val fields = config.getFields(funktion)»
 				«IF fields != null»
 					«CodeGenHelper.beautifyJava(fields,0)»
@@ -100,13 +124,15 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			}
 		«ENDIF»
 	'''
-	
-	def genMapperClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+
+	def genMapperClass(Task task,
+		CodegenContext context
+	) '''
+		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
 		«val funktion = config.mapFunction»
 		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-		public static class «CodeGenHelper.getMapperInnderClassName(pattern)» extends «Mapper» {
-
+		public static class «CodeGenHelper.getMapperInnderClassName(task)» extends «Mapper» {
+		
 			«val fields = config.getFields(funktion)»
 			«IF fields != null»
 				«CodeGenHelper.beautifyJava(fields,0)»
@@ -137,22 +163,22 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			«ENDIF»
 		}
 	'''
-	
-	override genJobConf(Task pattern, org.mdbda.codegen.CodegenContext context) '''	
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+
+	override genJobConf(Task task, CodegenContext context) '''	
+		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
 		«context.addImport("org.apache.hadoop.mapreduce.Job")»
-		Job job = Job.getInstance(conf, "«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)» awesome MDBDA Job");
+		Job job = Job.getInstance(conf, "«CodeGenHelper.getMapReduceClassNameFromPattern(task)» awesome MDBDA Job");
 		
 		«IF config.partitioner != null»
-			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnderClassName(pattern)».class);
+			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnderClassName(task)».class);
 		«ENDIF»
 		«IF config.reduceFunction != null»
-			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(pattern)».class);
+			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(task)».class);
 		«ENDIF»
 		«IF config.mapFunction != null»
-			job.setMapperClass(«CodeGenHelper.getMapperInnderClassName(pattern)».class);
+			job.setMapperClass(«CodeGenHelper.getMapperInnderClassName(task)».class);
 		«ENDIF»
 		
 		«val jobConfig = config.jobConfig»
@@ -162,24 +188,23 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		
 		return job.getConfiguration();
 	'''
-	
-	
-	override genTempOutputs(Task pattern, org.mdbda.codegen.CodegenContext context)'''
-	
-		«val diagramConfig = MDBDAConfiguration.readConfigString(pattern.workflow.diagram.configurationString)»
-		«var needsTempOutput = false»
-		«FOR outputResource : pattern.outputResources»
-			«IF outputResource instanceof Workflow || outputResource instanceof Task»
-				«needsTempOutput = true»
-			«ENDIF»«/* ist eine Resource */»
-		«ENDFOR»
+
+	override genTempOutputs(Task task, CodegenContext context) '''
 		
-		«IF needsTempOutput»
-			«context.addImport("org.apache.hadoop.fs.Path")»
-			«val tmpPathName = "tempRessourceFor" + pattern.name»
+			«val diagramConfig = MDBDAConfiguration.readConfigString(task.workflow.diagram.configurationString)»
+			«var needsTempOutput = false»
+			«FOR outputResource : task.outputResources»
+				«IF outputResource instanceof Workflow || outputResource instanceof Task»
+					«needsTempOutput = true»
+				«ENDIF»«/* ist eine Resource */»
+			«ENDFOR»
 			
-			Path «tmpPathName» = new Path("«diagramConfig.getHDFSPath»");
-		«ENDIF»
+			«IF needsTempOutput»
+				«context.addImport("org.apache.hadoop.fs.Path")»
+				«val tmpPathName = "tempRessourceFor" + task.name»
+				
+				Path «tmpPathName» = new Path("«diagramConfig.getHDFSPath»");
+			«ENDIF»
 	'''
-	
+
 }

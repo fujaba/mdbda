@@ -18,7 +18,7 @@ public class RemoteWorkflowDrillDownFeature extends AbstractDrillDownFeature {
 
 	@Override
 	public String getName() {
-		return "Open associated diagram";
+		return "Open remote workflow diagram";
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class RemoteWorkflowDrillDownFeature extends AbstractDrillDownFeature {
 			RemoteWorkflow rwf = (RemoteWorkflow) getBusinessObjectForPictogramElement(pes[0]);
 
 			Collection<Diagram> diagrams = DiagramUtils
-					.getDiagrams(getDiagram());
+					.getDiagrams(getDiagram(), DiagramUtils.MDBDA_DIAGRAM_TYPEID);
 
 			for (Diagram dia : diagrams) {
 				if (dia.eResource().getURI().toPlatformString(true)
@@ -57,7 +57,7 @@ public class RemoteWorkflowDrillDownFeature extends AbstractDrillDownFeature {
 
 	@Override
 	protected Collection<Diagram> getDiagrams() {
-		return DiagramUtils.getDiagrams(getDiagram());
+		return DiagramUtils.getDiagrams(getDiagram(), DiagramUtils.MDBDA_DIAGRAM_TYPEID);
 	}
 
 }

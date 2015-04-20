@@ -1,13 +1,13 @@
 package org.mdbda.hdfs.codegen
 
-import org.mdbda.codegen.IResourceTemplate
 import org.mdbda.model.Resource 
 import org.mdbda.codegen.CodegenContext
 import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.Task
 import org.mdbda.codegen.helper.CodeGenHelper
+import org.mdbda.codegen.AbstractResourceTemplate
 
-class HDFSResourceHadoop implements IResourceTemplate{
+class HDFSResourceHadoop extends AbstractResourceTemplate{
 	 
 		override getCodeStyle() {
 			"Hadoop"

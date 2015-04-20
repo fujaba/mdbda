@@ -8,6 +8,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.mdbda.codegen.MDBDACodegenerator;
 import org.mdbda.codegen.dialog.CodegenDialog;
 import org.mdbda.codegen.dialog.CodegenDialog.CodegenDialogResult;
 import org.mdbda.codegen.helper.CodeGenHelper;
@@ -17,18 +18,20 @@ public class GeneratorAction implements IObjectActionDelegate{
 	private IStructuredSelection selection;
 	@Override
 	public void run(IAction action) {
-		
+		MDBDACodegenerator gen = new MDBDACodegenerator();
+	    gen.init();
 		IFile file = (IFile) selection.getFirstElement();
 		
 		CodegenDialog genDia = new CodegenDialog(shell, SWT.TITLE | SWT.BORDER | SWT.CLOSE);
-		CodegenDialogResult result = genDia.open();
+		
+		
+		CodegenDialogResult result = genDia.open(CodeGenHelper.getTypeIds(file.getLocationURI().toASCIIString()));
 		
 		String selectedCodeStyle = result.getCodeStyle();
 		
-		CodeGenHelper.doGenerate(file.getLocationURI().toASCIIString(), file.getProject().getLocation().toOSString(), selectedCodeStyle);
-		
-		//CodeGenHelper.doGenerate
-		
+		CodeGenHelper.doGenerate(file.getLocationURI().toASCIIString(), file.getProject().getLocation().toOSString(), gen ,selectedCodeStyle);
+	
+
 	}
 	
 

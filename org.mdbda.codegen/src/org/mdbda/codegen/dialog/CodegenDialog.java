@@ -1,5 +1,7 @@
 package org.mdbda.codegen.dialog;
 
+import java.util.HashSet;
+
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -36,6 +38,7 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.mdbda.codegen.CodeGeneratorRegistry;
 
 public class CodegenDialog extends Dialog {
 	private DataBindingContext m_bindingContext;
@@ -73,6 +76,8 @@ public class CodegenDialog extends Dialog {
 	private Text txtTargetDir;
 	private Combo comboCodeStyle;
 
+	private HashSet<String> typeIds;
+	
 	/**
 	 * Create the dialog.
 	 * @param parent
@@ -87,7 +92,8 @@ public class CodegenDialog extends Dialog {
 	 * Open the dialog.
 	 * @return the result
 	 */
-	public CodegenDialogResult open() {
+	public CodegenDialogResult open(HashSet<String> typeIds) {
+		this.typeIds = typeIds;
 		createContents();
 		initData();
 		shlGenerateMdbdaCode.open();
@@ -102,14 +108,15 @@ public class CodegenDialog extends Dialog {
 	}
 	
 	private void initData(){
-		comboCodeStyle.add("Hadoop");
-		comboCodeStyle.add("Storm");
+//		comboCodeStyle.add("Hadoop");
+//		comboCodeStyle.add("Storm");
 		comboCodeStyle.add("Spark (todo)");
 		comboCodeStyle.add("MPI (todo)");
 		comboCodeStyle.add("Akka (todo)");
 		comboCodeStyle.add("... (todo)");
 		
 		
+		CodeGeneratorRegistry.get().getCodeStyles().forEach(style -> comboCodeStyle.add(style));
 	}
 	
 	/**
@@ -164,12 +171,7 @@ public class CodegenDialog extends Dialog {
 		fd_comboCodeStyle.top = new FormAttachment(txtTargetDir, 6);
 		fd_comboCodeStyle.left = new FormAttachment(lblCodeStyle, 3);
 		comboCodeStyle.setLayoutData(fd_comboCodeStyle);
-		comboCodeStyle.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println(comboCodeStyle.getText());
-			};
-		});
-		
+			
 		Button btnCancel = new Button(shlGenerateMdbdaCode, SWT.NONE);
 		btnCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -230,6 +232,18 @@ public class CodegenDialog extends Dialog {
 		list.setLayoutData(fd_list);
 		m_bindingContext = initDataBindings();
 
+		
+		comboCodeStyle.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				//System.out.println(comboCodeStyle.getText());
+				String style = comboCodeStyle.getText();
+		
+				double score = CodeGeneratorRegistry.get().getCompatibilityScore(style, typeIds);
+				progressBar.setSelection((int)(score * 100.0));
+				list.removeAll();				
+				CodeGeneratorRegistry.get().getIncompatibilityList(style, typeIds).forEach(el -> list.add(el));
+			};
+		});
 	}
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();

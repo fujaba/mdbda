@@ -6,7 +6,7 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
 import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
 import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
@@ -34,7 +34,7 @@ public class ResizeResourceFeature extends DefaultResizeShapeFeature {
 	@Override
 	public void resizeShape(IResizeShapeContext context) {
 		Resource resource = (Resource) getBusinessObjectForPictogramElement( context.getPictogramElement() );
-		ContainerShape rootContainerShape = AbstactMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
+		ContainerShape rootContainerShape = AbstactIOMDBDAAddFeature.getRootContainerShapeForResourceElement(resource, getFeatureProvider());
 		int width = context.getWidth();
 		if(width < minWidth) width = minWidth;
 		int height = context.getHeight();
@@ -43,7 +43,7 @@ public class ResizeResourceFeature extends DefaultResizeShapeFeature {
 		rootContainerShape.getGraphicsAlgorithm().setWidth(width);
 		rootContainerShape.getGraphicsAlgorithm().setHeight(height);
 		width = width  - 2* AbstractMDBDAShape.INVISIBLE_RECT_SIDE;
-		RoundedRectangle rr = AbstactMDBDAAddFeature.getResourceRoundedRectangle(rootContainerShape, getFeatureProvider());
+		RoundedRectangle rr = AbstactIOMDBDAAddFeature.getResourceRoundedRectangle(rootContainerShape, getFeatureProvider());
 		rr.setWidth(width);
 		rr.setHeight(height);
 		

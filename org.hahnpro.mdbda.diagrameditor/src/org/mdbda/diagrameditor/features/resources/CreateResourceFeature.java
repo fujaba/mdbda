@@ -2,7 +2,7 @@ package org.mdbda.diagrameditor.features.resources;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.mdbda.model.MDBDADiagram;
+import org.mdbda.model.MDBDAModelRoot;
 import org.mdbda.model.Task;
 import org.mdbda.model.Resource;
 import org.mdbda.model.Workflow;
@@ -22,7 +22,7 @@ public abstract class CreateResourceFeature extends AbstractCreateMDBDAFeature {
 		if( getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Workflow ){
 			return true;
 		}
-		if( getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof MDBDADiagram ){
+		if( getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof MDBDAModelRoot ){
 			return true;
 		}
 		
@@ -35,8 +35,8 @@ public abstract class CreateResourceFeature extends AbstractCreateMDBDAFeature {
 		if(bo instanceof Workflow){
 			((Workflow) bo).getInternalDataResources().add(eInst);
 		}
-		if(bo instanceof MDBDADiagram){
-			((MDBDADiagram) bo).getResources().add(eInst);
+		if(bo instanceof MDBDAModelRoot){
+			((MDBDAModelRoot) bo).getResources().add(eInst);
 		}
 	}
 	

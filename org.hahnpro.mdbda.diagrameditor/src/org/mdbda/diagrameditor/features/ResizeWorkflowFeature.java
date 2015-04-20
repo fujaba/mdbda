@@ -5,7 +5,7 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.model.RemoteWorkflow;
@@ -49,7 +49,7 @@ public class ResizeWorkflowFeature extends DefaultResizeShapeFeature {
 		if(AddWorkflowFeature.isWorkflowReference(res, context.getShape().getContainer())){
 			width = width  - 2* AbstractMDBDAShape.INVISIBLE_RECT_SIDE;
 		}
-		RoundedRectangle rr = AbstactMDBDAAddFeature.getResourceRoundedRectangle(rootContainerShape, getFeatureProvider());
+		RoundedRectangle rr = AbstactIOMDBDAAddFeature.getResourceRoundedRectangle(rootContainerShape, getFeatureProvider());
 		rr.setWidth(width);
 		rr.setHeight(height);
 		

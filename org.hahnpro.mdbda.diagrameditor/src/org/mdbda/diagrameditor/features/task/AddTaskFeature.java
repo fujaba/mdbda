@@ -20,16 +20,16 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.model.Task;
 import org.mdbda.model.Workflow;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
-import org.mdbda.diagrameditor.utils.AbstactMDBDAShapeHelper;
+import org.mdbda.diagrameditor.utils.AbstractSimpleMDBDAShapeHelper;
 import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.diagrameditor.utils.SampleDataShapeHelper;
 import org.mdbda.diagrameditor.utils.TypeIdShapeHelper;
 
 
-public abstract class AddTaskFeature extends AbstactMDBDAAddFeature implements
+public abstract class AddTaskFeature extends AbstactIOMDBDAAddFeature implements
 		IAddFeature {
 	
 	public AddTaskFeature(IFeatureProvider fp) {
@@ -65,7 +65,7 @@ public abstract class AddTaskFeature extends AbstactMDBDAAddFeature implements
 			roundedRectangle.setForeground(manageColor(getForegroundColor()));
 			roundedRectangle.setTransparency(0.2);
 			roundedRectangle.setLineWidth(2);
-			Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstactMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
+			Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstractSimpleMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
             gaService.setLocationAndSize(roundedRectangle,
             		AbstractMDBDAShape.INVISIBLE_RECT_SIDE, 0, width, height);
        	}

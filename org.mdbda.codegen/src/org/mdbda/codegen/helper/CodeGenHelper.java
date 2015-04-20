@@ -1,8 +1,11 @@
 package org.mdbda.codegen.helper;
 
+import java.util.HashSet;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -112,20 +115,9 @@ public class CodeGenHelper {
 		return fixClassName(p.getName()) + "Storm";		
 	}
 	
-	public static void doGenerate(String modelUri, String targetUri, String codeStyle){
-		MDBDACodegenerator gen = new MDBDACodegenerator();
-		ModelPackage.eINSTANCE.eClass();//init
-				
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+	public static void doGenerate(String modelUri, String targetUri, MDBDACodegenerator gen, String selectedCodeStyle){
 		
-	    Map m = reg.getExtensionToFactoryMap();
-	    m.put("mdbdamodel", new XMIResourceFactoryImpl());
-
-	    // Obtain a new resource set
-	    ResourceSetImpl resSet = new ResourceSetImpl();
-
-	    // Get the resource
-	    Resource resource = resSet.getResource(URI.createURI(modelUri), true);
+		Resource resource = getResource(modelUri);
 		
 	    JavaIoFileSystemAccess fsa = new JavaIoFileSystemAccess();
 	    fsa.setOutputPath(targetUri + "/mdbda-gen/");
@@ -139,9 +131,24 @@ public class CodeGenHelper {
 			}
 			
 		}).injectMembers(fsa);
-	    
-	    gen.init();
-		gen.doGenerate(resource, fsa, codeStyle);
+
+		gen.doGenerate(resource, fsa, selectedCodeStyle);
+	}
+
+	private static Resource getResource(String modelUri) {
+		ModelPackage.eINSTANCE.eClass();//init
+				
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		
+	    Map m = reg.getExtensionToFactoryMap();
+	    m.put("mdbdamodel", new XMIResourceFactoryImpl());
+
+	    // Obtain a new resource set
+	    ResourceSetImpl resSet = new ResourceSetImpl();
+
+	    // Get the resource
+	    Resource resource = resSet.getResource(URI.createURI(modelUri), true);
+		return resource;
 	}
 	public static String fixInputString(String value) {
 		if(value == null || value.equals("null")) return value;
@@ -166,5 +173,25 @@ public class CodeGenHelper {
 		default:
 			return "new " + type + "( " + value + " )";
 		}
+	}
+
+	public static HashSet<String> getTypeIds(String modelUri) {
+		Resource emfResource = getResource(modelUri);
+		
+		HashSet<String> typeIds = new HashSet<String>();
+		
+		TreeIterator<EObject> iter = emfResource.getAllContents();
+		
+		while (iter.hasNext()) {
+			EObject el = iter.next();
+			if(el instanceof org.mdbda.model.Resource){
+				org.mdbda.model.Resource mdbdaResource = (org.mdbda.model.Resource) el;
+				if(mdbdaResource.getTypeId() != null && mdbdaResource.getTypeId() != ""){
+					typeIds.add(mdbdaResource.getTypeId());
+				}
+			}
+		}
+		
+		return typeIds;
 	}
 }

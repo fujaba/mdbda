@@ -11,12 +11,12 @@
       </GraphicalFeatures>
    </extension>
    <extension
-         id="CassandraResource"
          point="org.mdbda.codegen.plugin">
-      <ResourceCodeStylePlugin
+      <CodeGenTemplatePlugin
             CodeStyle="Hadoop"
-            ResourceTemplateClass="org.mdbda.cassandra.codegen.CassandraResourceHadoop">
-      </ResourceCodeStylePlugin>
+            TemplateClass="org.mdbda.cassandra.codegen.CassandraResourceHadoop"
+            typeId="CassandraResource">
+      </CodeGenTemplatePlugin>
    </extension>
 
 </plugin>

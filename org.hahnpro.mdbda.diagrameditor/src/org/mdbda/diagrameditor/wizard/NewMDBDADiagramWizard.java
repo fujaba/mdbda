@@ -70,7 +70,7 @@ public class NewMDBDADiagramWizard extends Wizard implements INewWizard {
 		}
 		
 
-		this.diagram =  DiagramUtils.newDiagram(project,fileName);
+		this.diagram =  DiagramUtils.newMDBDADiagram(project,fileName);
 		this.fileName = fileName;
 		
 		return true;

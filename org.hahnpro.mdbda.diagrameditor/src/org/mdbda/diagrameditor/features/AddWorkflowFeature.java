@@ -17,11 +17,11 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Workflow;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
-import org.mdbda.diagrameditor.utils.AbstactMDBDAShapeHelper;
+import org.mdbda.diagrameditor.utils.AbstractSimpleMDBDAShapeHelper;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 
-public class AddWorkflowFeature extends AbstactMDBDAAddFeature implements
+public class AddWorkflowFeature extends AbstactIOMDBDAAddFeature implements
 		IAddFeature {
 
 	
@@ -96,7 +96,7 @@ public class AddWorkflowFeature extends AbstactMDBDAAddFeature implements
 		RoundedRectangle roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 5, 5);
 		roundedRectangle.setBackground(manageColor(AbstractMDBDAShape.WORKFLOW_BACKGROUND));
 		roundedRectangle.setForeground(manageColor(AbstractMDBDAShape.WORKFLOW_FOREGROUND));
-		Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstactMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
+		Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstractSimpleMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
 		gaService.setLocationAndSize(roundedRectangle, AbstractMDBDAShape.INVISIBLE_RECT_SIDE,0, width, height);
 
 		
@@ -124,7 +124,7 @@ public class AddWorkflowFeature extends AbstactMDBDAAddFeature implements
 		roundedRectangle.setBackground(manageColor(AbstractMDBDAShape.WORKFLOW_BACKGROUND));
 		roundedRectangle.setForeground(manageColor(AbstractMDBDAShape.WORKFLOW_FOREGROUND));
 		roundedRectangle.setTransparency(0.42);
-		Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstactMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
+		Graphiti.getPeService().setPropertyValue(roundedRectangle,AbstractSimpleMDBDAShapeHelper.SHAPE_KEY,ROUNDED_RECTANGLE_ID);
 		gaService.setLocationAndSize(roundedRectangle, context.getX(),context.getY(), width, height);
 
 		link(rootContainerShape, wf);

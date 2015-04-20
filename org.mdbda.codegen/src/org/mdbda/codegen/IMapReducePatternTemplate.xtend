@@ -2,7 +2,7 @@ package org.mdbda.codegen
 
 import org.mdbda.model.Task 
 
-interface IMapReducePatternTemplate extends IPatternTemplate{
+interface IMapReducePatternTemplate extends ITemplate{
 		
 	def CharSequence genJobConf(Task pattern, CodegenContext context);
 	

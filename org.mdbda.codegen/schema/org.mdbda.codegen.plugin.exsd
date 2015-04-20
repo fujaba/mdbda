@@ -18,8 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="ResourceCodeStylePlugin"/>
-            <element ref="PatternCodeStylePlugin"/>
+            <element ref="CodeGenTemplatePlugin"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -28,7 +27,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="id" type="string" use="required">
+         <attribute name="id" type="string">
             <annotation>
                <documentation>
                   the meta model type Id
@@ -48,15 +47,15 @@
       </complexType>
    </element>
 
-   <element name="ResourceCodeStylePlugin">
+   <element name="CodeGenTemplatePlugin">
       <complexType>
-         <attribute name="ResourceTemplateClass" type="string" use="required">
+         <attribute name="TemplateClass" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.mdbda.codegen.IResourceTemplate"/>
+                  <meta.attribute kind="java" basedOn=":org.mdbda.codegen.ITemplate"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -67,25 +66,10 @@
                </documentation>
             </annotation>
          </attribute>
-      </complexType>
-   </element>
-
-   <element name="PatternCodeStylePlugin">
-      <complexType>
-         <attribute name="PatternTemplateClass" type="string" use="required">
+         <attribute name="typeId" type="string" use="required">
             <annotation>
                <documentation>
                   
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.mdbda.codegen.IPatternTemplate"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="CodeStyle" type="string" use="required">
-            <annotation>
-               <documentation>
-                  the codesyle like Hadoop, Storm, Akka, MPI
                </documentation>
             </annotation>
          </attribute>

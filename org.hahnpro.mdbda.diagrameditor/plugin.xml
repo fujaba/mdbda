@@ -100,11 +100,4 @@
                typeId="generic">
          </GraphicalFeatures>
       </extension>
-      <extension
-            point="org.mdbda.codegen.plugin">
-         <PatternPlugin
-               PatternTemplateClass="org.mdbda.codegen.DefaultPatternTemplate"
-               typeId="generic">
-         </PatternPlugin>
-      </extension>
 </plugin>

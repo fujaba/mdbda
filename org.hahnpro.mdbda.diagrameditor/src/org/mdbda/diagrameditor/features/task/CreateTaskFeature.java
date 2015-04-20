@@ -8,7 +8,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.mdbda.model.Task;
 import org.mdbda.model.Workflow;
-import org.mdbda.diagrameditor.features.AbstactMDBDAAddFeature;
+import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
 import org.mdbda.diagrameditor.features.AbstractCreateMDBDAFeature;
 
 public abstract class CreateTaskFeature extends AbstractCreateMDBDAFeature {

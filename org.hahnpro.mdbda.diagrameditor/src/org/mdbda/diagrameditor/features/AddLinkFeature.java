@@ -18,7 +18,7 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.utils.DataformatUtils;
 
 
-public class AddLinkFeature extends AbstactMDBDAAddFeature implements
+public class AddLinkFeature extends AbstactIOMDBDAAddFeature implements
 		IAddFeature {
 
 	public AddLinkFeature(IFeatureProvider fp) {
