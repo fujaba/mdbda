@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            name="Data Transformation Diagram Type"
+            type="DataTransformationDiagram"
+            id="org.mdbda.datatransformationdiagrameditor.DataTransformationDiagramType">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            name="Data Transformation Diagram Type Provider"
+            class="org.mdbda.diagrameditor.datatransformation.diagram.DataTransformationDiagramTypeProvider"
+            id="org.mdbda.datatransformationdiagrameditor.DataTransformationDiagramTypeProvider">
+         <diagramType
+               id="org.mdbda.datatransformationdiagrameditor.DataTransformationDiagramType">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+
+</plugin>

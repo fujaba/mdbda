@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Data Transformation Diagram Editor
+Bundle-SymbolicName: org.mdbda.diagrameditor.datatransformation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Marcel Hahn
+Require-Bundle: org.eclipse.graphiti,
+ org.eclipse.graphiti.ui,
+ org.mdbda.xcore;bundle-version="1.0.0",
+ org.mdbda.diagrameditor;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
