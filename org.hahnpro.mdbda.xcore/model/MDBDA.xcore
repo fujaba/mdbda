@@ -8,7 +8,7 @@ package org.mdbda.model
 import java.util.HashSet
 
 class MDBDAModelRoot{
-	contains Workflow rootWorkflow opposite diagram
+	contains Workflow rootWorkflow opposite modelRoot
 	
 	contains Resource[] resources
 	contains DataType dataTypes
@@ -40,7 +40,7 @@ class MDBDAModelRoot{
 
 class Workflow extends Task{
 	contains Task[] tasks opposite workflow 
-	container MDBDAModelRoot diagram opposite rootWorkflow
+	container MDBDAModelRoot modelRoot opposite rootWorkflow
 	 
 	contains Resource[] internalDataResources
 	
