@@ -191,7 +191,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 
 	override genTempOutputs(Task task, CodegenContext context) '''
 		
-			«val diagramConfig = MDBDAConfiguration.readConfigString(task.workflow.diagram.configurationString)»
+			«val diagramConfig = MDBDAConfiguration.readConfigString(task.workflow.modelRoot.configurationString)»
 			«var needsTempOutput = false»
 			«FOR outputResource : task.outputResources»
 				«IF outputResource instanceof Workflow || outputResource instanceof Task»

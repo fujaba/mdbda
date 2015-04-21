@@ -22,9 +22,9 @@ public class MDBDAWorkflowHelper {
 		String packageName = null;
 		
 		if(p instanceof Workflow){
-			packageName = ((Workflow)p).getDiagram().getName();
+			packageName = ((Workflow)p).getModelRoot().getName();
 		}else if(p instanceof Task){
-			packageName = p.getWorkflow().getDiagram().getName();
+			packageName = p.getWorkflow().getModelRoot().getName();
 		}
 		return packageName;
 	}
