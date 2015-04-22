@@ -300,40 +300,6 @@ public class DiagramUtils {
 
 		IFolder diagramFolder = project.getFolder("src/diagrams/"); //$NON-NLS-1$
 
-		// String diagramTypeProviderId =
-		// GraphitiUi.getExtensionManager().getDiagramTypeProviderId(MDBDA_DIAGRAM_TYPEID);
-		//		String namingConventionID = diagramTypeProviderId + ".editor"; //$NON-NLS-1$
-		// IEditorDescriptor specificEditor =
-		// PlatformUI.getWorkbench().getEditorRegistry().findEditor(namingConventionID);
-
-		// If there is a specific editor get the file extension
-		// if (specificEditor != null) {
-		// editorID = namingConventionID;
-		// IExtensionRegistry extensionRegistry =
-		// Platform.getExtensionRegistry();
-		//			IExtensionPoint extensionPoint = extensionRegistry.getExtensionPoint("org.eclipse.ui.editors"); //$NON-NLS-1$
-		// IExtension[] extensions = extensionPoint.getExtensions();
-		// for (IExtension ext : extensions) {
-		// IConfigurationElement[] configurationElements =
-		// ext.getConfigurationElements();
-		// for (IConfigurationElement ce : configurationElements) {
-		//					String id = ce.getAttribute("id"); //$NON-NLS-1$
-		// if (editorID.equals(id)) {
-		//						String fileExt = ce.getAttribute("extensions"); //$NON-NLS-1$
-		// if (fileExt != null) {
-		// editorExtension = fileExt;
-		// break;
-		// }
-		// }
-		// }
-		// }
-		// }
-
-		//IFile diagramFile = diagramFolder.getFile(name + "." + editorExtension); //$NON-NLS-1$
-
-		// final URI uri =
-		// URI.createPlatformResourceURI(diagramFile.getFullPath().toString(),
-		// true);
 
 		final URI diagramURI = URI.createPlatformResourceURI(diagramFolder
 				.getFile(name + ".diagram").getFullPath().toString(), true);
@@ -409,6 +375,12 @@ public class DiagramUtils {
 		return diagram;
 	}
 
+	public static Diagram newDatatransformationDiagram(Resource modelResource){
+		modelResource.getResourceSet();
+		
+		return null;
+	}
+	
 	public static MDBDAModelRoot getMDBDAModelRoot(Diagram refDiagram) {
 		EList<EObject> businessObjects = refDiagram.getLink()
 				.getBusinessObjects();

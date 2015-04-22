@@ -36,6 +36,7 @@ import org.mdbda.diagrameditor.features.AddLinkFeature;
 import org.mdbda.diagrameditor.features.AddWorkflowFeature;
 import org.mdbda.diagrameditor.features.CreateLinkFeature;
 import org.mdbda.diagrameditor.features.CreateWorkflowFeature;
+import org.mdbda.diagrameditor.features.DataTransformationDrillDownFeature;
 import org.mdbda.diagrameditor.features.RemoteWorkflowDrillDownFeature;
 import org.mdbda.diagrameditor.features.ResizeWorkflowFeature;
 import org.mdbda.diagrameditor.features.UpdateWorkflowFeature;
@@ -189,7 +190,7 @@ public class MDBDAFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return new ICustomFeature[]{new RemoteWorkflowDrillDownFeature(this), new ResourceDataDSLDrillDownFeature(this)	};
+		return new ICustomFeature[]{new RemoteWorkflowDrillDownFeature(this), new ResourceDataDSLDrillDownFeature(this), new DataTransformationDrillDownFeature(this)};
 	}
 	
 	
