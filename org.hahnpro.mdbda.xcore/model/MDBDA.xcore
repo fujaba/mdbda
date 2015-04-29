@@ -11,7 +11,8 @@ class MDBDAModelRoot{
 	contains Workflow rootWorkflow opposite modelRoot
 	
 	contains Resource[] resources
-	contains DataType dataTypes
+	contains DataType[] dataTypes
+	
 	
 	
 	String configurationString
@@ -119,6 +120,17 @@ class Task extends Resource{
 class DataType{
 	String typeName
 	String packageName
+	op boolean equals(Object other) {
+		if (other instanceof DataType) {
+			if(super.equals(other) &&
+				(this.typeName == other.typeName) &&
+				(this.packageName == other.packageName)
+			){
+				return true;
+			}
+		}
+		return false
+	}
 }
 
 class DataObject{
