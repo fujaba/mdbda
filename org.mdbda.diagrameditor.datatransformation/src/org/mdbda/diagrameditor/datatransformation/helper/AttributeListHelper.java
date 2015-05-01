@@ -30,30 +30,15 @@ public class AttributeListHelper extends AbstractSimpleMDBDAShapeHelper {
 	@Override
 	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {
-		Shape shape = createNewShapeOnRootContainer();
-		IGaService gaService = Graphiti.getGaService();
+		//ContainerShape shape = createNewContainerShapeOnRootContainer();
 		
-		StringBuilder sb = new StringBuilder();
-		for(DataAttribute atr : dataObject.getAttributes()){			
-			sb.append(atr.getName()).append(atr.getCondition().getLiteral()).append(atr.getValue()).append("\r\n");
+		int top = topOffset;
+		for(DataAttribute atr : dataObject.getAttributes()){
+			IDimension dim = new AttributeHelper(atr, rootContainerShapeForResourceElement, getFeatureProvider()).addNewShapeOnContainer(parentWidth, parentHeight, leftOffset, top);
+			top += dim.getHeight();
 		}
 		
-		MultiText text = gaService.createMultiText(shape, sb.toString());
-		text.setForeground(manageColor(FOREGROUND_COLOR));
-		text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
-		text.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
-
-		IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-		
-		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
-		directEditingInfo.setPictogramElement(shape);
-        directEditingInfo.setGraphicsAlgorithm(text);
-        
-        
-		link(shape, dataObject);
-		
-		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset);
+		return null;
 	}
 
 	@Override

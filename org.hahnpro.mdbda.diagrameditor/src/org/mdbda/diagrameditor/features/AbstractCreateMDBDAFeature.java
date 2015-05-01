@@ -51,34 +51,6 @@ public abstract class AbstractCreateMDBDAFeature extends AbstractCreateFeature {
 		}
 		return "";
 	}
-	/*{
-	}
-		StringBuilder configString = new StringBuilder();
-		configString.append("{\n");
-		configString.append("	\"mapFunction\":{\n");
-		configString.append("		\"testInput\":[], \n");
-		configString.append("		\"testOutput\":[],\n");
-		configString.append("		\"KEYIN\":\"LongWritable\", \n");
-		configString.append("		\"VALUEIN\":\"Text\", \n");
-		configString.append("		\"KEYOUT\":\"Text\",\n");
-		configString.append("		\"VALUEOUT\":\"IntWritable\", \n");
-		configString.append("		\"function\":"
-				+ getDefaultMapFunctionBody() + " \n");
-		configString.append("		\n");
-		configString.append("	},\n");
-		configString.append("	\"reduceFunction\":{		\n");
-		configString.append("		\"testInput\":[], \n");
-		configString.append("		\"testOutput\":[],\n");
-		configString.append("		\"KEYIN\":\"Text\", \n");
-		configString.append("		\"VALUEIN\":\"IntWritable\",\n");
-		configString.append("		\"KEYOUT\":\"Text\",\n");
-		configString.append("		\"VALUEOUT\":\"IntWritable\", \n");
-		configString.append("		\"function\":\""
-				+ getDefaultReduceFunctionBody() +  " \"\n");
-		configString.append("	} \n");
-		configString.append("}\n");
-		return null;
-	}*/
 
 
 

@@ -87,13 +87,13 @@ public class DataObjectNameAndTypeHelper extends AbstractSimpleMDBDAShapeHelper 
 	@Override
 	public int calculateWidth(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {
-		return parentWidth-5;
+		return parentWidth - 5;
 	}
 
 	@Override
 	public int calculateHeight(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {		
-		return 10;
+		return 12;
 	}
 
 }

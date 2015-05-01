@@ -154,7 +154,7 @@ class DataAttribute{
 }
 
 enum DataCondition{
-	Exist as "exist"
+	Exist as "\u2203"
 	LessThan as "<"
 	LessOrEquals as "<="
 	GeaterThan as ">"

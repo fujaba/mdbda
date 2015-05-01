@@ -32,6 +32,14 @@ public abstract class AbstractSimpleMDBDAShapeHelper extends AbstractFeature {
 		
 		return shape;
 	}
+	protected ContainerShape createNewContainerShapeOnRootContainer(){
+		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		
+		ContainerShape shape = peCreateService.createContainerShape(rootContainerShapeForResourceElement, false);
+		Graphiti.getPeService().setPropertyValue(shape,SHAPE_KEY, getShapeId());
+		
+		return shape;
+	}
 
 	public abstract IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset);
