@@ -8,7 +8,7 @@ import org.json.simple.JSONObject
 class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTemplate {
 	
 	override genMapperClass(Task pattern, org.mdbda.codegen.CodegenContext context)'''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		«val funktions = config.getMultipleMapFunction()»
 		
 		«var int fooCount = 0»
@@ -52,7 +52,7 @@ class MultipleInputMapReducePatternTemplate extends DefaultMapReducePatternTempl
 	'''
 	
 	override genJobConf(Task pattern, org.mdbda.codegen.CodegenContext context) '''	
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
 		«context.addImport("org.apache.hadoop.mapreduce.Job")»

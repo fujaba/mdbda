@@ -15,7 +15,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
 		«context.addImport("backtype.storm.topology.base.BaseBasicBolt")»
 		«context.addImport("backtype.storm.tuple.Tuple")»
-		«val config = MDBDAConfiguration.readConfigString(resource.configurationString)»
+		«val config = new MDBDAConfiguration(resource.configurationString)»
 		«val funktions = config.getMultipleMapFunction»
 		
 		«var int fooCount = 0»
@@ -45,7 +45,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 	'''
 
 	override genTestDataBolt(Task pattern, org.mdbda.codegen.CodegenContext context) {
-		val config = MDBDAConfiguration.readConfigString(pattern.configurationString)
+		val config = new MDBDAConfiguration(pattern.configurationString)
 		val StringBuilder sb = new StringBuilder();
 		var int counter = 0
 		for (foo : config.getMultipleMapFunction()) {
@@ -69,7 +69,7 @@ class MultipleInputSormPatternTemplate extends DefaultStormPatternTemplate {
 		«context.addImport("backtype.storm.tuple.Fields")»
 		«context.addImport("backtype.storm.testing.FeederSpout")»
 		
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		«val numberOfMultipleMapFunction = config.getMultipleMapFunction().size»
 		
 		«FOR n : (0..numberOfMultipleMapFunction-1)»

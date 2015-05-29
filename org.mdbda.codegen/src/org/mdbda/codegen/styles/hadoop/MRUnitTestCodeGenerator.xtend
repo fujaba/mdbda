@@ -16,7 +16,7 @@ class MRUnitTestCodeGenerator {
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.MapDriver")»
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.MapReduceDriver")»
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.ReduceDriver")»
-		«val config = MDBDAConfiguration.readConfigString(p.configurationString)»
+		«val config = new MDBDAConfiguration(p.configurationString)»
 		
 		«IF config.reduceFunction != null»
 			ReduceDriver<«config.getKEYIN(config.reduceFunction)», «config.getVALUEIN(config.reduceFunction)», «config.getKEYOUT(config.reduceFunction)», «config.getVALUEOUT(config.reduceFunction)»> reduceDriver;

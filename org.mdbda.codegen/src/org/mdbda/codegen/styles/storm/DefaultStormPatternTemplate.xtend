@@ -44,7 +44,7 @@ class DefaultStormPatternTemplate implements ITemplate {
 	
 	def generareTask(Task pattern, org.mdbda.codegen.CodegenContext context) '''
 	
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		«context.addImport("backtype.storm.topology.BasicOutputCollector")»
 		«context.addImport("backtype.storm.topology.OutputFieldsDeclarer")»
 		«context.addImport("backtype.storm.topology.base.BaseBasicBolt")»
@@ -97,13 +97,13 @@ class DefaultStormPatternTemplate implements ITemplate {
 		}
 	'''
 	def genTestDataBolt(Task pattern,org.mdbda.codegen.CodegenContext context){
-		val config = MDBDAConfiguration.readConfigString(pattern.configurationString)
+		val config = new MDBDAConfiguration(pattern.configurationString)
 		genTestDataBolt(pattern,context,config.mapFunction , "");
 	}
 	
 	protected val ReduceBoltBoltClass = "ReduceBolt"
 	def genReduceBolt(Task pattern, org.mdbda.codegen.CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		public static class «ReduceBoltBoltClass» extends BaseBasicBolt{
 			
 			«config.getFields(config.reduceFunction)»
@@ -143,7 +143,7 @@ class DefaultStormPatternTemplate implements ITemplate {
 	'''
 	protected val MapBoltClass = "MapBolt"
 	def genMapBolt(Task pattern, org.mdbda.codegen.CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		public static class «MapBoltClass» extends BaseBasicBolt{
 
 			@Override
@@ -161,7 +161,7 @@ class DefaultStormPatternTemplate implements ITemplate {
 	protected val TestDataValidationBoltClass = "TestDataValidationBolt"
 	
 	def genTestDataValidationBolt(Task pattern, org.mdbda.codegen.CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		public static class «TestDataValidationBoltClass» extends BaseBasicBolt{
 			«context.addImport("java.util.Queue")»
 			«context.addImport("java.util.LinkedList")»
@@ -214,7 +214,7 @@ class DefaultStormPatternTemplate implements ITemplate {
 		«context.addImport("java.util.EmptyStackException")»
 		«context.addImport("java.util.Map")»
 		«context.addImport("java.util.Stack")»
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		
 		public static class «TestDataSpoutClass»«suffix» extends BaseRichSpout {
 			SpoutOutputCollector _collector;

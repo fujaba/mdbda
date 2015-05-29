@@ -66,7 +66,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	'''
 
 	def genPartitonerClass(Task pattern, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(pattern.configurationString)»
+		«val config = new MDBDAConfiguration(pattern.configurationString)»
 		«val funktion = config.partitioner»
 		«IF funktion != null»
 			«context.addImport("org.apache.hadoop.mapreduce.Partitioner")»
@@ -85,7 +85,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	'''
 
 	def genReducerClass(Task task, CodegenContext context) '''
-		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
+		«val config = new MDBDAConfiguration(task.configurationString)»
 		«val funktion = config.reduceFunction»
 		«IF funktion != null»
 			«context.addImport("org.apache.hadoop.mapreduce.Reducer")»
@@ -128,7 +128,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	def genMapperClass(Task task,
 		CodegenContext context
 	) '''
-		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
+		«val config = new MDBDAConfiguration(task.configurationString)»
 		«val funktion = config.mapFunction»
 		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
 		public static class «CodeGenHelper.getMapperInnderClassName(task)» extends «Mapper» {
@@ -165,7 +165,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 	'''
 
 	override genJobConf(Task task, CodegenContext context) '''	
-		«val config = MDBDAConfiguration.readConfigString(task.configurationString)»
+		«val config = new MDBDAConfiguration(task.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
 		«context.addImport("org.apache.hadoop.mapreduce.Job")»
@@ -191,7 +191,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 
 	override genTempOutputs(Task task, CodegenContext context) '''
 		
-			«val diagramConfig = MDBDAConfiguration.readConfigString(task.workflow.modelRoot.configurationString)»
+			«val diagramConfig = new MDBDAConfiguration(task.workflow.modelRoot.configurationString)»
 			«var needsTempOutput = false»
 			«FOR outputResource : task.outputResources»
 				«IF outputResource instanceof Workflow || outputResource instanceof Task»
