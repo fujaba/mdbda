@@ -44,6 +44,9 @@ public class DataObjectNameAndTypeHelper extends AbstractSimpleMDBDAShapeHelper 
 		IGaService gaService = Graphiti.getGaService();
 		
 		String name = dataObject.getName();
+		if(dataObject.getDataType() == null){
+			dataObject.setDataType(DataTypeHelper.getDefaultType(dataObject.getContainerTask().getWorkflow().getModelRoot()));
+		}
 		String typeName = dataObject.getDataType().getTypeName();
 		
 		

@@ -6,6 +6,7 @@ import java.util.HashMap
 import org.json.simple.JSONArray
 import org.json.simple.parser.ParseException
 
+
 class MDBDAConfiguration {
 	//var JSONObject config = new JSONObject();
 	var HashMap <Object,Object> config = new HashMap ()
