@@ -7,6 +7,7 @@ import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
+import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
 import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.model.Resource;
@@ -35,6 +36,11 @@ public class UpdateTaskFeature extends AbstractUpdateFeature {
 			return Reason.createTrueReason("The name is out of date");
 		}
 		
+		DataDescriptionShapeHelper ddHelper = new DataDescriptionShapeHelper(resource, rootContainerShape, getFeatureProvider());
+		if(ddHelper.hasChanged()){
+			return Reason.createTrueReason("Data Desciption status is out of date");
+		}
+		
 		return Reason.createFalseReason();
 	}
 
@@ -48,6 +54,12 @@ public class UpdateTaskFeature extends AbstractUpdateFeature {
 		if( nameHelper.hasChanged()){
 			somethingchanged = true;
 			nameHelper.update();			
+		}
+		
+		DataDescriptionShapeHelper ddHelper = new DataDescriptionShapeHelper(resource, rootContainerShape, getFeatureProvider());
+		if(ddHelper.hasChanged()){
+			somethingchanged = true;
+			ddHelper.update();
 		}
 		return somethingchanged;
 	}

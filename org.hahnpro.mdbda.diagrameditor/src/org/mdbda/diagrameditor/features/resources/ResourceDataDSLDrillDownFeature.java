@@ -94,12 +94,13 @@ public class ResourceDataDSLDrillDownFeature extends AbstractCustomFeature {
 	private void openDataDSLEditor(Resource res) {
 		
 		
+		
 		Path path = new Path(res.getDataDSLDesciptionURI());
 		//res.eResource().getURI().
 //		ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(res.eResource().getURI());
 		
 		
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path) ;//getFile(path);
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);//  getFileForLocation(path) ;//getFile(path);
 		
 		
 		IWorkbenchWindow window=PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -108,7 +109,7 @@ public class ResourceDataDSLDrillDownFeature extends AbstractCustomFeature {
 			// Try opening the page in the editor.
 			
 				try {
-					page.openEditor(new FileEditorInput(file), "uks.database.meta.Lang");
+					page.openEditor(new FileEditorInput(file), "de.wbg.DTDSL");//"uks.database.meta.Lang");
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -117,7 +118,7 @@ public class ResourceDataDSLDrillDownFeature extends AbstractCustomFeature {
 		
 	}
 
-	public static String DataDSLSuffix = ".datadsl";
+	public static String DataDSLSuffix = ".dtdsl";
 	
 	private void selectOrCreateDataDSL(Resource res) {
 		Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -136,7 +137,9 @@ public class ResourceDataDSLDrillDownFeature extends AbstractCustomFeature {
 
 	    if(file.exists() && file.getName().endsWith(DataDSLSuffix)){
 	    	//existing
-	    	res.setDataDSLDesciptionURI(file.getProjectRelativePath().toPortableString());
+	    	
+	    	
+	    	res.setDataDSLDesciptionURI(file.getFullPath().toPortableString());//.getProjectRelativePath().toPortableString());
 	    }else{
 	    	//new
 	    	if(!file.getName().endsWith(DataDSLSuffix)){

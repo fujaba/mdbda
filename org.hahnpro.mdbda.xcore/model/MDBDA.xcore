@@ -99,10 +99,10 @@ class Task extends Resource{
 	String dataTransformationDiagramURI
 		
 	contains DataObject[] dataObjects opposite containerTask
-	
-	String inputMapping
-	String outputMapping
-	
+//	
+//	String inputMapping
+//	String outputMapping
+//	
 	
 	op boolean equals(Object other) {
 		if (other instanceof Task) {
@@ -138,6 +138,8 @@ class DataObject{
 	container Task containerTask opposite dataObjects
 	String name
 	refers DataType dataType
+	refers Resource linkedInputResource
+	refers Resource linkedOutputResource
 }
 
 class DataReference extends DataObject{
@@ -163,6 +165,7 @@ enum DataCondition{
 	NotEquals as "!="
 	RegEx as "regEx"
 }
+
 
 class Resource{	
 	refers Resource[] inputResources

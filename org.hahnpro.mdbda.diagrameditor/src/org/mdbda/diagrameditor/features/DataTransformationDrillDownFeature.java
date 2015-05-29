@@ -18,6 +18,8 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractDrillDownFeature;
 import org.mdbda.diagrameditor.utils.DiagramUtils;
+import org.mdbda.model.DataObject;
+import org.mdbda.model.ModelFactory;
 import org.mdbda.model.RemoteWorkflow;
 import org.mdbda.model.Task;
 
@@ -39,9 +41,6 @@ public class DataTransformationDrillDownFeature extends AbstractDrillDownFeature
 			Object bo = getBusinessObjectForPictogramElement(pes[0]);
 			if (bo instanceof Task ) {
 				return true;
-				
-				
-				
 			}
 		}
 
@@ -78,10 +77,28 @@ public class DataTransformationDrillDownFeature extends AbstractDrillDownFeature
 					
 					diagram.setLink(PictogramsFactory.eINSTANCE.createPictogramLink());
 					diagram.getLink().getBusinessObjects().add(task);
+
+					task.eResource().setTrackingModification(true);
+					
+					for( org.mdbda.model.Resource inRes : task.getInputResources()){
+						DataObject dao = ModelFactory.eINSTANCE.createDataObject();
+						dao.setLinkedInputResource(inRes);
+						dao.setName(inRes.getName().replaceAll(" ", ""));
+						dao.setContainerTask(task);
+//						task.getDataObjects().add(dao);
+					}
+					for( org.mdbda.model.Resource outRes : task.getOutputResources()){
+						DataObject dao = ModelFactory.eINSTANCE.createDataObject();
+						dao.setLinkedOutputResource(outRes);
+						dao.setName(outRes.getName().replaceAll(" ", ""));
+						dao.setContainerTask(task);						
+//						task.getDataObjects().add(dao);
+					}
 				}
 				try {
-					diagramResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
 					task.setDataTransformationDiagramURI(diagramResource.getURI().toPlatformString(true));
+					task.eResource().save(Collections.<Resource, Map<?, ?>> emptyMap());
+					diagramResource.save(Collections.<Resource, Map<?, ?>> emptyMap());
 					openDiagramEditor(diagram);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

@@ -1,5 +1,8 @@
 package org.mdbda.diagrameditor.utils;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
@@ -50,16 +53,33 @@ public class DataDescriptionShapeHelper  extends AbstactMDBDAResourceShapeHelper
 
 		text.setFilled(true);
 
-		boolean isOnline = (Math.random() > 0.5);
-		if (isOnline) {
+		updateTextColor(text, resource);
+
+		return gaService.calculateSize(text);
+	}
+
+	private boolean checkDataDescription(){
+		boolean dataDesctiptionIsOK = false;
+		
+		String dataDSLDesciptionURI = resource.getDataDSLDesciptionURI();
+		if(dataDSLDesciptionURI != null && dataDSLDesciptionURI != ""){
+			Path path = new Path(dataDSLDesciptionURI);
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);//  getFileForLocation(path) ;//getFile(path);
+			
+			dataDesctiptionIsOK = file.exists();
+		}
+		
+		return dataDesctiptionIsOK;
+	}
+	
+	private void updateTextColor(Text text, Resource  resource) {
+		if (checkDataDescription()) {
 			text.setForeground(manageColor(IColorConstant.BLACK));
-			text.setBackground(manageColor(IColorConstant.LIGHT_GRAY));
+			text.setBackground(manageColor(IColorConstant.LIGHT_GREEN));
 		} else {
 			text.setForeground(manageColor(IColorConstant.BLACK));
 			text.setBackground(manageColor(IColorConstant.RED));
 		}
-
-		return gaService.calculateSize(text);
 	}
 
 	@Override
@@ -87,6 +107,25 @@ public class DataDescriptionShapeHelper  extends AbstactMDBDAResourceShapeHelper
 	}
 
 
+	@Override
+	public boolean hasChanged() {
+		Text t = (Text) getGraphicsAlgorithm();
+		if(t.getBackground().equals(manageColor(IColorConstant.RED)) && checkDataDescription()){
+			return true;
+		}
+		if(t.getBackground().equals(manageColor(IColorConstant.LIGHT_GREEN)) && !checkDataDescription()){
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
+	@Override
+	public void update() {
+		updateTextColor((Text) getGraphicsAlgorithm(), resource);
+	}
+	
 
 
 }

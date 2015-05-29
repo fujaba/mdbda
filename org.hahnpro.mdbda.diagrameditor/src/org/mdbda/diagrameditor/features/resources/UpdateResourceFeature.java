@@ -7,6 +7,7 @@ import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.mdbda.diagrameditor.features.AbstactIOMDBDAAddFeature;
+import org.mdbda.diagrameditor.utils.DataDescriptionShapeHelper;
 import org.mdbda.diagrameditor.utils.LiveStatusShapeHelper;
 import org.mdbda.diagrameditor.utils.NameShapeHelper;
 import org.mdbda.diagrameditor.utils.TestStatusShapeHelper;
@@ -32,12 +33,16 @@ public class UpdateResourceFeature extends AbstractUpdateFeature {
 		
 		LiveStatusShapeHelper liveHelper = new LiveStatusShapeHelper(resource,rootContainerShape,getFeatureProvider());
 		TestStatusShapeHelper testHelper = new TestStatusShapeHelper(resource,rootContainerShape,getFeatureProvider());
-		
 		if( liveHelper.hasChanged()){
 			return Reason.createTrueReason("Live Server status is out of date");
 		}
 		if(testHelper.hasChanged()){
 			return Reason.createTrueReason("Test Server status is out of date");
+		}
+
+		DataDescriptionShapeHelper ddHelper = new DataDescriptionShapeHelper(resource, rootContainerShape, getFeatureProvider());
+		if(ddHelper.hasChanged()){
+			return Reason.createTrueReason("Data Desciption status is out of date");
 		}
 		
 		return Reason.createFalseReason();
@@ -53,6 +58,7 @@ public class UpdateResourceFeature extends AbstractUpdateFeature {
 		LiveStatusShapeHelper liveHelper = new LiveStatusShapeHelper(resource,rootContainerShape,getFeatureProvider());
 		TestStatusShapeHelper testHelper = new TestStatusShapeHelper(resource,rootContainerShape,getFeatureProvider());
 		NameShapeHelper nameHelper = new NameShapeHelper(resource,rootContainerShape,getFeatureProvider());
+		DataDescriptionShapeHelper ddHelper = new DataDescriptionShapeHelper(resource, rootContainerShape, getFeatureProvider());
 		
 		boolean somethingChanged = false;
 		if( nameHelper.hasChanged()){
@@ -67,6 +73,11 @@ public class UpdateResourceFeature extends AbstractUpdateFeature {
 			somethingChanged = true;
 			testHelper.update();
 		}
+		if(ddHelper.hasChanged()){
+			somethingChanged = true;
+			ddHelper.update();
+		}
+		
 		return somethingChanged;
 	}
 
