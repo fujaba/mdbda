@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="org.mdbda.diagrameditor.pattern" name="Pattern Plug-ins" schema="schema/org.mdbda.diagrameditor.pattern.exsd"/>
    <extension-point id="org.mdbda.diagrameditor.imageprovider" name="MDBDAPlugableImageProvider" schema="schema/org.mdbda.diagrameditor.imageprovider.exsd"/>
+   <extension-point id="org.mdbda.diagrameditor.extendablehelper" name="Resource Helper Plugin" schema="schema/org.mdbda.diagrameditor.extendablehelper.exsd"/>
 
 
 

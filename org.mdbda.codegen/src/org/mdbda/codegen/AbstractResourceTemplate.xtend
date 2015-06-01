@@ -14,7 +14,7 @@ abstract class AbstractResourceTemplate implements ITemplate {
 		switch (Task) {
 			case HadoopCodeGen.TEMPLATETASK_HADOOP_INPUT: {
 				if (helper_doCodagenTemplateTask_checkargument(mdbdaElements)) {
-					generareInputResouce(
+					return generareInputResouce(
 						mdbdaElements.get(1),
 						mdbdaElements.get(0) as Task,
 						CodeGenHelper.getMapReduceControlledJobVarName(mdbdaElements.get(0) as Task),
@@ -24,7 +24,7 @@ abstract class AbstractResourceTemplate implements ITemplate {
 			}
 			case HadoopCodeGen.TEMPLATETASK_HADOOP_OUTPUT: {
 				if (helper_doCodagenTemplateTask_checkargument(mdbdaElements)) {
-					generareOutputResouce(
+					return generareOutputResouce(
 						mdbdaElements.get(1),
 						CodeGenHelper.getMapReduceControlledJobVarName(mdbdaElements.get(0) as Task),
 						context

@@ -13,6 +13,9 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.pictogramelements.AbstractMDBDAShape;
+import org.mdbda.diagrameditor.utils.extendablehelper.ExtendableHelper;
+import org.mdbda.diagrameditor.utils.extendablehelper.IHelperPlugin;
+import org.mdbda.diagrameditor.utils.extendablehelper.IPingResourceHelper;
 import org.mdbda.model.Resource;
 
 public class LiveStatusShapeHelper extends AbstactMDBDAResourceShapeHelper {
@@ -80,11 +83,30 @@ public class LiveStatusShapeHelper extends AbstactMDBDAResourceShapeHelper {
 	int ping = 42;
 	
 	public boolean hasChanged() {
-		return Math.random() < 0.9;
+		int old = ping;
+		
+		for(IHelperPlugin helper : ExtendableHelper.getHelpingHelper(resource)){
+			if(helper instanceof IPingResourceHelper){
+				ping = ((IPingResourceHelper) helper).pingTestResource(resource);
+			}
+		}
+		
+		return (ping - old)*(ping - old) > 100; //10ms diff would be 100
 	}
 
 	public void update() {
-		ping = ServerStatusHelper.getStatus(this.resource);
+		boolean helped = false;
+		for(IHelperPlugin helper : ExtendableHelper.getHelpingHelper(resource)){
+			if(helper instanceof IPingResourceHelper){
+				ping = ((IPingResourceHelper) helper).pingLiveResource(resource);
+				helped = true;
+				break;
+			}
+		}
+		if(!helped){ //random value for test
+			ping = ServerStatusHelper.getStatus(this.resource);
+		}
+	
 		getShape().getGraphicsAlgorithm().setBackground(manageColor( ServerStatusHelper.getColor(ping) ));
 	}
 

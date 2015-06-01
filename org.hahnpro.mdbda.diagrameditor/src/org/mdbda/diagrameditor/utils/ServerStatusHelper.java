@@ -7,7 +7,9 @@ import org.mdbda.model.Resource;
 public class ServerStatusHelper {
 
 	public static IColorConstant getColor(int ping) {
-		
+		if(ping < 0 ){
+			return IColorConstant.GRAY; //server not set or ping back in time
+		}
 		if(ping >= 0 && ping < 100){
 			return IColorConstant.GREEN;
 		}

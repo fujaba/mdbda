@@ -6,12 +6,14 @@ import org.mdbda.codegen.helper.MDBDAConfiguration
 import org.mdbda.model.Task
 import org.mdbda.codegen.AbstractResourceTemplate
 import org.mdbda.codegen.styles.hadoop.HadoopCodeGen
+import org.mdbda.cassandra.helper.CassandraConfigReader
 
 class CassandraResourceHadoop extends AbstractResourceTemplate {
 	
 	override generareInputResouce(Resource res , Task pattern, CharSequence controledJobName,  CodegenContext context) '''
 	{
-		«val conf = MDBDAConfiguration.readConfigString(res.configurationString)»
+		«val conf = new CassandraConfigReader(res.configurationString) »
+		
 		 «context.addImport("org.apache.cassandra.hadoop.ColumnFamilyInputFormat")»
 		 «controledJobName».getJob().setInputFormatClass(ColumnFamilyInputFormat.class);
 		 «context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»
@@ -23,12 +25,10 @@ class CassandraResourceHadoop extends AbstractResourceTemplate {
 		ConfigHelper.setInputSlicePredicate(«controledJobName».getJob().getConfiguration(), predicate);
 	}
 	'''
-
-	
 	
 	override generareOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
 	{
-		 «val conf = MDBDAConfiguration.readConfigString(res.configurationString)»
+		 «val conf = new CassandraConfigReader(res.configurationString)»
 		 «context.addImport("org.apache.cassandra.hadoop.ColumnFamilyOutputFormat")»
 		 «controledJobName».getJob().setOutputFormatClass(ColumnFamilyOutputFormat.class);
 		 «context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»

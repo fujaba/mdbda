@@ -18,5 +18,11 @@
             typeId="CassandraResource">
       </CodeGenTemplatePlugin>
    </extension>
+   <extension
+         point="org.mdbda.diagrameditor.extendablehelper">
+      <ExtendableHelper
+            HelperExtentionClass="org.mdbda.cassandra.helper.PingCassandra">
+      </ExtendableHelper>
+   </extension>
 
 </plugin>

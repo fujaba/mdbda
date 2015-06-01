@@ -21,6 +21,7 @@ Export-Package: org.mdbda.diagrameditor.features,
  org.mdbda.diagrameditor.features.resources,
  org.mdbda.diagrameditor.features.task,
  org.mdbda.diagrameditor.utils,
+ org.mdbda.diagrameditor.utils.extendablehelper,
  org.mdbda.diagrameditor.wizard
 Bundle-ClassPath: target/classes/,
  .,

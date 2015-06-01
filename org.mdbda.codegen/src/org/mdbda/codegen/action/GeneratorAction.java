@@ -27,6 +27,10 @@ public class GeneratorAction implements IObjectActionDelegate{
 		
 		CodegenDialogResult result = genDia.open(CodeGenHelper.getTypeIds(file.getLocationURI().toASCIIString()));
 		
+		if(result == null){//canceled
+			return;
+		}
+		
 		String selectedCodeStyle = result.getCodeStyle();
 		
 		CodeGenHelper.doGenerate(file.getLocationURI().toASCIIString(), file.getProject().getLocation().toOSString(), gen ,selectedCodeStyle);

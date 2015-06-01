@@ -12,6 +12,11 @@ import org.osgi.framework.Bundle;
 
 public class CreateCassandraResourceFeature extends CreateResourceFeature {
 
+	public static final String TYPE_ID = "CassandraResource";
+
+
+
+
 	public CreateCassandraResourceFeature(IFeatureProvider fp) {
 		super(fp, name, description);
 	}
@@ -25,7 +30,7 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 	public Object[] create(ICreateContext context) {	
 		Resource eInst = ModelFactory.eINSTANCE.createResource();
 		
-		initPattern(eInst, "CassandraResource");
+		initPattern(eInst, TYPE_ID);
 		
 		addToTargetBO(context,eInst);
 		

@@ -141,9 +141,9 @@ class HadoopCodeGen implements ICodeGen{
 	''' 
 	
 	def CharSequence  genInputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
-		//«resource.name»
-		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT,context,task, resource)»
+		//input resource name: «resource.name»
+		«IF codeGenReg.existGenerator(context.codeStyle,resource.typeId)»
+			«codeGenReg.getGenerator(context.codeStyle,resource.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_INPUT,context,task, resource)»
 			«/*resourceTemplates.get(resource.typeId).generareInputResouce(resource, task ,CodeGenHelper.getMapReduceControlledJobVarName(task), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»
@@ -151,9 +151,9 @@ class HadoopCodeGen implements ICodeGen{
 	'''
 	
 	def CharSequence  genOutputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
-		//«resource.name»
-		«IF codeGenReg.existGenerator(context.codeStyle,task.typeId)»
-			«codeGenReg.getGenerator(context.codeStyle,task.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_OUTPUT,context,task, resource)»
+		//output resource name: «resource.name»
+		«IF codeGenReg.existGenerator(context.codeStyle,resource.typeId)»
+			«codeGenReg.getGenerator(context.codeStyle,resource.typeId).doCodagenTemplateTask(TEMPLATETASK_HADOOP_OUTPUT,context,task, resource)»
 			«/*resourceTemplates.get(resource.typeId).generareOutputResouce(resource,CodeGenHelper.getMapReduceControlledJobVarName(pattern), context)*/»
 		«ELSE»
 			//NOT IMPLEMENTED «resource.typeId»

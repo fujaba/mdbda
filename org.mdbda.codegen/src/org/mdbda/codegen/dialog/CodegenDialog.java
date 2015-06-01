@@ -98,6 +98,7 @@ public class CodegenDialog extends Dialog {
 		initData();
 		shlGenerateMdbdaCode.open();
 		shlGenerateMdbdaCode.layout();
+		
 		Display display = getParent().getDisplay();
 		while (!shlGenerateMdbdaCode.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -117,6 +118,8 @@ public class CodegenDialog extends Dialog {
 		
 		
 		CodeGeneratorRegistry.get().getCodeStyles().forEach(style -> comboCodeStyle.add(style));
+		
+		
 	}
 	
 	/**
@@ -176,6 +179,7 @@ public class CodegenDialog extends Dialog {
 		btnCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				result = null;
 				shlGenerateMdbdaCode.dispose();
 			}
 		});
@@ -187,6 +191,14 @@ public class CodegenDialog extends Dialog {
 		Button btnGenerateCode = new Button(shlGenerateMdbdaCode, SWT.NONE);
 		fd_btnCancel.top = new FormAttachment(btnGenerateCode, 0, SWT.TOP);
 		fd_btnCancel.right = new FormAttachment(btnGenerateCode, -6);
+		btnGenerateCode.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				setResultValues();
+				shlGenerateMdbdaCode.dispose();
+			}
+
+		});
 		FormData fd_btnGenerateCode = new FormData();
 		fd_btnGenerateCode.top = new FormAttachment(comboCodeStyle, 207);
 		fd_btnGenerateCode.right = new FormAttachment(100, -10);
@@ -245,6 +257,21 @@ public class CodegenDialog extends Dialog {
 			};
 		});
 	}
+	
+	/*
+	 * 	protected Shell shlGenerateMdbdaCode;
+	private Text txtPackageName;
+	private Text txtTargetDir;
+	private Combo comboCodeStyle;
+	 */
+
+	private void setResultValues() {
+		result = new CodegenDialogResult();
+		result.codeStyle = comboCodeStyle.getText();
+		result.generatorOutputDir = txtTargetDir.getText();
+		result.packageName = txtPackageName.getText();
+	}
+	
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
