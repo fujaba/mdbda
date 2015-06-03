@@ -26,7 +26,7 @@ class MRUnitTestCodeGenerator {
 		«context.addImport("org.junit.Before")»
 		@Before
 		public void setUp() {
-			«var reducerClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getReducerInnderClassName(p)»
+			«var reducerClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getReducerInnerClassName(p)»
 			«IF config.reduceFunction != null»
 				«reducerClass» reducer = new «reducerClass»();
 				reduceDriver = ReduceDriver.newReduceDriver(reducer);
@@ -35,10 +35,10 @@ class MRUnitTestCodeGenerator {
 			«FOR mapfunc : multipleMapFunction»
 				//Map Funktion for Input «fooCount2 = fooCount2 + 1»
 				«IF config.isMultipleMapFunction»
-					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnderClassName(p) + fooCount2»
+					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) + fooCount2»
 					«mapperClass» mapper«fooCount2»= new «mapperClass»();
 				«ELSE»
-					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnderClassName(p) »
+					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) »
 					«mapperClass» mapper«fooCount2» = new «mapperClass»();
 				«ENDIF»
 				mapDriver«fooCount2» = MapDriver.newMapDriver(mapper«fooCount2»);

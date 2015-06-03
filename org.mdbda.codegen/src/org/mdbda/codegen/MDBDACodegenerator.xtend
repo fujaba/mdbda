@@ -99,7 +99,7 @@ class MDBDACodegenerator {
 		sb.append('\n')
 		sb.append(content)
 
-		context.fileSystemAccess.generateFile(context.fileName, sb.toString);
+		context.fileSystemAccess.generateFile(context.modelRootName + context.fileSuffix, sb.toString);
 	}
 }
 	

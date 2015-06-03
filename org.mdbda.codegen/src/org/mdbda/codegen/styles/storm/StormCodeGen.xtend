@@ -25,14 +25,14 @@ class StormCodeGen  implements ICodeGen{
 			
 		for(root: emfInputResource.allContents.toIterable.filter(MDBDAModelRoot)){
 			//Storm
-			var context = new CodegenContext(fsa,root.name + 'StormTopology.java','',codeStyle)
+			var context = new CodegenContext(fsa,root.name , 'StormTopology.java','',codeStyle)
 			codegen.genFile(root.stormTopology(context),context)
 		}
 		
 		//generate Storm
 		for(pattern: emfInputResource.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
-				var context = new CodegenContext(fsa,CodeGenHelper.getStormClassNameFromPattern(pattern) + '.java','',codeStyle)
+				var context = new CodegenContext(fsa,CodeGenHelper.getStormClassNameFromPattern(pattern), '.java','',codeStyle)
 				codegen.genFile(pattern.genStormPatternClass(context),context)
 			}
 		}

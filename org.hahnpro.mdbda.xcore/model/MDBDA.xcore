@@ -1,5 +1,5 @@
 @GenModel(editDirectory="/org.mdbda.xcore/src-edit", editorDirectory="/org.mdbda.xcore/src-editor", fileExtensions="mdbdamodel")
-package org.mdbda.model
+package org.mdbda.model 
 
 /*TODO 
  * http://www.vogella.com/articles/EclipseEMF/article.html#inheritance

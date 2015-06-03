@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
 import org.eclipse.xtext.parser.IEncodingProvider;
 import org.eclipse.xtext.service.AbstractGenericModule;
+import org.mdbda.codegen.CodegenContext;
 import org.mdbda.codegen.MDBDACodegenerator;
 import org.mdbda.model.ModelPackage;
 import org.mdbda.model.Task;
@@ -92,15 +93,28 @@ public class CodeGenHelper {
 		return name.substring(0,1).toLowerCase() + name.substring(1);		
 	}
 	
-	public static String getMapperInnderClassName(org.mdbda.model.Resource p){
+	public static String getMapperInnerClassName(org.mdbda.model.Resource p){
 		return p.getName() + "Mapper";
 	}
 	
-	public static String getReducerInnderClassName(org.mdbda.model.Resource p){
+	public static String getMapperInnerClassName(org.mdbda.model.Resource r1,org.mdbda.model.Resource r2){
+		return r1.getName() + "_" + r2.getName() + "Mapper";
+	}
+	
+	public static String getIntermediateResourceName(Task from, Task to){
+		return "intermRes" + from.getName() + "2" + to.getName();
+	}
+	public static String getIntermediateResourcePath(CodegenContext context, String intermediateResourceName){
+		return "/temp/" + context.getModelRootName() + "/" + intermediateResourceName;
+	}
+	public static String getIntermediateResourcePath(CodegenContext context,Task from, Task to){
+		return getIntermediateResourcePath(context, getIntermediateResourceName(from,to));
+	}
+	public static String getReducerInnerClassName(org.mdbda.model.Resource p){
 		return p.getName() + "Reducer";
 	}
 	
-	public static String getPartitonerInnderClassName(org.mdbda.model.Resource p){
+	public static String getPartitonerInnerClassName(org.mdbda.model.Resource p){
 		return p.getName() + "Partitoner";
 	}
 	

@@ -12,10 +12,11 @@
    </extension>
    <extension
          point="org.mdbda.codegen.plugin">
-      <PatternPlugin
-            PatternTemplateClass="org.mdbda.codegen.MultipleInputTemplate"
+      <CodeGenTemplatePlugin
+      		CodeStyle="Hadoop"
+            TemplateClass="org.mdbda.join.reducesidejoin.codegen.ReduceSideJoinHadoop"
             typeId="ReduceSideJoin">
-      </PatternPlugin>
+      </CodeGenTemplatePlugin>
    </extension>
 
 </plugin>

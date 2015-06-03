@@ -70,7 +70,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«val funktion = config.partitioner»
 		«IF funktion != null»
 			«context.addImport("org.apache.hadoop.mapreduce.Partitioner")»
-			public static class «CodeGenHelper.getPartitonerInnderClassName(pattern)» extends Partitioner<«config.getPartitionerKEY(funktion)»,«config.getPartitionerVALUE(funktion)»>{
+			public static class «CodeGenHelper.getPartitonerInnerClassName(pattern)» extends Partitioner<«config.getPartitionerKEY(funktion)»,«config.getPartitionerVALUE(funktion)»>{
 				«val fields = config.getFields(funktion)»
 				«IF fields != null»
 					«CodeGenHelper.beautifyJava(fields,0)»
@@ -90,7 +90,7 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«IF funktion != null»
 			«context.addImport("org.apache.hadoop.mapreduce.Reducer")»
 			«val Reducer = "Reducer<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-			public static class «CodeGenHelper.getReducerInnderClassName(task)» extends «Reducer»{
+			public static class «CodeGenHelper.getReducerInnerClassName(task)» extends «Reducer»{
 				«val fields = config.getFields(funktion)»
 				«IF fields != null»
 					«CodeGenHelper.beautifyJava(fields,0)»
@@ -125,13 +125,11 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 		«ENDIF»
 	'''
 
-	def genMapperClass(Task task,
-		CodegenContext context
-	) '''
+	def genMapperClass(Task task, CodegenContext context) '''
 		«val config = new MDBDAConfiguration(task.configurationString)»
 		«val funktion = config.mapFunction»
 		«val Mapper = "Mapper<" + config.getKEYIN(funktion) + "," +config.getVALUEIN(funktion)+ "," +config.getKEYOUT(funktion)+ "," +config.getVALUEOUT(funktion) + ">"»
-		public static class «CodeGenHelper.getMapperInnderClassName(task)» extends «Mapper» {
+		public static class «CodeGenHelper.getMapperInnerClassName(task)» extends «Mapper» {
 		
 			«val fields = config.getFields(funktion)»
 			«IF fields != null»
@@ -163,23 +161,40 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			«ENDIF»
 		}
 	'''
-
+	
+	def genPartitionerConfig( Task task, CodegenContext context)'''
+		«val config = new MDBDAConfiguration(task.configurationString)»		
+		«IF config.partitioner != null»
+			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnerClassName(task)».class);
+		«ENDIF»
+	'''
+	
+	def genReducerConfig( Task task, CodegenContext context)'''	
+		«val config = new MDBDAConfiguration(task.configurationString)»
+		«IF config.reduceFunction != null»
+			job.setReducerClass(«CodeGenHelper.getReducerInnerClassName(task)».class);
+		«ENDIF»
+		
+	'''
+	
+	def genMapperConfig( Task task, CodegenContext context)'''	
+		«val config = new MDBDAConfiguration(task.configurationString)»
+		«IF config.mapFunction != null»
+			job.setMapperClass(«CodeGenHelper.getMapperInnerClassName(task)».class);
+		«ENDIF»
+	'''
+	
 	override genJobConf(Task task, CodegenContext context) '''	
 		«val config = new MDBDAConfiguration(task.configurationString)»
 		//org.mdbda.codegen.DefaultMapReducePatternTemplate
 		
 		«context.addImport("org.apache.hadoop.mapreduce.Job")»
 		Job job = Job.getInstance(conf, "«CodeGenHelper.getMapReduceClassNameFromPattern(task)» awesome MDBDA Job");
+		job.setJarByClass(«CodeGenHelper.getMapReduceClassNameFromPattern(task)».class);
 		
-		«IF config.partitioner != null»
-			job.setPartitionerClass(«CodeGenHelper.getPartitonerInnderClassName(task)».class);
-		«ENDIF»
-		«IF config.reduceFunction != null»
-			job.setReducerClass(«CodeGenHelper.getReducerInnderClassName(task)».class);
-		«ENDIF»
-		«IF config.mapFunction != null»
-			job.setMapperClass(«CodeGenHelper.getMapperInnderClassName(task)».class);
-		«ENDIF»
+		«genPartitionerConfig(task,context)»
+		«genReducerConfig(task,context)»
+		«genMapperConfig(task,context)»
 		
 		«val jobConfig = config.jobConfig»
 		«IF jobConfig != null»

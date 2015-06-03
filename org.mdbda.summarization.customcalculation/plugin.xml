@@ -11,11 +11,12 @@
       </GraphicalFeatures>
    </extension>
    <extension
-         point="org.mdbda.codegen.plugin">
-      <PatternPlugin
-            PatternTemplateClass="org.mdbda.codegen.DefaultPatternTemplate"
+            point="org.mdbda.codegen.plugin">
+      <CodeGenTemplatePlugin
+      		CodeStyle="Hadoop"      		
+      		TemplateClass="org.mdbda.codegen.styles.hadoop.DefaultMapReducePatternTemplate"
             typeId="CustomCalculation">
-      </PatternPlugin>
+      </CodeGenTemplatePlugin>
    </extension>
 
 </plugin>

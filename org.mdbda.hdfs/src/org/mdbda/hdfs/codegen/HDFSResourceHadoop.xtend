@@ -16,14 +16,12 @@ class HDFSResourceHadoop extends AbstractResourceTemplate{
 	override generareInputResouce(Resource res, Task pattern, CharSequence controledJobName , CodegenContext context ) '''
 		{
 			«context.addImport("org.apache.hadoop.fs.Path")»
-			Path inputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
+			Path inputPath = new Path("«(new MDBDAConfiguration(res.configurationString)).getHDFSPath()»");
 			«IF  pattern.inputResources.size > 1»
 				//MULTI INPUT
 				«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")»
 				«context.addImport("org.apache.hadoop.mapreduce.lib.input.MultipleInputs")»
-				«var fooCount = context.getCounter("MULTIINPUT"+pattern.toString)»
-				«context.setCounter("MULTIINPUT"+pattern.toString, fooCount + 1)»
-				«val mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + "." + CodeGenHelper.getMapperInnderClassName(pattern) + fooCount» 
+				«val mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + "." + CodeGenHelper.getMapperInnerClassName(pattern,res.inputResources.get(0))» 
 				MultipleInputs.addInputPath(«controledJobName».getJob(),inputPath,TextInputFormat.class,«mapperClass».class);
 			«ELSE»
 				«context.addImport("org.apache.hadoop.mapreduce.lib.input.TextInputFormat")»
@@ -36,7 +34,7 @@ class HDFSResourceHadoop extends AbstractResourceTemplate{
 	override generareOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
 		{
 			«context.addImport("org.apache.hadoop.fs.Path")»
-			Path outputPath = new Path("«MDBDAConfiguration.readConfigString(res.configurationString).getHDFSPath()»");
+			Path outputPath = new Path("«(new MDBDAConfiguration(res.configurationString)).getHDFSPath()»");
 			«context.addImport("org.apache.hadoop.mapreduce.lib.output.TextOutputFormat")»
 			«controledJobName».getJob().setOutputFormatClass(TextOutputFormat.class);
 			TextOutputFormat.setOutputPath(«controledJobName».getJob(), outputPath);

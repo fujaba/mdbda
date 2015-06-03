@@ -32,14 +32,14 @@ class HadoopCodeGen implements ICodeGen{
 			
 		for(root: emfInputResource.allContents.toIterable.filter(MDBDAModelRoot)){
 			//MR
-			var context = new CodegenContext(fsa,root.name + 'JobConfiguration.java','',codeStyle)
+			var context = new CodegenContext(fsa,root.name , 'JobConfiguration.java','',codeStyle)
 			codegen.genFile(root.jobConfiguration(context),context)
 		}
 		
 		//generate MapReduce
 		for(pattern: emfInputResource.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
-				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceClassNameFromPattern(pattern) + '.java','',codeStyle)
+				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceClassNameFromPattern(pattern) , '.java','',codeStyle)
 				codegen.genFile(pattern.genMapReduceTaskClass(context),context)
 			}
 		}
@@ -47,7 +47,7 @@ class HadoopCodeGen implements ICodeGen{
 		//generate MRUnit Test
 		for(pattern: emfInputResource.allContents.toIterable.filter(Task)){
 			if(! (pattern instanceof Workflow)){
-				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceTestClassNameFromPattern(pattern) + '.java','',codeStyle)
+				var context = new CodegenContext(fsa,CodeGenHelper.getMapReduceTestClassNameFromPattern(pattern) , '.java','',codeStyle)
 				codegen.genFile(MRUnitTestCodeGenerator.genMapReducePatternTestClass(pattern,context),context)
 			
 			}
@@ -97,9 +97,21 @@ class HadoopCodeGen implements ICodeGen{
 			«context.addImport("java.io.IOException")»
 			public static void main(String... args) throws IOException{
 					«context.addImport("org.apache.hadoop.conf.Configuration")»
+					«context.addImport("org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl")»
+					
 					Configuration conf = new Configuration();
+					//JobControl
+					JobControl jobControl = new JobControl("«modelRoot.name»");
 					«modelRoot.rootWorkflow.genWorkflowConfiguration(context)»
 					«modelRoot.rootWorkflow.genResources(context)»
+					
+					jobControl.run(); //run Forrest run 
+					
+					//cleanup
+					«context.addImport("org.apache.hadoop.fs.Path")»
+					«context.addImport("org.apache.hadoop.fs.FileSystem")»
+					FileSystem fileSystem = FileSystem.get(conf);
+					fileSystem.delete(new Path("/temp/«context.modelRootName»/"), true);
 			}
 		}
 	'''
@@ -123,22 +135,30 @@ class HadoopCodeGen implements ICodeGen{
 	«/*TODO: diagram output Resources*/»
 	'''
 	
+	//output resource name: intermRes..
 	def genIntermediateResourceConfig(Task to, Task from, CodegenContext context) '''
-		«val intermediateResourceName = "intermRes" + from.name + "2" + to.name»
-		«val intermediateResourcePath = "/temp/" + intermediateResourceName»
-		«context.addTempResource(intermediateResourcePath)»
-		«val MDBDAConfiguration config = new MDBDAConfiguration()»
-		«config.setHDFSPath(intermediateResourcePath)»
-		«val org.mdbda.model.Resource intermediateResource = ModelFactory.eINSTANCE.createResource»
-		«intermediateResource.setConfigurationString(config.writeConfigString)»
-		«intermediateResource.setTypeId("HDFSResource")»«/*TODO: ResourcesTemplateConstatns.RESOURCETYPE_HDFS hdfs is now a plugin*/»
-		«intermediateResource.setName(intermediateResourceName)»
+		«var intermediateResource = createIntermediateResource(from,to,context)»
 		//in
 		«genInputResourceConfig(to,intermediateResource,context)»
 		//out
 		«genOutputResourceConfig(from,intermediateResource,context)»
 		
-	''' 
+	'''
+	
+	def createIntermediateResource(Task from, Task to, CodegenContext context){
+		val intermediateResourceName = CodeGenHelper.getIntermediateResourceName(from,to)
+		val intermediateResourcePath = CodeGenHelper.getIntermediateResourcePath(context,intermediateResourceName)
+		context.addTempResource(intermediateResourcePath)
+		val MDBDAConfiguration config = new MDBDAConfiguration()
+		config.setHDFSPath(intermediateResourcePath)	
+		val org.mdbda.model.Resource intermediateResource = ModelFactory.eINSTANCE.createResource
+		intermediateResource.setConfigurationString(config.writeConfigString)
+		intermediateResource.setTypeId("HDFSResource")/*TODO: ResourcesTemplateConstatns.RESOURCETYPE_HDFS hdfs is now a plugin*/
+		intermediateResource.setName(intermediateResourceName)
+		intermediateResource.inputResources.add(from)
+		intermediateResource.outputResources.add(to)
+		return intermediateResource
+	}
 	
 	def CharSequence  genInputResourceConfig(Task task, org.mdbda.model.Resource resource, CodegenContext context) '''
 		//input resource name: «resource.name»
@@ -162,12 +182,12 @@ class HadoopCodeGen implements ICodeGen{
 	
 		 
 	def CharSequence genWorkflowConfiguration(Workflow workflow, CodegenContext context)'''
-	//JobControl
 	«FOR pattern : workflow.tasks»
 			//pattern conf: «pattern.name»
 			«context.addImport("org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob")»
 			ControlledJob «CodeGenHelper.getMapReduceControlledJobVarName(pattern)» = new ControlledJob(
 					«CodeGenHelper.getMapReduceClassNameFromPattern(pattern)».getJobConf(conf));
+			jobControl.addJob(«CodeGenHelper.getMapReduceControlledJobVarName(pattern)»);
 	«ENDFOR»
 	//JobHierarchie
 	«FOR pattern : workflow.tasks»

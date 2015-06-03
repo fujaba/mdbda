@@ -8,16 +8,18 @@ class CodegenContext {
 	var imports = new HashSet<String>()
 	String packageName = ""
 	IFileSystemAccess fsa
-	String filename
-
+	String modelRootName
+	String fileSuffix
+	
 	var tempResources = new HashSet<String>()
 	var String codeStyle;
 
-	new(IFileSystemAccess fsa, String filename, String packageName, String codeStyle) {
+	new(IFileSystemAccess fsa, String modelRootName, String fileSuffix , String packageName, String codeStyle) {
 		this.fsa = fsa
-		this.filename = filename
+		this.modelRootName = modelRootName
 		this.packageName = packageName
 		this.codeStyle = codeStyle
+		this.fileSuffix = fileSuffix
 	}
 
 	public def void addImport(String imp) {
@@ -28,6 +30,10 @@ class CodegenContext {
 		return imports
 	}
 
+	public def getFileSuffix(){
+		return fileSuffix
+	}
+	
 	public def void addTempResource(String path) {
 		tempResources.add(path)
 	}
@@ -40,8 +46,8 @@ class CodegenContext {
 		return fsa
 	}
 
-	public def getFileName() {
-		return filename
+	public def getModelRootName() {
+		return modelRootName
 	}
 
 	public def getPackageName() {
