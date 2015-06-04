@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="target/classes" sourcepath="/org.mdbda.codegen"/>
 	<classpathentry kind="src" path="src/"/>
+	<classpathentry exported="true" kind="lib" path="target/test-classes" sourcepath="target/test-classes"/>
 	<classpathentry exported="true" kind="lib" path="icon" sourcepath="icon"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
