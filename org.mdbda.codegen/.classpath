@@ -5,6 +5,7 @@
 	<classpathentry kind="lib" path="target/classes" sourcepath="target/classes"/>
 	<classpathentry kind="src" path="src/"/>
 	<classpathentry kind="src" path="xtend-gen/"/>
+	<classpathentry exported="true" kind="lib" path="target/test-classes" sourcepath="target/test-classes"/>
 	<classpathentry exported="true" kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="swing2swt.jar"/>
 	<classpathentry exported="true" kind="lib" path="icon" sourcepath="icon"/>
