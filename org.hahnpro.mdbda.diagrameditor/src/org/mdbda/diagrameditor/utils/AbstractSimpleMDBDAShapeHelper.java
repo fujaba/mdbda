@@ -44,6 +44,11 @@ public abstract class AbstractSimpleMDBDAShapeHelper extends AbstractFeature {
 	public abstract IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset);
 
+	public IDimension addNewShapeOnContainer() {
+		GraphicsAlgorithm ga = rootContainerShapeForResourceElement.getGraphicsAlgorithm();
+		return addNewShapeOnContainer(ga.getWidth(),ga.getHeight(),0,0);
+	}
+	
 	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight) {
 		return addNewShapeOnContainer(parentWidth,parentHeight,0,0);
 	}
@@ -92,11 +97,6 @@ public abstract class AbstractSimpleMDBDAShapeHelper extends AbstractFeature {
 	protected IDimension setLocationAndSize(GraphicsAlgorithm ga, int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {
 					if(ga != null){
-			//			ga.setX(calculateX(parentWidth, parentHeight, leftOffset, topOffset));
-			//			ga.setY(calculateY(parentWidth, parentHeight, leftOffset, topOffset));
-			//			ga.setWidth(calculateWidth(parentWidth, parentHeight, leftOffset, topOffset));
-			//			ga.setHeight(calculateHeight(parentWidth, parentHeight, leftOffset, topOffset));
-			//			
 						IGaService gaService = Graphiti.getGaService();
 						gaService.setLocationAndSize(ga, calculateX(parentWidth, parentHeight, leftOffset, topOffset), 
 								calculateY(parentWidth, parentHeight, leftOffset, topOffset),

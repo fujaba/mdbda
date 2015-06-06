@@ -44,7 +44,7 @@ class AddDataObject extends AbstractSimpleMDBDAAddFeature {
 	}
 
 	@Override override PictogramElement add(IAddContext context) {
-		val ContainerShape targetShape = context.getTargetContainer()
+		val targetShape = context.getTargetContainer()
 		dao = context.getNewObject() as DataObject
 		val width = 80
 		val height = 120

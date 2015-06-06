@@ -3,6 +3,7 @@ package org.mdbda.diagrameditor.datatransformation.helper;
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
@@ -28,10 +29,16 @@ public class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 		this.dataAttribute = attr;
 	}
 	
+	private static Shape shape;
+	
+	public static Shape getLastShape() {
+		return shape;
+	}
+	
 	@Override
 	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
 			int leftOffset, int topOffset) {
-		Shape shape = createNewShapeOnRootContainer();
+		shape = createNewShapeOnRootContainer();
 		IGaService gaService = Graphiti.getGaService();
 		StringBuilder sb = new StringBuilder();					
 		sb.append(dataAttribute.getName()).append(dataAttribute.getCondition().getLiteral()).append(dataAttribute.getValue());
@@ -43,21 +50,26 @@ public class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 		text.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
 		text.setLineVisible(true);
 		IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
+				getFeatureProvider().getDirectEditingInfo();
 		
 		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
 		directEditingInfo.setPictogramElement(shape);
-        directEditingInfo.setGraphicsAlgorithm(text);
-        
-        
+		directEditingInfo.setGraphicsAlgorithm(text);
+
 		link(shape, dataAttribute);
 		
 		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset);
 	}
 
 	@Override
-	protected String getShapeId() {
-		return "AttributeList";
+	public IDimension setLocationAndSize(GraphicsAlgorithm ga, int parentWidth, int parentHeight, int leftOffset,
+			int topOffset) {
+		return super.setLocationAndSize(ga, parentWidth, parentHeight, leftOffset, topOffset);
+	}
+	
+	@Override
+	public String getShapeId() {
+		return "Attribute";
 	}
 
 	@Override

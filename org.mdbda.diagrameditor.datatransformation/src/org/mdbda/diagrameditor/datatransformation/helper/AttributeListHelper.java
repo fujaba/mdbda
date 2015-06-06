@@ -1,14 +1,8 @@
 package org.mdbda.diagrameditor.datatransformation.helper;
 
 import org.eclipse.graphiti.datatypes.IDimension;
-import org.eclipse.graphiti.features.IDirectEditingInfo;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.mm.algorithms.MultiText;
-import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mdbda.diagrameditor.utils.AbstractSimpleMDBDAShapeHelper;
 import org.mdbda.model.DataAttribute;
