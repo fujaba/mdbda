@@ -20,7 +20,7 @@ class UpdateDiagramFeature extends AbstractUpdateFeature{
 		if(context.pictogramElement instanceof Diagram){
 			val bo = context.pictogramElement.businessObjectForPictogramElement
 			if(bo instanceof Task){
-				return true				
+				return true
 			}
 		}
 		return false

@@ -34,6 +34,7 @@ class CreateAttribute extends AbstractCreateFeature {
 		dao.attributes.add(attr)
 		
 		addGraphicalRepresentation(context, attr)
+		featureProvider.directEditingInfo.active = true
 		
 		return #[attr]
 	}

@@ -17,8 +17,10 @@ class DataObjectTitleDirectEditingFeature extends AbstractDirectEditingFeature {
 	
 	override getInitialValue(IDirectEditingContext context) {
 		val dataObject = getBusinessObjectForPictogramElement(context.pictogramElement) as DataObject
-		
-		val typeName = dataObject.dataType.packageName + "." + dataObject.dataType.typeName
+		var typeName = "null"
+		if(dataObject.dataType != null){
+			typeName = dataObject.dataType.packageName + "." + dataObject.dataType.typeName
+		}
 		return dataObject.name + " : " + typeName;
 	}
 	
@@ -68,6 +70,7 @@ class DataObjectTitleDirectEditingFeature extends AbstractDirectEditingFeature {
 		
 		dataObject.dataType = DataTypeHelper.searchType(dataObject.containerTask.workflow.modelRoot, typeName, typePackage)
 		
+		updatePictogramElement(context.pictogramElement)
 	}
 	
 }

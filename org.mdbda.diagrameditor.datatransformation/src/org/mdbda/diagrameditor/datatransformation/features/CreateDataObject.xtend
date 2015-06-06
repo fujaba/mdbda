@@ -26,7 +26,8 @@ class CreateDataObject extends AbstractCreateFeature implements ICreateFeature {
 	@Override override Object[] create(ICreateContext context) {
 		var DataObject dob = createDataObject(
 			getBusinessObjectForPictogramElement(context.getTargetContainer()) as Task)
-		addGraphicalRepresentation(context, dob)
+		addGraphicalRepresentation(context, dob)		
+		featureProvider.directEditingInfo.active = true
 		return #[dob]
 	}
  

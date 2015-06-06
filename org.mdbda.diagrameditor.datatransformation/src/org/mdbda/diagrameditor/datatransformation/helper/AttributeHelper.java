@@ -49,14 +49,15 @@ public class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
 		text.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
 		text.setLineVisible(true);
-		IDirectEditingInfo directEditingInfo =
-				getFeatureProvider().getDirectEditingInfo();
-		
-		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
-		directEditingInfo.setPictogramElement(shape);
-		directEditingInfo.setGraphicsAlgorithm(text);
+//		IDirectEditingInfo directEditingInfo =
+//				getFeatureProvider().getDirectEditingInfo();
+//		
+//		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
+//		directEditingInfo.setPictogramElement(shape);
+//		directEditingInfo.setGraphicsAlgorithm(text);
 
 		link(shape, dataAttribute);
+		
 		
 		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset);
 	}

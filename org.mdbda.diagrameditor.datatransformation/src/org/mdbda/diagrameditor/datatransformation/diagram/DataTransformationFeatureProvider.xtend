@@ -20,6 +20,7 @@ import org.mdbda.diagrameditor.datatransformation.features.AddAttribute
 import org.mdbda.diagrameditor.datatransformation.features.CreateAttribute
 import org.eclipse.graphiti.features.context.ILayoutContext
 import org.mdbda.diagrameditor.datatransformation.features.LayoutDataObject
+import org.mdbda.diagrameditor.datatransformation.features.AttributeDirectEditingFeature
 
 class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 	 new(IDiagramTypeProvider dtp){
@@ -70,7 +71,9 @@ class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 	override getDirectEditingFeature(IDirectEditingContext context) {
 		switch(getBusinessObjectForPictogramElement(context.getPictogramElement())){
 			DataObject:
-				return new DataObjectTitleDirectEditingFeature(this)	
+				return new DataObjectTitleDirectEditingFeature(this)
+			DataAttribute:
+				return new AttributeDirectEditingFeature(this)
 		}
 
 		super.getDirectEditingFeature(context)

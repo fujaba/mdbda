@@ -15,6 +15,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.tb.TextDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.eclipse.graphiti.util.TextBuilder;
 import org.mdbda.diagrameditor.utils.AbstractSimpleMDBDAShapeHelper;
 import org.mdbda.model.DataObject;
 
@@ -37,21 +38,24 @@ public class DataObjectNameAndTypeHelper extends AbstractSimpleMDBDAShapeHelper 
 		return "DataObjectNameAndType";
 	}
 	
-	@Override
-	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
-			int leftOffset, int topOffset) {
-		Shape shape = createNewShapeOnRootContainer();
-		IGaService gaService = Graphiti.getGaService();
-		
+	public String getNameAndTypeText() {
 		String name = dataObject.getName();
 		if(dataObject.getDataType() == null){
 			dataObject.setDataType(DataTypeHelper.getDefaultType(dataObject.getContainerTask().getWorkflow().getModelRoot()));
 		}
 		String typeName = dataObject.getDataType().getTypeName();
 		
+		return  name + " : " + typeName;
+	}
+	
+	@Override
+	public IDimension addNewShapeOnContainer(int parentWidth, int parentHeight,
+			int leftOffset, int topOffset) {
+		Shape shape = createNewShapeOnRootContainer();
+		IGaService gaService = Graphiti.getGaService();
 		
 		
-		Text text = gaService.createText(shape, name + " : " + typeName);
+		Text text = gaService.createText(shape, getNameAndTypeText());
 		
 		text.setForeground(manageColor(FOREGROUND_COLOR));
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
@@ -63,15 +67,15 @@ public class DataObjectNameAndTypeHelper extends AbstractSimpleMDBDAShapeHelper 
 		textStyle.setUnderline(true);	
 		
 		
-		IDirectEditingInfo directEditingInfo =
-                getFeatureProvider().getDirectEditingInfo();
-		
-		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
-		directEditingInfo.setPictogramElement(shape);
-        directEditingInfo.setGraphicsAlgorithm(text);
+//		IDirectEditingInfo directEditingInfo =
+//                getFeatureProvider().getDirectEditingInfo();
+//		
+//		directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
+//		directEditingInfo.setPictogramElement(shape);
+//        directEditingInfo.setGraphicsAlgorithm(text);
 	
         link(shape, dataObject);
-        
+
 		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset);
 	}
 
