@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="target/classes" sourcepath="/org.mdbda.codegen"/>
-	<classpathentry exported="true" kind="lib" path="target/test-classes" sourcepath="target/test-classes"/>
 	<classpathentry exported="true" kind="lib" path="icon" sourcepath="icon"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -24,8 +24,16 @@ class UpdateDataObject extends AbstractUpdateFeature {
 	}
 	
 	override update(IUpdateContext context) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-		hier gehts weiter :)
+		var somethingchanged = false;
+		val dao = getBusinessObjectForPictogramElement(context.pictogramElement) as DataObject
+		val helper = new DataObjectNameAndTypeHelper(dao,context.pictogramElement as ContainerShape,featureProvider)
+		
+		val textGA = helper.shape.graphicsAlgorithm as Text
+		if(!textGA.value.equals(helper.nameAndTypeText)){
+			textGA.value = helper.nameAndTypeText
+			somethingchanged = true
+		}
+		return somethingchanged
 	}
 	
 	override updateNeeded(IUpdateContext context) {
@@ -34,10 +42,11 @@ class UpdateDataObject extends AbstractUpdateFeature {
 		
 		val textGA = helper.shape.graphicsAlgorithm as Text
 		
-		if(textGA.value.equals(helper.nameAndTypeText)){
+		if(!textGA.value.equals(helper.nameAndTypeText)){
 			return Reason.createTrueReason()
 		}
 		
+		return Reason.createFalseReason
 	}
 	
 }

@@ -21,6 +21,7 @@ import org.mdbda.diagrameditor.datatransformation.features.CreateAttribute
 import org.eclipse.graphiti.features.context.ILayoutContext
 import org.mdbda.diagrameditor.datatransformation.features.LayoutDataObject
 import org.mdbda.diagrameditor.datatransformation.features.AttributeDirectEditingFeature
+import org.mdbda.diagrameditor.datatransformation.features.UpdateDataObject
 
 class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 	 new(IDiagramTypeProvider dtp){
@@ -64,6 +65,8 @@ class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 			ContainerShape: switch(bo){
 				Task: 
 				return new UpdateDiagramFeature(this)
+				DataObject:
+				return new UpdateDataObject(this)
 			}
 		}
 	}

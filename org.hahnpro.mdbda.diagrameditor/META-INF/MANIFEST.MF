@@ -25,6 +25,5 @@ Export-Package: org.mdbda.diagrameditor.features,
  org.mdbda.diagrameditor.wizard
 Bundle-ClassPath: target/classes/,
  .,
- target/test-classes/,
  icon/
 Import-Package: org.mdbda.codegen
