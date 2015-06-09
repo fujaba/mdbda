@@ -37,7 +37,7 @@ class MDBDAModelRoot{
 		}			
 		return false;
 	}
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+}
 
 class Workflow extends Task{
 	contains Task[] tasks opposite workflow 
@@ -157,6 +157,7 @@ class DataAttribute{
 
 enum DataCondition{
 	Exist as "\u2203"
+	NotExist as "\u2204"
 	LessThan as "<"
 	LessOrEquals as "<="
 	GeaterThan as ">"
