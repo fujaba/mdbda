@@ -87,7 +87,4 @@ Try "«split.get(0)» «split.get(1)»" instead of "«split.get(0)» «split.get
 		
 		return dcon
 	}
-	
-
-	
 }
