@@ -113,15 +113,17 @@ public abstract class AbstractSimpleMDBDAShapeHelper extends AbstractFeature {
 		return false;
 	}
 
-	public void update() {		
+	public void update() {
 	}
 
-	@Override
+	public boolean updateNeeded(){
+		return false;
+	}
+	
 	public boolean canExecute(IContext context) {
 		return true;
 	}
 
-	@Override
 	public void execute(IContext context) {		
 	}
 

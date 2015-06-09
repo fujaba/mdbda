@@ -5,6 +5,7 @@ import org.eclipse.graphiti.features.context.IDirectEditingContext
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature
 import org.mdbda.model.DataAttribute
 import org.mdbda.model.DataCondition
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
 
 class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 	
@@ -27,6 +28,7 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 		if(split.size >= 2){
 			attr.name = split.get(0)
 			attr.condition = parseCondition(split.get(1))
+			attr.value = null
 		}
 		if(split.size >= 3){
 			attr.value = split.get(2)
@@ -34,6 +36,9 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 		if(split.size >= 4){
 			throw new RuntimeException();
 		}
+		
+		
+		updatePictogramElement(context.pictogramElement.eContainer as PictogramElement)
 	}
 	
 	def String replaceWS(String value){

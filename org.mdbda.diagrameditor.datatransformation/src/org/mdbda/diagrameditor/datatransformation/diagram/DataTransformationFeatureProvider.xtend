@@ -59,7 +59,6 @@ class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 	}
 	
 	override getUpdateFeature(IUpdateContext context) {
-		
 		val bo = getBusinessObjectForPictogramElement(context.pictogramElement)
 		switch(context.pictogramElement){
 			ContainerShape: switch(bo){

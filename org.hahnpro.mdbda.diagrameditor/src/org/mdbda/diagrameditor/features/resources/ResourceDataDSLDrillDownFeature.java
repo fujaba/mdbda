@@ -134,6 +134,10 @@ public class ResourceDataDSLDrillDownFeature extends AbstractCustomFeature {
 	    dialog.loadContents();
 	    dialog.open();
 	    IFile file = dialog.getFile();
+	    
+	    if(file == null){//cancel
+	    	return;
+	    }
 
 	    if(file.exists() && file.getName().endsWith(DataDSLSuffix)){
 	    	//existing

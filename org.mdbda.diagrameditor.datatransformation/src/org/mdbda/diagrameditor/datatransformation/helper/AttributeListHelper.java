@@ -35,6 +35,22 @@ public class AttributeListHelper extends AbstractSimpleMDBDAShapeHelper {
 		return null;
 	}
 
+	public void update() {
+		for(DataAttribute atr : dataObject.getAttributes()){
+			new AttributeHelper(atr, rootContainerShapeForResourceElement, getFeatureProvider()).update();
+		}
+	}
+	
+	@Override
+	public boolean updateNeeded() {
+		for(DataAttribute atr : dataObject.getAttributes()){
+			if(new AttributeHelper(atr, rootContainerShapeForResourceElement, getFeatureProvider()).updateNeeded()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	protected String getShapeId() {
 		return "AttributeList";

@@ -8,6 +8,7 @@ import org.mdbda.model.DataObject
 import org.mdbda.diagrameditor.datatransformation.helper.DataObjectNameAndTypeHelper
 import org.eclipse.graphiti.mm.algorithms.Text
 import org.eclipse.graphiti.features.impl.Reason
+import org.mdbda.diagrameditor.datatransformation.helper.AttributeListHelper
 
 class UpdateDataObject extends AbstractUpdateFeature {
 	
@@ -33,6 +34,14 @@ class UpdateDataObject extends AbstractUpdateFeature {
 			textGA.value = helper.nameAndTypeText
 			somethingchanged = true
 		}
+		
+		val attrListHelper = new AttributeListHelper(dao,context.pictogramElement as ContainerShape,featureProvider)
+		
+		if(attrListHelper.updateNeeded){
+			attrListHelper.update
+			somethingchanged = true
+		}
+		
 		return somethingchanged
 	}
 	
@@ -43,7 +52,13 @@ class UpdateDataObject extends AbstractUpdateFeature {
 		val textGA = helper.shape.graphicsAlgorithm as Text
 		
 		if(!textGA.value.equals(helper.nameAndTypeText)){
-			return Reason.createTrueReason()
+			return Reason.createTrueReason
+		}
+		
+		val attrListHelper = new AttributeListHelper(dao,context.pictogramElement as ContainerShape,featureProvider)
+		
+		if(attrListHelper.updateNeeded){
+			return Reason.createTrueReason
 		}
 		
 		return Reason.createFalseReason
