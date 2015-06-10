@@ -41,7 +41,11 @@ public class DataObjectNameAndTypeHelper extends AbstractSimpleMDBDAShapeHelper 
 	public String getNameAndTypeText() {
 		String name = dataObject.getName();
 		if(dataObject.getDataType() == null){
-			dataObject.setDataType(DataTypeHelper.getDefaultType(dataObject.getContainerTask().getWorkflow().getModelRoot()));
+			try {
+				dataObject.setDataType(DataTypeHelper.getDefaultType(dataObject.getContainerTask().getWorkflow().getModelRoot()));
+			}catch(IllegalStateException e) {
+				return  name + " : ?";
+			}
 		}
 		String typeName = dataObject.getDataType().getTypeName();
 		

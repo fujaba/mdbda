@@ -24,5 +24,36 @@
             HelperExtentionClass="org.mdbda.cassandra.helper.PingCassandra">
       </ExtendableHelper>
    </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="MDBDAEditor.PropertyContributor">
+         <propertyCategory
+               category="MDBDA"></propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="MDBDAEditor.PropertyContributor">
+         <propertyTab
+               category="MDBDA"
+               id="mdbda.main.tab"
+               label="Main">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="MDBDAEditor.PropertyContributor">
+         <propertySection
+               class="org.mdbda.cassandra.property.CassandraResourceSection"
+               filter="org.mdbda.cassandra.property.CassandraResourceFilter"
+               id="org.mdbda.cassandra.tab.CassandraResource"
+               tab="mdbda.main.tab">
+         </propertySection>
+      </propertySections>
+   </extension>
 
 </plugin>

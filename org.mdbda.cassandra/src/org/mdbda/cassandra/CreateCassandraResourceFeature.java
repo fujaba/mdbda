@@ -32,6 +32,7 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 		
 		initPattern(eInst, TYPE_ID);
 		
+		
 		addToTargetBO(context,eInst);
 		
 		addGraphicalRepresentation(context, eInst);
