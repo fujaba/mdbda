@@ -11,5 +11,21 @@ Require-Bundle: org.eclipse.graphiti;bundle-version="0.11.0",
  org.eclipse.osgi,
  org.eclipse.core.runtime,
  org.mdbda.codegen;bundle-version="1.0.0",
- org.eclipse.ui.views.properties.tabbed
-Export-Package: org.mdbda.cassandra
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.emf.transaction
+Export-Package: org.mdbda.cassandra,
+ org.mdbda.cassandra.helper,
+ org.mdbda.cassandra.property
+Bundle-ClassPath: target/classes/,
+ .,
+ target/dependency/cassandra-driver-core-2.1.6.jar,
+ target/dependency/slf4j-api-1.7.5.jar,
+ target/dependency/slf4j-log4j12-1.7.5.jar,
+ target/dependency/log4j-1.2.17.jar,
+ target/dependency/netty-3.6.2.Final.jar,
+ target/dependency/netty-buffer-4.0.27.Final.jar,
+ target/dependency/netty-codec-4.0.27.Final.jar,
+ target/dependency/netty-common-4.0.27.Final.jar,
+ target/dependency/netty-handler-4.0.27.Final.jar,
+ target/dependency/netty-transport-4.0.27.Final.jar,
+ target/dependency/metrics-core-3.0.2.jar

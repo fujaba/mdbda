@@ -33,6 +33,9 @@ class CassandraConfigReader extends MDBDAConfiguration {
 	def getTestServerIP() {
 		get(CassandraTestServerIP)
 	}
+	def setTestServerIP(String value){
+		config.put(CassandraTestServerIP , value)
+	}
 
 	val CassandraLiveServerIP = "CassandraLiveServerIP"
 	
@@ -42,6 +45,9 @@ class CassandraConfigReader extends MDBDAConfiguration {
 	
 	def getLiveServerIP() {		
 		get(CassandraLiveServerIP)
+	}
+	def setLiveServerIP(String value){
+		config.put(CassandraLiveServerIP , value)
 	}
 
 }

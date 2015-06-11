@@ -1,21 +1,30 @@
 package org.mdbda.cassandra.property;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.mdbda.cassandra.CreateCassandraResourceFeature;
 import org.mdbda.cassandra.helper.CassandraConfigReader;
+import org.mdbda.model.ModelPackage;
 import org.mdbda.model.Resource;
 
 public class CassandraResourceSection extends GFPropertySection implements ITabbedPropertyConstants {
@@ -25,112 +34,125 @@ public class CassandraResourceSection extends GFPropertySection implements ITabb
 	private Text ColumnFamily;
 	private Text Keyspace;
 
+	private static int  LABEL_WITH = 100;
+
+	ModifyListener modify = new ModifyListener() {
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			Resource res = getCassandraResource();
+			if(res != null) {
+				boolean somethingChanged = false;
+				CassandraConfigReader conf = new CassandraConfigReader(res.getConfigurationString());
+				if(e.widget.equals(LiveServerIP) ){
+					if(!LiveServerIP.getText().equals(conf.getLiveServerIP())){
+						conf.setLiveServerIP(LiveServerIP.getText());
+						somethingChanged = true;
+					}
+				}
+				if(e.widget.equals(TestServerIP) ){
+					if(!TestServerIP.getText().equals(conf.getTestServerIP())){
+						conf.setTestServerIP(TestServerIP.getText());
+						somethingChanged = true;
+					}
+				}
+				if(e.widget.equals(ColumnName) ){
+					if(!ColumnName.getText().equals(conf.getCassandraColumnName())){
+						conf.setCassandraColumnName(ColumnName.getText());
+						somethingChanged = true;
+					}
+				}
+				if(e.widget.equals(ColumnFamily) ){
+					if(!ColumnFamily.getText().equals(conf.getCassandraResourceColumnFamily())){
+						conf.setCassandraResourceColumnFamily(ColumnFamily.getText());
+						somethingChanged = true;
+					}
+				}
+				if(e.widget.equals(Keyspace) ){
+					if(!Keyspace.getText().equals(conf.getCassandraResourceKeyspace())){
+						conf.setCassandraResourceKeyspace(Keyspace.getText());
+						somethingChanged = true;
+					}
+				}
+				
+				if(somethingChanged){//http://stackoverflow.com/questions/19244684/emf-gmf-papyrus-set-excplicit-an-elementimpl-property-out-of-code
+					TransactionalEditingDomain ted = (TransactionalEditingDomain)AdapterFactoryEditingDomain.getEditingDomainFor(res);
+					ted.getCommandStack().execute(new SetCommand(ted,res, ModelPackage.Literals.RESOURCE__CONFIGURATION_STRING,conf.writeConfigString()));
+				}
+			}
+		}
+	};
+
+	private void addElement(Text element,Text element_above,Composite composite, String label){
+		FormData data;
+		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+
+		element.addModifyListener(modify);
+
+		data = new FormData();
+		data.left = new FormAttachment(0, LABEL_WITH);
+		data.right = new FormAttachment(100, 0);
+		if(element_above == null){
+			data.top = new FormAttachment(0, VSPACE);
+		}else{
+			data.top = new FormAttachment(element_above, VSPACE);
+
+		}
+		element.setLayoutData(data);
+
+		CLabel valueLabel = factory.createCLabel(composite,  label);
+		data = new FormData();
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(element, -HSPACE);
+		data.top = new FormAttachment(element, 0, SWT.CENTER);
+		valueLabel.setLayoutData(data);
+	}
+
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
-
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		Composite composite = factory.createComposite(parent);
-		FormData data;
+		Composite composite = factory.createFlatFormComposite(parent);
 
 		LiveServerIP = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		LiveServerIP.setLayoutData(data);
-
-		CLabel valueLabel = factory.createCLabel(composite,  "Live Server:");
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(LiveServerIP, -HSPACE);
-		data.top = new FormAttachment(LiveServerIP, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
-
-		
-		
 		TestServerIP = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		TestServerIP.setLayoutData(data);
-
-		valueLabel = factory.createCLabel(composite,  "Test Server:");
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(TestServerIP, -HSPACE);
-		data.top = new FormAttachment(TestServerIP, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
-		
-		
-		
 		ColumnName = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		ColumnName.setLayoutData(data);
-
-		valueLabel = factory.createCLabel(composite,  "Column Name:");
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(ColumnName, -HSPACE);
-		data.top = new FormAttachment(ColumnName, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
-		
-		
-		
 		ColumnFamily = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		ColumnFamily.setLayoutData(data);
-
-		valueLabel = factory.createCLabel(composite,  "Column Family:");
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(ColumnFamily, -HSPACE);
-		data.top = new FormAttachment(ColumnFamily, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
-		
-		
-		
 		Keyspace = factory.createText(composite, "");
-		data = new FormData();
-		data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
-		data.right = new FormAttachment(100, 0);
-		data.top = new FormAttachment(0, VSPACE);
-		Keyspace.setLayoutData(data);
 
-		valueLabel = factory.createCLabel(composite,  "Keyspace:");
-		data = new FormData();
-		data.left = new FormAttachment(0, 0);
-		data.right = new FormAttachment(Keyspace, -HSPACE);
-		data.top = new FormAttachment(Keyspace, 0, SWT.CENTER);
-		valueLabel.setLayoutData(data);
+		addElement(LiveServerIP,null,composite,"Live Server:");
+		addElement(TestServerIP,LiveServerIP,composite,"Test Server:");
+		addElement(ColumnName,TestServerIP,composite,"Column Name:");
+		addElement(ColumnFamily,ColumnName,composite,"Column Family:");
+		addElement(Keyspace,ColumnFamily,composite,"Keyspace:");
 	}
-	
-	@Override
-	public void refresh() {
+
+
+	private Resource getCassandraResource(){
 		PictogramElement pe = getSelectedPictogramElement();
 		if(pe != null) {
 			EObject eObj = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if(eObj instanceof Resource) {
 				Resource res = (Resource) eObj;			
 				if(CreateCassandraResourceFeature.TYPE_ID.equals(res.getTypeId())) {
-					CassandraConfigReader conf = new CassandraConfigReader(res.getConfigurationString());
-					
-					LiveServerIP.setText(conf.getLiveServerIP() + "");
-					TestServerIP.setText(conf.getTestServerIP() + "");
-					ColumnName.setText(conf.getCassandraColumnName() + "");
-					ColumnFamily.setText(conf.getCassandraResourceColumnFamily() + "");
-					Keyspace.setText(conf.getCassandraResourceKeyspace() + "");
+					return res;
 				}
 			}
 		}
+		return null;
 	}
-	
-	
+
+	@Override
+	public void refresh() {
+		Resource res = getCassandraResource();
+		if(res != null) {
+			CassandraConfigReader conf = new CassandraConfigReader(res.getConfigurationString());
+
+			LiveServerIP.setText(conf.getLiveServerIP() + "");
+			TestServerIP.setText(conf.getTestServerIP() + "");
+			ColumnName.setText(conf.getCassandraColumnName() + "");
+			ColumnFamily.setText(conf.getCassandraResourceColumnFamily() + "");
+			Keyspace.setText(conf.getCassandraResourceKeyspace() + "");
+		}
+	}
 }

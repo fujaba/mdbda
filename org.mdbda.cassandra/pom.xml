@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.mdbda</groupId>
-  <artifactId>org.mdbda.cassandra</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-<packaging>eclipse-plugin</packaging>
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.mdbda</groupId>
+	<artifactId>org.mdbda.cassandra</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
+
 	<parent>
 		<artifactId>MDBDAToolSuite</artifactId>
 		<groupId>org.mdbda</groupId>
@@ -16,6 +17,11 @@
 			<groupId>org.mdbda</groupId>
 			<artifactId>org.mdbda.runtime</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.datastax.cassandra</groupId>
+			<artifactId>cassandra-driver-core</artifactId>
+			<version>2.1.6</version>
 		</dependency>
 	</dependencies>
 </project>
