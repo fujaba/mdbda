@@ -12,73 +12,125 @@ class MRUnitTestCodeGenerator {
 	
 	def static CharSequence genMapReducePatternTestClass(Task p, org.mdbda.codegen.CodegenContext context)'''
 	
-	 public class «CodeGenHelper.getMapReduceTestClassNameFromPattern(p)» {
+	public class «CodeGenHelper.getMapReduceTestClassNameFromPattern(p)» {
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.MapDriver")»
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.MapReduceDriver")»
 		«context.addImport("org.apache.hadoop.mrunit.mapreduce.ReduceDriver")»
 		«val config = new MDBDAConfiguration(p.configurationString)»
-		
+«««		
 		«IF config.reduceFunction != null»
 			ReduceDriver<«config.getKEYIN(config.reduceFunction)», «config.getVALUEIN(config.reduceFunction)», «config.getKEYOUT(config.reduceFunction)», «config.getVALUEOUT(config.reduceFunction)»> reduceDriver;
 		«ENDIF»
 		«var ArrayList<JSONObject> multipleMapFunction = getMultipleMap(config)»
-		
+«««		
 		«context.addImport("org.junit.Before")»
-		@Before
+	@Before
 		public void setUp() {
 			«var reducerClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getReducerInnerClassName(p)»
 			«IF config.reduceFunction != null»
 				«reducerClass» reducer = new «reducerClass»();
 				reduceDriver = ReduceDriver.newReduceDriver(reducer);
 			«ENDIF»
-			«var int fooCount2 = -1»
-			«FOR mapfunc : multipleMapFunction»
-				//Map Funktion for Input «fooCount2 = fooCount2 + 1»
+«««			
+			«FOR input : p.inputResources»
+				«var mapperClass = CodeGenHelper.getMapperInnerClassName(p)»
 				«IF config.isMultipleMapFunction»
-					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) + fooCount2»
-					«mapperClass» mapper«fooCount2»= new «mapperClass»();
-				«ELSE»
-					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) »
-					«mapperClass» mapper«fooCount2» = new «mapperClass»();
+					«{mapperClass = CodeGenHelper.getMapperInnerClassName(p, input);""}»
 				«ENDIF»
-				mapDriver«fooCount2» = MapDriver.newMapDriver(mapper«fooCount2»);
+				«val fullMapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + mapperClass»
+«««				
+				«fullMapperClass» «mapperClass.toFirstLower» = new «fullMapperClass»();
+«««				
+				mapDriver«mapperClass.toFirstUpper» = MapDriver.newMapDriver(«mapperClass.toFirstLower»);
 				«IF config.reduceFunction != null»
-					mapReduceDriver«fooCount2» = MapReduceDriver.newMapReduceDriver(mapper«fooCount2», reducer);
+					mapReduceDriver«mapperClass.toFirstUpper» = MapReduceDriver.newMapReduceDriver(«mapperClass.toFirstLower», reducer);
 				«ENDIF»
 			«ENDFOR»
+«««			//old shit
+«««			«var int fooCount2 = -1»
+«««			«FOR mapfunc : multipleMapFunction»
+«««				//Map Funktion for Input «fooCount2 = fooCount2 + 1»
+«««				«IF config.isMultipleMapFunction»
+«««					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) + fooCount2»
+«««					«mapperClass» mapper«fooCount2»= new «mapperClass»();
+«««				«ELSE»
+«««					«var mapperClass = CodeGenHelper.getMapReduceClassNameFromPattern(p) + "." + CodeGenHelper.getMapperInnerClassName(p) »
+«««					«mapperClass» mapper«fooCount2» = new «mapperClass»();
+«««				«ENDIF»
+«««				mapDriver«fooCount2» = MapDriver.newMapDriver(mapper«fooCount2»);
+«««				«IF config.reduceFunction != null»
+«««					mapReduceDriver«fooCount2» = MapReduceDriver.newMapReduceDriver(mapper«fooCount2», reducer);
+«««				«ENDIF»
+«««			«ENDFOR»
 		}
 		
 		«var int fooCount = -1»
-		«FOR mapfunc : multipleMapFunction»
-			«val MapDriver = "MapDriver<" + config.getKEYIN(mapfunc) + "," +config.getVALUEIN(mapfunc)+ "," +config.getKEYOUT(mapfunc)+ "," +config.getVALUEOUT(mapfunc) + ">"»
+		«FOR input : p.inputResources»
+			«{fooCount = fooCount + 1;""}»
+			«val mapfunc = multipleMapFunction.get(fooCount)»
+			«var mapperClass = CodeGenHelper.getMapperInnerClassName(p)»
+			«IF config.isMultipleMapFunction»
+				«{mapperClass = CodeGenHelper.getMapperInnerClassName(p, input);""}»
+			«ENDIF»
 			«context.addImport("org.apache.hadoop.io.*")»
 			«context.addImport("org.apache.hadoop.mapreduce.lib.output.*")»
-			MapDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)», «config.getKEYOUT(mapfunc)», «config.getVALUEOUT(mapfunc)»> mapDriver«fooCount = fooCount + 1»;
+«««			
+			MapDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)», «config.getKEYOUT(mapfunc)», «config.getVALUEOUT(mapfunc)»> mapDriver«mapperClass.toFirstUpper»;
 			«IF config.reduceFunction != null»
-				MapReduceDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)»,«config.getKEYIN(config.reduceFunction)», «config.getVALUEIN(config.reduceFunction)», «config.getKEYOUT(config.reduceFunction)», «config.getVALUEOUT(config.reduceFunction)»> mapReduceDriver«fooCount»;
+				MapReduceDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)»,«config.getKEYIN(config.reduceFunction)», «config.getVALUEIN(config.reduceFunction)», «config.getKEYOUT(config.reduceFunction)», «config.getVALUEOUT(config.reduceFunction)»> mapReduceDriver«mapperClass.toFirstUpper»;
 			«ENDIF»
 			
 			«context.addImport("org.junit.Test")»
 			«context.addImport("java.io.IOException")»
 			@Test
-			public void testMapper«fooCount»() throws IOException {
+			public void testMapper«mapperClass.toFirstUpper»() throws IOException {
 				«val JSONArray testMapInput = config.getTestInput(mapfunc)»
 				«FOR inputString : testMapInput »
 					«var String[] inputElements = (inputString as String).split(";")»
-					mapDriver«fooCount».withInput( «CodeGenHelper.genWriterConstructorCall(config.getKEYIN(mapfunc),inputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEIN(mapfunc),inputElements.get(1))» );
+					mapDriver«mapperClass.toFirstUpper».withInput( «CodeGenHelper.genWriterConstructorCall(config.getKEYIN(mapfunc),inputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEIN(mapfunc),inputElements.get(1))» );
 				«ENDFOR»
 				«val JSONArray testMapOutput = config.getTestOutput(mapfunc)»
 				«FOR outputString : testMapOutput »
 					«var String[] outputElements = (outputString as String).split(";")»
-					mapDriver«fooCount».withOutput( «CodeGenHelper.genWriterConstructorCall(config.getKEYOUT(mapfunc),outputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEOUT(mapfunc),outputElements.get(1))» );
+					mapDriver«mapperClass.toFirstUpper».withOutput( «CodeGenHelper.genWriterConstructorCall(config.getKEYOUT(mapfunc),outputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEOUT(mapfunc),outputElements.get(1))» );
 				«ENDFOR»
-				mapDriver«fooCount».runTest(false);
+				mapDriver«mapperClass.toFirstUpper».runTest(false);
 			}
-			
 		«ENDFOR»
-		
+	
+«««		//old shit « fooCount = -1»
+«««		«FOR mapfunc : multipleMapFunction»
+«««			«val MapDriver = "MapDriver<" + config.getKEYIN(mapfunc) + "," +config.getVALUEIN(mapfunc)+ "," +config.getKEYOUT(mapfunc)+ "," +config.getVALUEOUT(mapfunc) + ">"»
+«««			«context.addImport("org.apache.hadoop.io.*")»
+«««			«context.addImport("org.apache.hadoop.mapreduce.lib.output.*")»
+«««			
+«««			
+«««			MapDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)», «config.getKEYOUT(mapfunc)», «config.getVALUEOUT(mapfunc)»> mapDriver«fooCount = fooCount + 1»;
+«««			«IF config.reduceFunction != null»
+«««				MapReduceDriver<«config.getKEYIN(mapfunc)», «config.getVALUEIN(mapfunc)»,«config.getKEYIN(config.reduceFunction)», «config.getVALUEIN(config.reduceFunction)», «config.getKEYOUT(config.reduceFunction)», «config.getVALUEOUT(config.reduceFunction)»> mapReduceDriver«fooCount»;
+«««			«ENDIF»
+«««			
+«««			«context.addImport("org.junit.Test")»
+«««			«context.addImport("java.io.IOException")»
+«««			@Test
+«««			public void testMapper«fooCount»() throws IOException {
+«««				«val JSONArray testMapInput = config.getTestInput(mapfunc)»
+«««				«FOR inputString : testMapInput »
+«««					«var String[] inputElements = (inputString as String).split(";")»
+«««					mapDriver«fooCount».withInput( «CodeGenHelper.genWriterConstructorCall(config.getKEYIN(mapfunc),inputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEIN(mapfunc),inputElements.get(1))» );
+«««				«ENDFOR»
+«««				«val JSONArray testMapOutput = config.getTestOutput(mapfunc)»
+«««				«FOR outputString : testMapOutput »
+«««					«var String[] outputElements = (outputString as String).split(";")»
+«««					mapDriver«fooCount».withOutput( «CodeGenHelper.genWriterConstructorCall(config.getKEYOUT(mapfunc),outputElements.get(0))» , «CodeGenHelper.genWriterConstructorCall(config.getVALUEOUT(mapfunc),outputElements.get(1))» );
+«««				«ENDFOR»
+«««				mapDriver«fooCount».runTest(false);
+«««			}
+«««			
+«««		«ENDFOR»
+«««		
 		«IF config.reduceFunction != null»
-			@Test
+		@Test
 			public void testReducer() throws IOException {
 				«context.addImport("java.util.ArrayList")»
 				«context.addImport("java.util.List")»
