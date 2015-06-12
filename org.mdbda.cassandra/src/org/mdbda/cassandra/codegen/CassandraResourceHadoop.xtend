@@ -11,28 +11,40 @@ import org.mdbda.cassandra.helper.CassandraConfigReader
 class CassandraResourceHadoop extends AbstractResourceTemplate {
 	
 	override generareInputResouce(Resource res , Task pattern, CharSequence controledJobName,  CodegenContext context) '''
-	{
-		«val conf = new CassandraConfigReader(res.configurationString) »
-		
-		 «context.addImport("org.apache.cassandra.hadoop.ColumnFamilyInputFormat")»
-		 «controledJobName».getJob().setInputFormatClass(ColumnFamilyInputFormat.class);
-		 «context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»
-		ConfigHelper.setInputColumnFamily(«controledJobName».getJob().getConfiguration(), "«conf.getCassandraResourceKeyspace»", "«conf.getCassandraResourceColumnFamily»");		
-		 «context.addImport("org.apache.cassandra.thrift.SlicePredicate")»
+	«val conf = new CassandraConfigReader(res.configurationString) »
+	{/*CassandraResourceHadoop
+		Keyspace: «conf.getCassandraResourceKeyspace»
+		ColumnFamily: «conf.getCassandraResourceColumnFamily»
+		ColumnNames : «conf.getCassandraColumnName»
+		*/
+		«context.addImport("org.apache.cassandra.hadoop.ColumnFamilyInputFormat")»
+		«controledJobName».getJob().setInputFormatClass(ColumnFamilyInputFormat.class);
+		«context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»
+		ConfigHelper.setInputColumnFamily(«controledJobName».getJob().getConfiguration(),
+			"«conf.getCassandraResourceKeyspace»",//Keyspace
+			"«conf.getCassandraResourceColumnFamily»"); //ColumnFamily
+		«context.addImport("org.apache.cassandra.thrift.SlicePredicate")»
 		SlicePredicate predicate = new SlicePredicate();
-		 «context.addImport("java.nio.ByteBuffer")»
-		predicate.addToColumn_names(ByteBuffer.wrap("«conf.getCassandraColumnName»".getBytes()));
+		«context.addImport("java.nio.ByteBuffer")»
+		«val ColumnNames = (conf.getCassandraColumnName as String).split(" ")»
+		«FOR cn : ColumnNames»
+			predicate.addToColumn_names(ByteBuffer.wrap("«cn»".getBytes()));
+		«ENDFOR»
 		ConfigHelper.setInputSlicePredicate(«controledJobName».getJob().getConfiguration(), predicate);
 	}
 	'''
 	
+	
 	override generareOutputResouce(Resource res, CharSequence controledJobName , CodegenContext context) '''
-	{
+	{/*CassandraResourceHadoop
+		*/
 		 «val conf = new CassandraConfigReader(res.configurationString)»
 		 «context.addImport("org.apache.cassandra.hadoop.ColumnFamilyOutputFormat")»
 		 «controledJobName».getJob().setOutputFormatClass(ColumnFamilyOutputFormat.class);
 		 «context.addImport("org.apache.cassandra.hadoop.ConfigHelper")»
-		ConfigHelper.setOutputColumnFamily(«controledJobName».getJob().getConfiguration(), "«conf.getCassandraResourceKeyspace»" , "«conf.getCassandraResourceColumnFamily»");
+		ConfigHelper.setOutputColumnFamily(«controledJobName».getJob().getConfiguration(),
+			"«conf.getCassandraResourceKeyspace»", //Keyspace
+			"«conf.getCassandraResourceColumnFamily»"); //ColumnFamily
 	}
 	'''
 	
