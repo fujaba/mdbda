@@ -22,8 +22,8 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 	
 	override setValue(String value, IDirectEditingContext context) {
 		val attr = getBusinessObjectForPictogramElement(context.pictogramElement) as DataAttribute
-
-		val split = replaceWS(value).split(" ")
+		val in = replaceWS(value);
+		val split = in.split(" ")
 		
 		if(split.size >= 2){
 			attr.name = split.get(0)
@@ -31,12 +31,9 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 			attr.value = null
 		}
 		if(split.size >= 3){
-			attr.value = split.get(2)
+			attr.value = in.substring(in.indexOf(split.get(1)))
 		}
-		if(split.size >= 4){
-			throw new RuntimeException();
-		}
-		
+
 		
 		updatePictogramElement(context.pictogramElement.eContainer as PictogramElement)
 	}
@@ -53,7 +50,7 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 		
 		
 		val split = replaceWS(value).split(" ")
-		if(split.size < 2 || split.size > 3){
+		if(split.size < 2 ){
 			return '''An attribute condition should be like "name == 'Alice'" or "phone «DataCondition.EXIST»" 
 it must match the pattern: <name>' '<condition>' '<value?>'''
 		}
