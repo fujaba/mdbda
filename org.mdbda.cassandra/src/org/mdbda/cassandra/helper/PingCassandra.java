@@ -55,10 +55,11 @@ public class PingCassandra implements IPingResourceHelper {
 
 				long ts1 = System.currentTimeMillis();
 				try{
-				con.connect(el[0], el.length == 2 ? Integer.parseInt(el[1]) : 9042);
+					con.connect(el[0], el.length == 2 ? Integer.parseInt(el[1]) : 9042);
 				}catch(IllegalArgumentException ill){//user is typing ?
 					cacheTimeout.put(ip, System.currentTimeMillis() + 1000); //5s
 					cachedValue.put(ip, new Integer(-1));
+					return -1;
 				}
 				ResultSet rs = con.getSession().execute("SELECT now() FROM system.local;");
 				long ts2 = System.currentTimeMillis();
