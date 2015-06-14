@@ -28,6 +28,6 @@ class AddAttribute extends AbstractSimpleMDBDAAddFeature {
 		val helper = new AttributeHelper(context.newObject as DataAttribute,context.targetContainer,featureProvider);
 		helper.addNewShapeOnContainer()
 		layoutPictogramElement(context.targetContainer)
-		return AttributeHelper.getLastShape();
+		return helper.getNewShape();
 	}
 }

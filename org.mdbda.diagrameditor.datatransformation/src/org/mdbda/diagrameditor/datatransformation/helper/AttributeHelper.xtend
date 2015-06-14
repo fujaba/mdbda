@@ -25,10 +25,10 @@ class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 		this.dataAttribute = attr
 	}
 
-	private static Shape __lastShape
+	private Shape __newShape
 
-	def static Shape getLastShape() {
-		return __lastShape
+	def Shape getNewShape() {
+		return __newShape
 	}
 
 	def String getText(DataAttribute attr){
@@ -57,10 +57,10 @@ class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 	}
 	
 	override IDimension addNewShapeOnContainer(int parentWidth, int parentHeight, int leftOffset, int topOffset) {
-		__lastShape = createNewShapeOnRootContainer()
+		val newShape = createNewShapeOnRootContainer()
 		var IGaService gaService = Graphiti.getGaService()
 		
-		var Text text = gaService.createText(shape, dataAttribute.text)
+		var Text text = gaService.createText(newShape, dataAttribute.text)
 		text.setForeground(manageColor(FOREGROUND_COLOR))
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT)
 		text.setVerticalAlignment(Orientation.ALIGNMENT_TOP)
@@ -70,7 +70,8 @@ class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 		// directEditingInfo.setMainPictogramElement(rootContainerShapeForResourceElement);
 		// directEditingInfo.setPictogramElement(shape);
 		// directEditingInfo.setGraphicsAlgorithm(text);
-		link(shape, dataAttribute)
+		link(newShape, dataAttribute)
+		__newShape = newShape;
 		return setLocationAndSize(text, parentWidth, parentHeight, leftOffset, topOffset)
 	}
 
