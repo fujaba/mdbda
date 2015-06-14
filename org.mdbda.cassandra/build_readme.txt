@@ -1,2 +1,2 @@
 first copy dependencies
-mvn dependency:copy-dependencie
+mvn dependency:copy-dependencies
