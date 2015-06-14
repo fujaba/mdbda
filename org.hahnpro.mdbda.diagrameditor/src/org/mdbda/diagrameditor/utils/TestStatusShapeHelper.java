@@ -88,7 +88,8 @@ public class TestStatusShapeHelper extends AbstactMDBDAResourceShapeHelper {
 				ping = ((IPingResourceHelper) helper).pingTestResource(resource);
 			}
 		}
-		return !manageColor( ServerStatusHelper.getColor(ping)).equals(getShape().getGraphicsAlgorithm().getBackground());
+		
+		return !isColorEqual(ServerStatusHelper.getColor(ping),getShape().getGraphicsAlgorithm().getBackground());
 	}
 
 	public void update() {

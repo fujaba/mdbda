@@ -90,9 +90,9 @@ public class LiveStatusShapeHelper extends AbstactMDBDAResourceShapeHelper {
 			}
 		}
 		
-		return !manageColor( ServerStatusHelper.getColor(ping)).equals(getShape().getGraphicsAlgorithm().getBackground());
+		return !isColorEqual(ServerStatusHelper.getColor(ping),getShape().getGraphicsAlgorithm().getBackground());
 	}
-
+	
 	public void update() {
 		int ping = ServerStatusHelper.getStatus(this.resource);//default random FIXME
 
