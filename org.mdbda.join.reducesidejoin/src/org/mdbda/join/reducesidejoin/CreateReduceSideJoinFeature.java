@@ -46,7 +46,7 @@ public class CreateReduceSideJoinFeature extends CreateTaskFeature implements
 	@Override
 	public URL getDefaultConfigJSONFileLocation() {
 		Bundle bundle = Platform.getBundle("org.mdbda.join.reducesidejoin");
-		URL fileURL = bundle.getEntry("/bin/org/mdbda/join/reducesidejoin/ReduceSideConfig.json");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/join/reducesidejoin/ReduceSideConfig.json");
 		return fileURL;
 	}
 }

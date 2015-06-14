@@ -45,7 +45,7 @@ public class CreateCustomCalculationFeature extends CreateTaskFeature implements
 	@Override
 	public URL getDefaultConfigJSONFileLocation() {
 		Bundle bundle = Platform.getBundle("org.mdbda.summarization.customcalculation");
-		URL fileURL = bundle.getEntry("/bin/org/mdbda/summarization/customcalculation/CustomCalculationConfig.json");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/summarization/customcalculation/CustomCalculationConfig.json");
 		return fileURL;
 	}
 }

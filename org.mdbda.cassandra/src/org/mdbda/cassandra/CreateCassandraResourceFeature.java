@@ -43,7 +43,7 @@ public class CreateCassandraResourceFeature extends CreateResourceFeature {
 	@Override
 	public URL getDefaultConfigJSONFileLocation() {
 		Bundle bundle = Platform.getBundle("org.mdbda.cassandra");
-		URL fileURL = bundle.getEntry("/bin/org/mdbda/cassandra/CassandraConfig.json");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/cassandra/CassandraConfig.json");
 		return fileURL;
 	}
 }

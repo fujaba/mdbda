@@ -36,7 +36,7 @@ public class CreateHDFSResourceFeature extends CreateResourceFeature {
 	@Override
 	public URL getDefaultConfigJSONFileLocation() {
 		Bundle bundle = Platform.getBundle("org.mdbda.hdfs");
-		URL fileURL = bundle.getEntry("/bin/org/mdbda/hdfs/HDFSConfig.json");
+		URL fileURL = bundle.getEntry("/target/classes/org/mdbda/hdfs/HDFSConfig.json");
 		return fileURL;
 	}
 }
