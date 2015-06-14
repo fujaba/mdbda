@@ -31,7 +31,7 @@ class AttributeDirectEditingFeature extends AbstractDirectEditingFeature {
 			attr.value = null
 		}
 		if(split.size >= 3){
-			attr.value = in.substring(in.indexOf(split.get(1)))
+			attr.value = in.substring(in.indexOf(split.get(1)) +split.get(1).length + 1 )
 		}
 
 		
