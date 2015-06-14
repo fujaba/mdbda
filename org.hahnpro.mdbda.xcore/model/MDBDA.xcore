@@ -158,6 +158,10 @@ class DataAttribute{
 enum DataCondition{
 	Exist as "\u2203"
 	NotExist as "\u2204"
+	Key as "\uD83D\uDD11"
+	Set as ":="
+	TypeOf as ":"	
+	Optional as "op"
 	LessThan as "<"
 	LessOrEquals as "<="
 	GeaterThan as ">"

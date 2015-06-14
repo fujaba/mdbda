@@ -46,8 +46,8 @@ class AddDataObject extends AbstractSimpleMDBDAAddFeature {
 	@Override override PictogramElement add(IAddContext context) {
 		val targetShape = context.getTargetContainer()
 		dao = context.getNewObject() as DataObject
-		val width = 80
-		val height = 120
+		val width = 200
+		val height = 250
 		val IPeCreateService peCreateService = Graphiti.getPeCreateService()
 		val IGaService gaService = Graphiti.getGaService()
 		val ContainerShape rootContainerShape = peCreateService.createContainerShape(targetShape, true)

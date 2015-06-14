@@ -77,6 +77,8 @@ Try "«split.get(0)» «split.get(1)»" instead of "«split.get(0)» «split.get
 			dcon = DataCondition.getByName(string)
 		}
 		
+		
+		//special chars
 		if(dcon == null){
 			switch(string){
 				case "ex":
@@ -84,6 +86,9 @@ Try "«split.get(0)» «split.get(1)»" instead of "«split.get(0)» «split.get
 				case "nex",
 				case "!ex":
 					dcon =  DataCondition.NOT_EXIST
+					
+				case "key":
+					dcon =  DataCondition.KEY
 			}
 		}
 		
