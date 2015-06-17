@@ -294,9 +294,9 @@ public class DiagramUtils {
 					status);
 			return null;
 		}
-
+//##################################################################################################################### hier
 		final Diagram diagram = Graphiti.getPeCreateService().createDiagram(
-				MDBDA_DIAGRAM_TYPEID, name, true);
+				MDBDA_DIAGRAM_TYPEID, name);
 
 		IFolder diagramFolder = project.getFolder("src/diagrams/"); //$NON-NLS-1$
 

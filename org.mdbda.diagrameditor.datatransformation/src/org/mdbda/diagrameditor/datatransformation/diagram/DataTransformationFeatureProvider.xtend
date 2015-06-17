@@ -48,7 +48,7 @@ class DataTransformationFeatureProvider extends DefaultFeatureProvider {
 		}
 		return super.getAddFeature(context) 
 	}
-		
+	
 	override getLayoutFeature(ILayoutContext context) {
 		if(context.pictogramElement instanceof ContainerShape){
 			switch(getBusinessObjectForPictogramElement(context.pictogramElement)){

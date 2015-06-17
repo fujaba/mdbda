@@ -83,7 +83,13 @@ class DefaultMapReducePatternTemplate implements IMapReducePatternTemplate {
 			}
 		«ENDIF»
 	'''
-
+	
+	def foo()'''
+		<html>
+			«»
+		</html>
+	
+	'''
 	def genReducerClass(Task task, CodegenContext context) '''
 		«val config = new MDBDAConfiguration(task.configurationString)»
 		«val funktion = config.reduceFunction»

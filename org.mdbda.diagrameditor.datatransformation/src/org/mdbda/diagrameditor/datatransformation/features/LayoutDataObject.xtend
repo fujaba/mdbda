@@ -31,8 +31,8 @@ class LayoutDataObject extends AbstractLayoutFeature {
 		val rootContainerShape = context.pictogramElement as ContainerShape
 		val helper = new AttributeHelper(null,rootContainerShape,featureProvider)
 		
-		var width = 100
-		var height = 100
+		var width = 200
+		var height = 250
 		
 		var top = 9
 		//find and order attribute shapes

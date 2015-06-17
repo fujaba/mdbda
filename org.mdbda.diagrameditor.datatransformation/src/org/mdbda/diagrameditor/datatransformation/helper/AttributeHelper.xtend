@@ -59,7 +59,8 @@ class AttributeHelper extends AbstractSimpleMDBDAShapeHelper {
 	override IDimension addNewShapeOnContainer(int parentWidth, int parentHeight, int leftOffset, int topOffset) {
 		val newShape = createNewShapeOnRootContainer()
 		var IGaService gaService = Graphiti.getGaService()
-		
+
+//##################################################################################################################### hier		
 		var Text text = gaService.createText(newShape, dataAttribute.text)
 		text.setForeground(manageColor(FOREGROUND_COLOR))
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT)
